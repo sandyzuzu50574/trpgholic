@@ -92,6 +92,9 @@ function Collection({ source, player = false }: { source: Record<string, { intro
 
 export default function Home() {
   return <main>
+    <div className="zuzu-pop-in" aria-hidden="true">
+      <img src="/zuzu-cheers.jpg" alt="" />
+    </div>
     <header className="site-header"><a className="brand" href="#top">ZUZU <span>／</span> TRPG-holic</a><nav aria-label="主要導覽"><a href="#style">我喜歡！</a><a href="#experience">我做過！</a><a href="#systems">帶過的團</a><a href="#played">跑過的團</a></nav><details className="mobile-nav"><summary aria-label="開啟導覽選單"><span></span><span></span></summary><div>{[["#style","我喜歡！"],["#experience","我做過！"],["#systems","帶過的團"],["#played","跑過的團"]].map(([href,label]) => <a href={href} key={href} onClick={event => { const menu = event.currentTarget.closest("details"); if (menu) menu.open = false; }}>{label}</a>)}</div></details></header>
     <section className="hero compact-hero" id="top"><h1>ZUZU<span>｜</span>TRPG-holic</h1><div className="stats" aria-label="TRPG經歷統計"><div><strong>2017</strong><span>年至今</span></div><div><strong>31</strong><span>套系統支援</span></div><div><strong>153</strong><span>團主持</span></div><div><strong>173</strong><span>團玩家</span></div></div></section>
     <section className="section split" id="style"><div><p className="section-index">01</p><h2>我喜歡！</h2></div><ol className="style-list"><li><span>01</span>理解角色，成為角色的粉絲</li><li><span>02</span>重視共同創作與交流互動</li><li><span>03</span>喜愛即興回應與關係敘事</li><li><span>04</span>玩出系統與劇本的風味</li><li><span>05</span>再加一點我們都喜歡的東西</li></ol></section>
