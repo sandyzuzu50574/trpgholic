@@ -57,15 +57,15 @@ const categories: Record<string, { intro: string; systems: System[] }> = {
   ]},
 };
 
-function SystemCard({ system }: { system: System }) {
+function SystemCard({ system, player = false }: { system: System; player?: boolean }) {
   return <Sheet>
-    <SheetTrigger asChild><button className="system-card" type="button">
+    <SheetTrigger asChild><button className={`system-card${player ? " player-card" : ""}`} type="button">
       <span className="system-count">{system.games.length} 個劇本</span><span className="system-name">{system.name}</span>
-      {system.english && <span className="system-en">{system.english}</span>}<span className="system-note">{system.note}</span>
+      {system.english && <span className="system-en">{system.english}</span>}{!player && <span className="system-note">{system.note}</span>}
       <span className="system-link">查看劇本 <span aria-hidden>↗</span></span>
     </button></SheetTrigger>
     <SheetContent className="w-full overflow-y-auto border-l border-slate-200 bg-white p-0 sm:max-w-xl">
-      <SheetHeader className="border-b border-slate-200 px-7 py-8 pr-14 text-left"><SheetTitle className="text-2xl font-semibold tracking-tight text-slate-950">{system.name}</SheetTitle><SheetDescription className="text-base leading-7 text-slate-600">{system.note}</SheetDescription></SheetHeader>
+      <SheetHeader className="border-b border-slate-200 px-7 py-8 pr-14 text-left"><SheetTitle className="text-2xl font-semibold tracking-tight text-slate-950">{system.name}</SheetTitle>{!player && <SheetDescription className="text-base leading-7 text-slate-600">{system.note}</SheetDescription>}</SheetHeader>
       <div className="px-7 py-7"><p className="mb-4 text-xs font-semibold tracking-[.16em] text-slate-500">劇本紀錄</p><div className="game-records">
         {system.games.map((game, index) => <GameRecord game={game} index={index} featured={system.name === "克蘇魯的呼喚 7e" && game === "無光燈塔"} key={game} />)}
       </div></div>
@@ -84,7 +84,7 @@ function Collection({ source, player = false }: { source: Record<string, { intro
     {tabs.map(([key]) => {
       const item = source[key];
       const systems: System[] = Array.isArray(item) ? item.map(system => ({ ...system, note: system.note ?? "玩家經歷" })) : item.systems ?? [];
-      return <TabsContent key={key} value={key} className="category-content"><div className="systems-grid">{systems.map(system => <SystemCard key={`${player ? "player" : "gm"}-${system.name}`} system={system} />)}</div></TabsContent>;
+      return <TabsContent key={key} value={key} className="category-content"><div className="systems-grid">{systems.map(system => <SystemCard key={`${player ? "player" : "gm"}-${system.name}`} system={system} player={player} />)}</div></TabsContent>;
     })}
   </Tabs>;
 }
