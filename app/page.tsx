@@ -6,6 +6,15 @@ import { playerCategories } from "./player-data";
 
 type System = { name: string; english?: string; note: string; games: string[] };
 
+function GameRecord({ game, index, featured = false }: { game: string; index: number; featured?: boolean }) {
+  const heading = <div className="game-row"><span>{String(index + 1).padStart(2, "0")}</span><h3>《{game}》</h3>{featured && <span className="game-expand-label">展開介紹 ＋</span>}</div>;
+  if (!featured) return <article className="game-record-static">{heading}</article>;
+  return <details className="game-record"><summary>{heading}</summary><div className="game-detail-card">
+    <div className="game-cover-placeholder" role="img" aria-label="《無光燈塔》劇本封面預留位置"><span>SCENARIO COVER</span><strong>無光燈塔</strong><small>封面待補</small></div>
+    <div className="game-detail-copy"><p className="game-detail-label">劇本簡介</p><p>簡介待補。這裡可以放劇本特色、適合人數、遊玩時間，以及你想讓玩家事前知道的內容。</p><div className="game-blog-placeholder"><span>BLOG 團錄／心得</span><small>連結待補</small></div></div>
+  </div></details>;
+}
+
 const categories: Record<string, { intro: string; systems: System[] }> = {
   adventure: { intro: "組成隊伍、踏上旅程，在任務、選擇與挑戰裡創造故事。", systems: [
     { name: "龍與地下城 3r", english: "Dungeons & Dragons 3r", note: "經典奇幻冒險", games: ["魔女的詛咒", "聖樹夢境"] },
@@ -57,8 +66,8 @@ function SystemCard({ system }: { system: System }) {
     </button></SheetTrigger>
     <SheetContent className="w-full overflow-y-auto border-l border-slate-200 bg-white p-0 sm:max-w-xl">
       <SheetHeader className="border-b border-slate-200 px-7 py-8 pr-14 text-left"><SheetTitle className="text-2xl font-semibold tracking-tight text-slate-950">{system.name}</SheetTitle><SheetDescription className="text-base leading-7 text-slate-600">{system.note}</SheetDescription></SheetHeader>
-      <div className="px-7 py-7"><p className="mb-4 text-xs font-semibold tracking-[.16em] text-slate-500">可以帶的劇本</p><div className="divide-y divide-slate-200 border-y border-slate-200">
-        {system.games.map((game, index) => <article className="py-5" key={game}><div className="flex items-baseline gap-3"><span className="text-xs tabular-nums text-slate-400">{String(index + 1).padStart(2, "0")}</span><h3 className="text-base font-medium text-slate-900">《{game}》</h3></div></article>)}
+      <div className="px-7 py-7"><p className="mb-4 text-xs font-semibold tracking-[.16em] text-slate-500">劇本紀錄</p><div className="game-records">
+        {system.games.map((game, index) => <GameRecord game={game} index={index} featured={system.name === "克蘇魯的呼喚 7e" && game === "無光燈塔"} key={game} />)}
       </div></div>
     </SheetContent>
   </Sheet>;
