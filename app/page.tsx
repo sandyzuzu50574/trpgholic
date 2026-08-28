@@ -75,14 +75,8 @@ function SystemCard({ system }: { system: System }) {
 
 function Collection({ source, player = false }: { source: Record<string, { intro?: string; systems?: System[] } | Array<{ name: string; english?: string; note?: string; games: string[] }>>; player?: boolean }) {
   const tabs = [
-    ["adventure", "傳統冒險"], ["horror", "恐怖調查"], ["emotion", "情感敘事"], ["party", "輕鬆派對"],
+    ["adventure", "傳統冒險"], ["horror", "探索恐怖"], ["emotion", "情感敘事"], ["party", "輕鬆派對"],
   ];
-  const intros: Record<string, string> = {
-    adventure: "組成隊伍、踏上旅程，在任務、選擇與挑戰裡創造故事。",
-    horror: "追查異常、走進黑暗，看看角色如何面對未知與恐懼。",
-    emotion: "把人物與關係放在故事中心，一起留下只屬於這桌的經歷。",
-    party: "快速上手、歡樂即興，適合初次接觸、聚會或活動體驗。",
-  };
   return <Tabs defaultValue="adventure" className="systems-tabs">
     <TabsList className="category-tabs" variant="line" aria-label="系統分類">
       {tabs.map(([value, label]) => <TabsTrigger key={value} value={value}>{label}</TabsTrigger>)}
@@ -90,8 +84,7 @@ function Collection({ source, player = false }: { source: Record<string, { intro
     {tabs.map(([key]) => {
       const item = source[key];
       const systems: System[] = Array.isArray(item) ? item.map(system => ({ ...system, note: system.note ?? "玩家經歷" })) : item.systems ?? [];
-      const intro = Array.isArray(item) ? intros[key] : item.intro ?? intros[key];
-      return <TabsContent key={key} value={key} className="category-content"><p className="category-intro">{intro}</p><div className="systems-grid">{systems.map(system => <SystemCard key={`${player ? "player" : "gm"}-${system.name}`} system={system} />)}</div></TabsContent>;
+      return <TabsContent key={key} value={key} className="category-content"><div className="systems-grid">{systems.map(system => <SystemCard key={`${player ? "player" : "gm"}-${system.name}`} system={system} />)}</div></TabsContent>;
     })}
   </Tabs>;
 }
@@ -105,7 +98,7 @@ export default function Home() {
       <article><h3>長期戰役主持</h3><p>D&D 5e《斯特拉德的詛咒》、《命運之輪》<br />CoC 7e《寂靜之音》</p></article><article><h3>劇本撰寫</h3><p>為多種系統撰寫約30篇劇本</p></article><article><h3>系統創作</h3><p>《我們的多重宇宙》<br />《About Our Time》</p></article><article><h3>大型企劃</h3><p>愚人節系統車輪戰<br />10人《斯特拉德的詛咒》LARP<br />五桌連動《斯特拉德必須死》</p></article><article><h3>推廣與活動</h3><p>於各地推廣會及大型活動擔任 GM</p></article><article><h3>講座分享</h3><p>《VL01：活用PbtA的方法來玩各種團！》<br />《南推：如何成為一個好玩家》<br />《骰子物語：介紹夕燒小燒》</p></article>
     </div></details>
     <section className="section systems-section" id="systems"><p className="section-index">03</p><h2>帶過的團</h2><Collection source={categories} /></section>
-    <section className="section systems-section" id="played"><p className="section-index">04</p><h2>跑過的團</h2><p className="collection-meta">173筆玩家團務紀錄・69套系統</p><Collection source={playerCategories} player /></section>
+    <section className="section systems-section" id="played"><p className="section-index">04</p><h2>跑過的團</h2><Collection source={playerCategories} player /></section>
     <footer><span>ZUZU｜TRPG-holic</span><span>Play, talk, create.</span></footer>
   </main>;
 }
