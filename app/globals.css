@@ -32,7 +32,8 @@ nav { display:flex; gap:28px; color:var(--muted); font-size:13px; } nav a:hover 
 .experience-grid h3 { margin:0 0 28px; color:var(--accent); font-size:13px; font-weight:650; }
 .experience-grid p { margin:0; font-size:17px; line-height:1.9; }
 .experience-fold { max-width:1132px; margin:0 auto; padding:0 24px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
-.experience-fold summary { display:flex; align-items:center; justify-content:space-between; padding:30px 0; cursor:pointer; list-style:none; font-size:22px; font-weight:600; letter-spacing:-.025em; }
+.experience-fold summary { display:flex; align-items:center; justify-content:space-between; padding:30px 0; cursor:pointer; list-style:none; }
+.fold-title { font-size:clamp(38px,5vw,66px); line-height:1; letter-spacing:-.055em; font-weight:600; }
 .experience-fold summary::-webkit-details-marker { display:none; }
 .experience-fold summary small { margin-right:16px; color:var(--accent); font-size:10px; letter-spacing:.16em; }
 .fold-action { color:var(--muted); font-size:12px; font-weight:500; letter-spacing:0; }
