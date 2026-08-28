@@ -9,9 +9,10 @@ type System = { name: string; english?: string; note: string; games: string[] };
 function GameRecord({ game, index, featured = false }: { game: string; index: number; featured?: boolean }) {
   const heading = <div className="game-row"><span>{String(index + 1).padStart(2, "0")}</span><h3>《{game}》</h3>{featured && <span className="game-expand-label">展開介紹 ＋</span>}</div>;
   if (!featured) return <article className="game-record-static">{heading}</article>;
+  const isWitchCurse = game === "魔女的詛咒";
   return <details className="game-record"><summary>{heading}</summary><div className="game-detail-card">
-    <div className="game-cover-placeholder" role="img" aria-label="《無光燈塔》劇本封面預留位置"><span>SCENARIO COVER</span><strong>無光燈塔</strong><small>封面待補</small></div>
-    <div className="game-detail-copy"><p className="game-detail-label">劇本簡介</p><p>簡介待補。這裡可以放劇本特色、適合人數、遊玩時間，以及你想讓玩家事前知道的內容。</p><div className="game-blog-placeholder"><span>BLOG 團錄／心得</span><small>連結待補</small></div></div>
+    {isWitchCurse ? <img className="game-cover-image" src="/witch-curse-cover.png" alt="《魔女的詛咒》劇本封面" /> : <div className="game-cover-placeholder" role="img" aria-label="《無光燈塔》劇本封面預留位置"><span>SCENARIO COVER</span><strong>無光燈塔</strong><small>封面待補</small></div>}
+    <div className="game-detail-copy"><p className="game-detail-label">劇本簡介</p>{isWitchCurse ? <p>詛咒肆虐，冒險者被請求前往高塔討伐魔女——<br />約 4 小時的 1 等冒險模組，適合 3～4 人。</p> : <p>簡介待補。這裡可以放劇本特色、適合人數、遊玩時間，以及你想讓玩家事前知道的內容。</p>}{isWitchCurse ? <a className="game-blog-link" href="https://www.plurk.com/p/mjcyrd" target="_blank" rel="noreferrer"><span>閱讀相關貼文</span><small>PLURK ↗</small></a> : <div className="game-blog-placeholder"><span>BLOG 團錄／心得</span><small>連結待補</small></div>}</div>
   </div></details>;
 }
 
@@ -67,7 +68,7 @@ function SystemCard({ system, player = false }: { system: System; player?: boole
     <SheetContent className="w-full overflow-y-auto border-l border-slate-200 bg-white p-0 sm:max-w-xl">
       <SheetHeader className="border-b border-slate-200 px-7 py-8 pr-14 text-left"><SheetTitle className="text-2xl font-semibold tracking-tight text-slate-950">{system.name}</SheetTitle>{!player && <SheetDescription className="text-base leading-7 text-slate-600">{system.note}</SheetDescription>}</SheetHeader>
       <div className="px-7 py-7"><p className="mb-4 text-xs font-semibold tracking-[.16em] text-slate-500">劇本紀錄</p><div className="game-records">
-        {system.games.map((game, index) => <GameRecord game={game} index={index} featured={system.name === "克蘇魯的呼喚 7e" && game === "無光燈塔"} key={game} />)}
+        {system.games.map((game, index) => <GameRecord game={game} index={index} featured={(system.name === "克蘇魯的呼喚 7e" && game === "無光燈塔") || game === "魔女的詛咒"} key={game} />)}
       </div></div>
     </SheetContent>
   </Sheet>;
