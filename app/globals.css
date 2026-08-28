@@ -32,10 +32,10 @@ nav { display:flex; gap:24px; color:var(--muted); font-size:12px; } nav a:hover 
 .experience-grid h3 { margin:0 0 28px; color:var(--accent); font-size:13px; font-weight:650; }
 .experience-grid p { margin:0; font-size:15px; line-height:1.85; }
 .experience-fold { max-width:1180px; margin:0 auto; padding:0 24px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
-.experience-fold summary { display:flex; align-items:center; justify-content:space-between; padding:30px 0; cursor:pointer; list-style:none; }
-.fold-title { font-size:clamp(34px,4vw,52px); line-height:1; letter-spacing:-.05em; font-weight:600; }
+.experience-fold summary { display:flex; align-items:flex-end; justify-content:space-between; padding:30px 0; cursor:pointer; list-style:none; }
+.fold-title { display:flex; flex-direction:column; align-items:flex-start; gap:16px; font-size:clamp(34px,4vw,52px); line-height:1; letter-spacing:-.05em; font-weight:600; }
 .experience-fold summary::-webkit-details-marker { display:none; }
-.experience-fold summary small { margin-right:16px; color:var(--accent); font-size:10px; letter-spacing:.16em; }
+.experience-fold summary small { margin:0; color:var(--accent); font-size:10px; line-height:1; letter-spacing:.16em; }
 .fold-action { color:var(--muted); font-size:12px; font-weight:500; letter-spacing:0; }
 .experience-fold[open] .fold-action { font-size:0; }
 .experience-fold[open] .fold-action::after { content:"收起 －"; font-size:12px; }
