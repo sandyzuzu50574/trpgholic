@@ -2,6 +2,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { playerCategories } from "./player-data";
 
 type System = { name: string; english?: string; note: string; games: string[] };
 
@@ -63,17 +64,39 @@ function SystemCard({ system }: { system: System }) {
   </Sheet>;
 }
 
+function Collection({ source, player = false }: { source: Record<string, { intro?: string; systems?: System[] } | Array<{ name: string; english?: string; note?: string; games: string[] }>>; player?: boolean }) {
+  const tabs = [
+    ["adventure", "傳統冒險"], ["horror", "恐怖調查"], ["emotion", "情感敘事"], ["party", "輕鬆派對"],
+  ];
+  const intros: Record<string, string> = {
+    adventure: "組成隊伍、踏上旅程，在任務、選擇與挑戰裡創造故事。",
+    horror: "追查異常、走進黑暗，看看角色如何面對未知與恐懼。",
+    emotion: "把人物與關係放在故事中心，一起留下只屬於這桌的經歷。",
+    party: "快速上手、歡樂即興，適合初次接觸、聚會或活動體驗。",
+  };
+  return <Tabs defaultValue="adventure" className="systems-tabs">
+    <TabsList className="category-tabs" variant="line" aria-label="系統分類">
+      {tabs.map(([value, label]) => <TabsTrigger key={value} value={value}>{label}</TabsTrigger>)}
+    </TabsList>
+    {tabs.map(([key]) => {
+      const item = source[key];
+      const systems: System[] = Array.isArray(item) ? item.map(system => ({ ...system, note: system.note ?? "玩家經歷" })) : item.systems ?? [];
+      const intro = Array.isArray(item) ? intros[key] : item.intro ?? intros[key];
+      return <TabsContent key={key} value={key} className="category-content"><p className="category-intro">{intro}</p><div className="systems-grid">{systems.map(system => <SystemCard key={`${player ? "player" : "gm"}-${system.name}`} system={system} />)}</div></TabsContent>;
+    })}
+  </Tabs>;
+}
+
 export default function Home() {
   return <main>
-    <header className="site-header"><a className="brand" href="#top">ZUZU <span>／</span> TRPG-holic</a><nav aria-label="主要導覽"><a href="#style">GM風格</a><a href="#experience">我曾做過</a><a href="#systems">系統與劇本</a></nav></header>
-    <section className="hero" id="top"><p className="eyebrow">ZUZU ／ TRPG-HOLIC</p><h1>一起玩出<br />這一桌的故事。</h1><div className="stats" aria-label="TRPG經歷統計"><div><strong>2017</strong><span>年至今</span></div><div><strong>31</strong><span>套系統支援</span></div><div><strong>153</strong><span>團主持</span></div><div><strong>173</strong><span>團玩家</span></div></div></section>
-    <section className="section split" id="style"><div><p className="section-index">01</p><h2>我的GM風格</h2></div><ol className="style-list"><li><span>01</span>理解角色，成為角色的粉絲</li><li><span>02</span>重視共同創作與交流互動</li><li><span>03</span>喜愛即興回應與關係敘事</li><li><span>04</span>玩出系統與劇本的風味，再加一點我們都喜歡的東西</li></ol></section>
-    <section className="section" id="experience"><p className="section-index">02</p><h2>我曾做過</h2><div className="experience-grid">
+    <header className="site-header"><a className="brand" href="#top">ZUZU <span>／</span> TRPG-holic</a><nav aria-label="主要導覽"><a href="#style">GM風格</a><a href="#systems">帶過的團</a><a href="#played">跑過的團</a></nav></header>
+    <section className="hero compact-hero" id="top"><h1>ZUZU<span>｜</span>TRPG-holic</h1><div className="stats" aria-label="TRPG經歷統計"><div><strong>2017</strong><span>年至今</span></div><div><strong>31</strong><span>套系統支援</span></div><div><strong>153</strong><span>團主持</span></div><div><strong>173</strong><span>團玩家</span></div></div></section>
+    <section className="section split" id="style"><div><p className="section-index">01</p><h2>我的GM風格</h2></div><ol className="style-list"><li><span>01</span>理解角色，成為角色的粉絲</li><li><span>02</span>重視共同創作與交流互動</li><li><span>03</span>喜愛即興回應與關係敘事</li><li><span>04</span>玩出系統與劇本的風味</li><li><span>05</span>再加一點我們都喜歡的東西</li></ol></section>
+    <details className="experience-fold" id="experience"><summary><span><small>02</small> 我曾做過</span><span className="fold-action">展開查看 ＋</span></summary><div className="experience-grid">
       <article><h3>長期戰役主持</h3><p>D&D 5e《斯特拉德的詛咒》、《命運之輪》<br />CoC 7e《寂靜之音》</p></article><article><h3>劇本撰寫</h3><p>為多種系統撰寫約30篇劇本</p></article><article><h3>系統創作</h3><p>《我們的多重宇宙》<br />《About Our Time》</p></article><article><h3>大型企劃</h3><p>愚人節系統車輪戰<br />10人《斯特拉德的詛咒》LARP<br />五桌連動《斯特拉德必須死》</p></article><article><h3>講座分享</h3><p>《VL01：活用PbtA的方法來玩各種團！》<br />《南推：如何成為一個好玩家》<br />《骰子物語：介紹夕燒小燒》</p></article>
-    </div></section>
-    <section className="section systems-section" id="systems"><p className="section-index">03</p><h2>可以帶的系統與劇本</h2><Tabs defaultValue="adventure" className="systems-tabs"><TabsList className="category-tabs" variant="line" aria-label="系統分類"><TabsTrigger value="adventure">傳統冒險</TabsTrigger><TabsTrigger value="horror">恐怖調查</TabsTrigger><TabsTrigger value="emotion">情感敘事</TabsTrigger><TabsTrigger value="party">輕鬆派對</TabsTrigger></TabsList>
-      {Object.entries(categories).map(([key, category]) => <TabsContent key={key} value={key} className="category-content"><p className="category-intro">{category.intro}</p><div className="systems-grid">{category.systems.map((system) => <SystemCard key={system.name} system={system} />)}</div></TabsContent>)}
-    </Tabs></section>
+    </div></details>
+    <section className="section systems-section" id="systems"><p className="section-index">03</p><h2>帶過的團</h2><Collection source={categories} /></section>
+    <section className="section systems-section" id="played"><p className="section-index">04</p><h2>跑過的團</h2><p className="collection-meta">173筆玩家團務紀錄・69套系統</p><Collection source={playerCategories} player /></section>
     <footer><span>ZUZU｜TRPG-holic</span><span>Play, talk, create.</span></footer>
   </main>;
 }
