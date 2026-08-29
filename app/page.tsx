@@ -11,7 +11,7 @@ function GameRecord({ game, index, featured = false }: { game: string; index: nu
   if (!featured) return <article className="game-record-static">{heading}</article>;
   const isWitchCurse = game === "魔女的詛咒";
   return <details className="game-record"><summary>{heading}</summary><div className="game-detail-card">
-    {isWitchCurse ? <img className="game-cover-image" src="/witch-curse-cover.png" alt="《魔女的詛咒》劇本封面" /> : <div className="game-cover-placeholder" role="img" aria-label="《無光燈塔》劇本封面預留位置"><span>SCENARIO COVER</span><strong>無光燈塔</strong><small>封面待補</small></div>}
+    {isWitchCurse ? <img className="game-cover-image" src="witch-curse-cover.png" alt="《魔女的詛咒》劇本封面" /> : <div className="game-cover-placeholder" role="img" aria-label="《無光燈塔》劇本封面預留位置"><span>SCENARIO COVER</span><strong>無光燈塔</strong><small>封面待補</small></div>}
     <div className="game-detail-copy"><p className="game-detail-label">劇本簡介</p>{isWitchCurse ? <p>詛咒肆虐，冒險者被請求前往高塔討伐魔女——<br />約 4 小時的 1 等冒險模組，適合 3～4 人。</p> : <p>簡介待補。這裡可以放劇本特色、適合人數、遊玩時間，以及你想讓玩家事前知道的內容。</p>}{isWitchCurse ? <a className="game-blog-link" href="https://www.plurk.com/p/mjcyrd" target="_blank" rel="noreferrer"><span>閱讀相關貼文</span><small>PLURK ↗</small></a> : <div className="game-blog-placeholder"><span>BLOG 團錄／心得</span><small>連結待補</small></div>}</div>
   </div></details>;
 }
@@ -93,7 +93,7 @@ function Collection({ source, player = false }: { source: Record<string, { intro
 export default function Home() {
   return <main>
     <div className="zuzu-pop-in" aria-hidden="true">
-      <img src="/zuzu-cheers-cutout.png" alt="" />
+      <img src="zuzu-cheers-cutout.png" alt="" />
     </div>
     <header className="site-header"><a className="brand" href="#top">ZUZU <span>／</span> TRPG-holic</a><nav aria-label="主要導覽"><a href="#style">我喜歡！</a><a href="#experience">我做過！</a><a href="#systems">帶過的團</a><a href="#played">跑過的團</a></nav><details className="mobile-nav"><summary aria-label="開啟導覽選單"><span></span><span></span></summary><div>{[["#style","我喜歡！"],["#experience","我做過！"],["#systems","帶過的團"],["#played","跑過的團"]].map(([href,label]) => <a href={href} key={href} onClick={event => { const menu = event.currentTarget.closest("details"); if (menu) menu.open = false; }}>{label}</a>)}</div></details></header>
     <section className="hero compact-hero" id="top"><h1>ZUZU<span>｜</span>TRPG-holic</h1><div className="stats" aria-label="TRPG經歷統計"><div><strong>2017</strong><span>年至今</span></div><div><strong>31</strong><span>套系統支援</span></div><div><strong>153</strong><span>團主持</span></div><div><strong>173</strong><span>團玩家</span></div></div></section>
