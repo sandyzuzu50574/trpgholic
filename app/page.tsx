@@ -4,38 +4,56 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { playerCategories } from "./player-data";
 
-type System = { name: string; english?: string; note: string; games: string[]; coverImage?: string; coverZoom?: "medium" | "strong" };
+type System = { name: string; english?: string; note: string; games: string[]; coverImage?: string };
 
-function GameRecord({ game, index, featured = false }: { game: string; index: number; featured?: boolean }) {
-  const heading = <div className="game-row"><span>{String(index + 1).padStart(2, "0")}</span><h3>《{game}》</h3>{featured && <span className="game-expand-label">展開介紹 ＋</span>}</div>;
-  if (!featured) return <article className="game-record-static">{heading}</article>;
-  const isWitchCurse = game === "魔女的詛咒";
+type ScenarioDetail = { summary: string; time: string; players: string; condition?: string; coverImage?: string; externalLabel?: string; externalUrl?: string };
+
+const scenarioDetails: Record<string, ScenarioDetail> = {
+  "無光燈塔": { summary: "馬薩諸塞州愚人角外，燈塔島上的燈塔不再照亮附近危險的岩礁水域。\n\n風雨中，你們所搭乘的船觸礁即將沉沒。你們被船員送上逃生船，在風暴擴大前最好趕緊前往燈塔島。\n\n船推入黑暗翻騰的水中。能指引你們的，只有燈塔高聳輪廓下，微弱的小屋燈光。", time: "2～3 小時", players: "2～4 人", condition: "預設角卡", coverImage: "lightless-beacon-cover.webp" },
+  "魔女的詛咒": { summary: "小村莊詛咒肆虐，冒險者被請求前往高塔討伐魔女。", time: "約 5 小時", players: "3～4 人", condition: "1 等冒險", coverImage: "witch-curse-cover.png", externalLabel: "PLURK", externalUrl: "https://www.plurk.com/p/mjcyrd" },
+  "聖樹夢境": { summary: "聖誕節時冒險者們作了一場受祝福的夢。\n\n為了慶祝聖誕節，寫給我第一次結團的冒險者們。", time: "約 2 小時", players: "2～4 人" },
+  "斯特拉德的詛咒": { summary: "迷霧壟罩，終年不見天日的巴洛維亞。\n邪惡的吸血鬼領主為追尋他命中不可得的愛慕之人，為這片土地帶來無盡的絕望。\n然而預言揭露了終將驅散迷霧的天選之人……", time: "長期戰役", players: "3～6 人", condition: "1 等開始，預計成長到 10 等", coverImage: "strahd-scenario-cover.webp" },
+  "死亡小屋": { summary: "誤入迷霧的冒險者們，面臨死亡的威脅，躲進了荒野中遭棄置的宅邸。", time: "約 6 小時", players: "3～6 人", condition: "2 等冒險" },
+  "德魯伊的試煉：大地": { summary: "小小德魯伊踏上試煉，要證明自己能獨當一面。\n\n為玩家設計的角色前傳。", time: "2～3 小時", players: "2 人", condition: "1 等冒險" },
+  "德魯伊的試煉：牧人": { summary: "小小德魯伊踏上試煉，要證明自己能獨當一面。\n\n為玩家設計的角色前傳。", time: "2～3 小時", players: "1 人", condition: "1 等冒險" },
+  "逐龍的龍裔們": { summary: "追尋龍的線索來到山城的龍裔們，遇上了危機。\n\n為玩家設計的角色前傳。", time: "2～3 小時", players: "3 人", condition: "1 等冒險" },
+  "羊羊快跑": { summary: "有隻羊咩咩叼著卷軸找上你們！", time: "約 4 小時", players: "2～4 人", condition: "5 等冒險", coverImage: "wild-sheep-chase-cover.webp" },
+  "邱比特的麻雀": { summary: "情人節特別篇。\n你們來到正為愛與美的女神淑妮舉辦慶典的小鎮。", time: "約 4 小時", players: "2 人", condition: "等級不拘", coverImage: "cupid-sparrow-cover.webp" },
+  "勇敢的色彩": { summary: "收錄於《公主計畫》的小短篇。\n\n當奪心魔的入侵威脅到幽暗地域中的呋嚕王國時，呋嚕公主呼嚕花拉嚕違背父親的期待，前往地面世界尋求幫助。冒險者們能穿越幽暗地域的危險，避開奪心魔的突襲，拯救呋嚕王國嗎？", time: "4～5 小時", players: "3～4 人", condition: "5 等冒險" },
+  "追鵝人": { summary: "收錄於《公主計畫》的小短篇。\n\n瓦基歐公爵很煩惱。他很快就要退休了，但他的女兒克勞迪特一直在逃避責任；宮廷法師未經通知就離開了，新的朝臣不斷來訪，以獲得青睞和權力。\n\n近期有一場盛宴要準備，而且，彷彿一切還不夠似的，有隻天鵝一直在威脅著這座豪宅。", time: "約 6 小時", players: "2～4 人", condition: "3 等冒險" },
+  "碎鏡之森": { summary: "神秘的委託人請求冒險者將聖物送進碎鏡之森的遺跡裡。", time: "4～5 小時", players: "2～4 人", condition: "3 等冒險" },
+};
+
+function GameRecord({ game, index }: { game: string; index: number }) {
+  const detail = scenarioDetails[game];
+  const heading = <div className="game-row"><span>{String(index + 1).padStart(2, "0")}</span><h3>《{game}》</h3>{detail && <span className="game-expand-label">展開介紹 ＋</span>}</div>;
+  if (!detail) return <article className="game-record-static">{heading}</article>;
   return <details className="game-record"><summary>{heading}</summary><div className="game-detail-card">
-    {isWitchCurse ? <img className="game-cover-image" src="witch-curse-cover.png" alt="《魔女的詛咒》劇本封面" /> : <div className="game-cover-placeholder" role="img" aria-label="《無光燈塔》劇本封面預留位置"><span>SCENARIO COVER</span><strong>無光燈塔</strong><small>封面待補</small></div>}
-    <div className="game-detail-copy"><p className="game-detail-label">劇本簡介</p>{isWitchCurse ? <p>詛咒肆虐，冒險者被請求前往高塔討伐魔女——<br />約 4 小時的 1 等冒險模組，適合 3～4 人。</p> : <p>簡介待補。這裡可以放劇本特色、適合人數、遊玩時間，以及你想讓玩家事前知道的內容。</p>}{isWitchCurse ? <a className="game-blog-link" href="https://www.plurk.com/p/mjcyrd" target="_blank" rel="noreferrer"><span>閱讀相關貼文</span><small>PLURK ↗</small></a> : <div className="game-blog-placeholder"><span>BLOG 團錄／心得</span><small>連結待補</small></div>}</div>
+    {detail.coverImage ? <img className="game-cover-image" src={detail.coverImage} alt={`《${game}》劇本封面`} /> : <div className="game-cover-placeholder" role="img" aria-label={`《${game}》劇本封面預留位置`}><span>SCENARIO COVER</span><strong>{game}</strong><small>封面待補</small></div>}
+    <div className="game-detail-copy"><p className="game-detail-label">劇本簡介</p><p>{detail.summary}</p><div className="game-meta"><span>{detail.time}</span><span>{detail.players}</span>{detail.condition && <span>{detail.condition}</span>}</div>{detail.externalUrl ? <a className="game-blog-link" href={detail.externalUrl} target="_blank" rel="noreferrer"><span>閱讀相關貼文</span><small>{detail.externalLabel ?? "LINK"} ↗</small></a> : <div className="game-blog-placeholder"><span>BLOG 團錄／心得</span><small>連結待補</small></div>}</div>
   </div></details>;
 }
 
 const categories: Record<string, { intro: string; systems: System[] }> = {
   adventure: { intro: "組成隊伍、踏上旅程，在任務、選擇與挑戰裡創造故事。", systems: [
     { name: "龍與地下城 3r", english: "Dungeons & Dragons 3r", note: "經典奇幻冒險", games: ["魔女的詛咒", "聖樹夢境"], coverImage: "dnd-35-players-handbook.png" },
-    { name: "龍與地下城 5e", english: "Dungeons & Dragons 5e", note: "長期戰役與單次冒險", games: ["斯特拉德的詛咒", "死亡小屋", "德魯伊的試煉：大地", "德魯伊的試煉：牧人", "逐龍的龍裔們", "羊羊快跑", "Cupid’s Sparrow", "魔女的詛咒", "勇敢的色彩", "Fowl Suitors", "碎鏡之森", "初來乍到", "失落的凡戴爾礦坑", "獸人與餅：慶生版", "命運之輪的轉動", "冬日焰火"], coverImage: "dnd-5e-players-handbook.jpg", coverZoom: "medium" },
-    { name: "蒼穹的紀錄", english: "Archives of the Sky", note: "史詩科幻敘事", games: ["黑鳥小姐（Lady Blackbird）"], coverImage: "archives-of-the-sky-cover.jpg", coverZoom: "strong" },
+    { name: "龍與地下城 5e", english: "Dungeons & Dragons 5e", note: "長期戰役與單次冒險", games: ["斯特拉德的詛咒", "死亡小屋", "德魯伊的試煉：大地", "德魯伊的試煉：牧人", "逐龍的龍裔們", "羊羊快跑", "邱比特的麻雀", "魔女的詛咒", "勇敢的色彩", "追鵝人", "碎鏡之森", "初來乍到", "失落的凡戴爾礦坑", "獸人與餅：慶生版", "命運之輪的轉動", "冬日焰火"], coverImage: "dnd-5e-cover.webp" },
+    { name: "蒼穹的紀錄", english: "Archives of the Sky", note: "史詩科幻敘事", games: ["黑鳥小姐（Lady Blackbird）"], coverImage: "lady-blackbird-cover.webp" },
     { name: "龍蛋物語", note: "溫柔的旅行奇幻", games: ["下雨的草原", "傳火之旅"], coverImage: "ryuutama-rulebook.jpg" },
     { name: "QUEST", note: "輕量奇幻冒險", games: ["寶藏山", "原初之火", "濡沫淚礁", "前瞻的先知女王", "安眠遊樂場", "蔽日巨獸在呼嚕", "金鉤幫與聖誕老人", "台北大縱走", "跨年的煙火"], coverImage: "quest-rpg-cover.jpg" },
     { name: "FATE Core／快速版", note: "自由、角色導向的冒險", games: ["H×H：友客鑫拍賣會後", "獻祭吧！間諜家庭", "貓的秘密：年獸", "貓的秘密：清明", "Uder Spy"], coverImage: "fate-core-cover.png" },
     { name: "超載霓虹城", english: "Neon City Overdrive", note: "賽博龐克的任務", games: ["Cybereat之佛跳牆"], coverImage: "neon-city-overdrive-cover.webp" },
-    { name: "寰宇RPG", english: "Cosmere RPG", note: "寰宇世界的英雄冒險", games: ["橋九隊"], coverImage: "cosmere-stormlight-handbook.jpg" },
+    { name: "寰宇RPG", english: "Cosmere RPG", note: "寰宇世界的英雄冒險", games: ["橋九隊"], coverImage: "cosmere-rpg-cover.webp" },
   ]},
   horror: { intro: "追查異常、走進黑暗，看看角色如何面對未知與恐懼。", systems: [
-    { name: "克蘇魯的呼喚 7e", english: "Call of Cthulhu 7e", note: "調查、未知與宇宙恐怖", games: ["無光燈塔", "群星燃焰", "寂靜之音", "泥偶", "普洛威頓斯的陰霾", "美麗", "瑪莉", "魔鬼之子"] },
-    { name: "藍鬍子的新娘", english: "Bluebeard’s Bride", note: "女性哥德恐怖", games: ["潮濕的惡意", "大紅燈籠", "愛、尊敬、服從", "死胎", "精神病院"] },
-    { name: "十燭", english: "Ten Candles", note: "終將熄滅的末日恐怖", games: ["黑暗島國", "末日台北"] },
-    { name: "城市之影2 快速版", english: "Urban Shadows 2e Quickstart", note: "都市奇幻與勢力角力", games: ["萬華之影一部曲：古樹", "萬華之影二部曲：國宅", "寂靜之影", "冰島之影"] },
-    { name: "德古拉的新娘", english: "Brides of Dracula", note: "哥德恐怖與親密關係", games: ["無題團一", "無題團二"] },
-    { name: "本週主打怪", english: "Monster of the Week", note: "怪物獵殺單元劇", games: ["支配病毒擴散", "黑水溝哥吉拉", "大稻埕迎接末日"] },
+    { name: "克蘇魯的呼喚 7e", english: "Call of Cthulhu 7e", note: "調查、未知與宇宙恐怖", games: ["無光燈塔", "群星燃焰", "寂靜之音", "泥偶", "普洛威頓斯的陰霾", "美麗", "瑪莉", "魔鬼之子"], coverImage: "coc-7e-cover.webp" },
+    { name: "藍鬍子的新娘", english: "Bluebeard’s Bride", note: "女性哥德恐怖", games: ["潮濕的惡意", "大紅燈籠", "愛、尊敬、服從", "死胎", "精神病院"], coverImage: "bluebeards-bride-cover.webp" },
+    { name: "十燭", english: "Ten Candles", note: "終將熄滅的末日恐怖", games: ["黑暗島國", "末日台北"], coverImage: "ten-candles-cover.webp" },
+    { name: "德古拉的新娘", english: "Brides of Dracula", note: "哥德恐怖與親密關係", games: ["無題團一", "無題團二"], coverImage: "brides-of-dracula-cover.webp" },
+    { name: "本週主打怪", english: "Monster of the Week", note: "怪物獵殺單元劇", games: ["支配病毒擴散", "黑水溝哥吉拉", "大稻埕迎接末日"], coverImage: "monster-of-the-week-cover.webp" },
   ]},
   emotion: { intro: "把人物與關係放在故事中心，一起留下只屬於這桌的經歷。", systems: [
+    { name: "城市之影2 快速版", english: "Urban Shadows 2e Quickstart", note: "都市奇幻與勢力角力", games: ["萬華之影一部曲：古樹", "萬華之影二部曲：國宅", "寂靜之影", "冰島之影"], coverImage: "urban-shadows-2e-cover.webp" },
     { name: "夕燒小燒", english: "ゆうやけこやけ", note: "溫暖日常與小小奇蹟", games: ["狐狸與便當盒", "七五三後神的孩子", "固執爺爺與煙花", "大小姐的大冒險", "承載心意的紙飛機"] },
     { name: "我是骷髏", english: "The Skeletons", note: "記憶、時間與守候", games: ["愚人節活動", "團充合宿", "讓人困擾的哥哥", "巫女安眠之地", "無題團"] },
     { name: "怪物心2", english: "Monsterhearts 2", note: "青春、慾望與混亂關係", games: ["鬱林鎮", "楓湖鎮", "鷹棲町", "棉花糖小鎮", "冬御日町", "聖・歌爾賽特", "波上的理想鄉", "新印斯茅斯", "Ballad of the Ghost", "霍華德軍校", "佛比倫斯", "實驗高中"] },
@@ -60,7 +78,7 @@ const categories: Record<string, { intro: string; systems: System[] }> = {
 
 function SystemCard({ system, player = false }: { system: System; player?: boolean }) {
   return <Sheet>
-    <SheetTrigger asChild><button className={`system-card${player ? " player-card" : ""}${system.coverImage ? " has-system-cover" : ""}${system.coverZoom ? ` cover-zoom-${system.coverZoom}` : ""}`} type="button">
+    <SheetTrigger asChild><button className={`system-card${player ? " player-card" : ""}${system.coverImage ? " has-system-cover" : ""}`} type="button">
       {system.coverImage && <img className="system-cover-art" src={system.coverImage} alt="" aria-hidden="true" />}
       <span className="system-count">{system.games.length} 個劇本</span><span className="system-name">{system.name}</span>
       {system.english && <span className="system-en">{system.english}</span>}{!player && <span className="system-note">{system.note}</span>}
@@ -69,7 +87,7 @@ function SystemCard({ system, player = false }: { system: System; player?: boole
     <SheetContent className="w-full overflow-y-auto border-l border-slate-200 bg-white p-0 sm:max-w-xl">
       <SheetHeader className="border-b border-slate-200 px-7 py-8 pr-14 text-left"><SheetTitle className="text-2xl font-semibold tracking-tight text-slate-950">{system.name}</SheetTitle>{!player && <SheetDescription className="text-base leading-7 text-slate-600">{system.note}</SheetDescription>}</SheetHeader>
       <div className="px-7 py-7"><p className="mb-4 text-xs font-semibold tracking-[.16em] text-slate-500">劇本紀錄</p><div className="game-records">
-        {system.games.map((game, index) => <GameRecord game={game} index={index} featured={(system.name === "克蘇魯的呼喚 7e" && game === "無光燈塔") || game === "魔女的詛咒"} key={game} />)}
+        {system.games.map((game, index) => <GameRecord game={game} index={index} key={game} />)}
       </div></div>
     </SheetContent>
   </Sheet>;
