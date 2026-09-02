@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { playerCategories } from "./player-data";
 
-type System = { name: string; english?: string; note: string; games: string[] };
+type System = { name: string; english?: string; note: string; games: string[]; coverImage?: string; coverZoom?: "medium" | "strong" };
 
 function GameRecord({ game, index, featured = false }: { game: string; index: number; featured?: boolean }) {
   const heading = <div className="game-row"><span>{String(index + 1).padStart(2, "0")}</span><h3>《{game}》</h3>{featured && <span className="game-expand-label">展開介紹 ＋</span>}</div>;
@@ -18,14 +18,14 @@ function GameRecord({ game, index, featured = false }: { game: string; index: nu
 
 const categories: Record<string, { intro: string; systems: System[] }> = {
   adventure: { intro: "組成隊伍、踏上旅程，在任務、選擇與挑戰裡創造故事。", systems: [
-    { name: "龍與地下城 3r", english: "Dungeons & Dragons 3r", note: "經典奇幻冒險", games: ["魔女的詛咒", "聖樹夢境"] },
-    { name: "龍與地下城 5e", english: "Dungeons & Dragons 5e", note: "長期戰役與單次冒險", games: ["斯特拉德的詛咒", "死亡小屋", "德魯伊的試煉：大地", "德魯伊的試煉：牧人", "逐龍的龍裔們", "羊羊快跑", "Cupid’s Sparrow", "魔女的詛咒", "勇敢的色彩", "Fowl Suitors", "碎鏡之森", "初來乍到", "失落的凡戴爾礦坑", "獸人與餅：慶生版", "命運之輪的轉動", "冬日焰火"] },
-    { name: "蒼穹的紀錄", english: "Archives of the Sky", note: "史詩科幻敘事", games: ["黑鳥小姐（Lady Blackbird）"] },
-    { name: "龍蛋物語", note: "溫柔的旅行奇幻", games: ["下雨的草原", "傳火之旅"] },
-    { name: "QUEST", note: "輕量奇幻冒險", games: ["寶藏山", "原初之火", "濡沫淚礁", "前瞻的先知女王", "安眠遊樂場", "蔽日巨獸在呼嚕", "金鉤幫與聖誕老人", "台北大縱走", "跨年的煙火"] },
-    { name: "FATE Core／快速版", note: "自由、角色導向的冒險", games: ["H×H：友客鑫拍賣會後", "獻祭吧！間諜家庭", "貓的秘密：年獸", "貓的秘密：清明", "Uder Spy"] },
-    { name: "超載霓虹城", english: "Neon City Overdrive", note: "快節奏霓虹動作", games: ["Cybereat之佛跳牆"] },
-    { name: "寰宇RPG", english: "Cosmere RPG", note: "寰宇世界的英雄冒險", games: ["橋九隊"] },
+    { name: "龍與地下城 3r", english: "Dungeons & Dragons 3r", note: "經典奇幻冒險", games: ["魔女的詛咒", "聖樹夢境"], coverImage: "dnd-35-players-handbook.png" },
+    { name: "龍與地下城 5e", english: "Dungeons & Dragons 5e", note: "長期戰役與單次冒險", games: ["斯特拉德的詛咒", "死亡小屋", "德魯伊的試煉：大地", "德魯伊的試煉：牧人", "逐龍的龍裔們", "羊羊快跑", "Cupid’s Sparrow", "魔女的詛咒", "勇敢的色彩", "Fowl Suitors", "碎鏡之森", "初來乍到", "失落的凡戴爾礦坑", "獸人與餅：慶生版", "命運之輪的轉動", "冬日焰火"], coverImage: "dnd-5e-players-handbook.jpg", coverZoom: "medium" },
+    { name: "蒼穹的紀錄", english: "Archives of the Sky", note: "史詩科幻敘事", games: ["黑鳥小姐（Lady Blackbird）"], coverImage: "archives-of-the-sky-cover.jpg", coverZoom: "strong" },
+    { name: "龍蛋物語", note: "溫柔的旅行奇幻", games: ["下雨的草原", "傳火之旅"], coverImage: "ryuutama-rulebook.jpg" },
+    { name: "QUEST", note: "輕量奇幻冒險", games: ["寶藏山", "原初之火", "濡沫淚礁", "前瞻的先知女王", "安眠遊樂場", "蔽日巨獸在呼嚕", "金鉤幫與聖誕老人", "台北大縱走", "跨年的煙火"], coverImage: "quest-rpg-cover.jpg" },
+    { name: "FATE Core／快速版", note: "自由、角色導向的冒險", games: ["H×H：友客鑫拍賣會後", "獻祭吧！間諜家庭", "貓的秘密：年獸", "貓的秘密：清明", "Uder Spy"], coverImage: "fate-core-cover.png" },
+    { name: "超載霓虹城", english: "Neon City Overdrive", note: "賽博龐克的任務", games: ["Cybereat之佛跳牆"], coverImage: "neon-city-overdrive-cover.webp" },
+    { name: "寰宇RPG", english: "Cosmere RPG", note: "寰宇世界的英雄冒險", games: ["橋九隊"], coverImage: "cosmere-stormlight-handbook.jpg" },
   ]},
   horror: { intro: "追查異常、走進黑暗，看看角色如何面對未知與恐懼。", systems: [
     { name: "克蘇魯的呼喚 7e", english: "Call of Cthulhu 7e", note: "調查、未知與宇宙恐怖", games: ["無光燈塔", "群星燃焰", "寂靜之音", "泥偶", "普洛威頓斯的陰霾", "美麗", "瑪莉", "魔鬼之子"] },
@@ -60,7 +60,8 @@ const categories: Record<string, { intro: string; systems: System[] }> = {
 
 function SystemCard({ system, player = false }: { system: System; player?: boolean }) {
   return <Sheet>
-    <SheetTrigger asChild><button className={`system-card${player ? " player-card" : ""}`} type="button">
+    <SheetTrigger asChild><button className={`system-card${player ? " player-card" : ""}${system.coverImage ? " has-system-cover" : ""}${system.coverZoom ? ` cover-zoom-${system.coverZoom}` : ""}`} type="button">
+      {system.coverImage && <img className="system-cover-art" src={system.coverImage} alt="" aria-hidden="true" />}
       <span className="system-count">{system.games.length} 個劇本</span><span className="system-name">{system.name}</span>
       {system.english && <span className="system-en">{system.english}</span>}{!player && <span className="system-note">{system.note}</span>}
       <span className="system-link">查看劇本 <span aria-hidden>↗</span></span>
@@ -76,7 +77,7 @@ function SystemCard({ system, player = false }: { system: System; player?: boole
 
 function Collection({ source, player = false }: { source: Record<string, { intro?: string; systems?: System[] } | Array<{ name: string; english?: string; note?: string; games: string[] }>>; player?: boolean }) {
   const tabs = [
-    ["adventure", "傳統冒險"], ["horror", "探索恐怖"], ["emotion", "情感敘事"], ["party", "輕鬆派對"],
+    ["adventure", "奇幻冒險"], ["horror", "探索恐怖"], ["emotion", "情感敘事"], ["party", "輕鬆派對"],
   ];
   return <Tabs defaultValue="adventure" className="systems-tabs">
     <TabsList className="category-tabs" variant="line" aria-label="系統分類">
