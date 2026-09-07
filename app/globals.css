@@ -226,3 +226,62 @@ footer { display:flex; justify-content:space-between; padding-top:38px; padding-
 .notebook-content .site-header nav,
 .notebook-content .site-header .mobile-nav { margin-left:auto; }
 .notebook-content .compact-hero h1 { color:var(--accent); font-size:clamp(52px,8vw,92px); }
+
+
+/* 「我喜歡！」便條紙試作 */
+.notebook-content .style-fold .style-list { gap:14px; padding:12px 4px 8px; }
+.notebook-content .style-fold .style-list li {
+  --note:#fff0a8;
+  --note-ink:#39463f;
+  --tilt:-1.3deg;
+  position:relative;
+  min-height:118px;
+  overflow:visible;
+  align-items:center;
+  padding:25px 17px 18px;
+  border:1px solid rgba(64,79,71,.09);
+  border-radius:2px 5px 3px 4px;
+  background:
+    repeating-linear-gradient(180deg,transparent 0,transparent 25px,rgba(70,94,82,.075) 26px),
+    var(--note);
+  box-shadow:3px 6px 10px rgba(65,55,42,.14);
+  color:var(--note-ink);
+  font-family:"Klee One","DFKai-SB","BiauKai","Kaiti TC",cursive;
+  font-size:15px;
+  text-align:left;
+  transform:rotate(var(--tilt));
+}
+.notebook-content .style-fold .style-list li::before {
+  position:absolute;
+  top:-9px;
+  left:50%;
+  width:48px;
+  height:18px;
+  background:rgba(255,255,238,.62);
+  box-shadow:0 1px 2px rgba(38,49,44,.08);
+  content:"";
+  transform:translateX(-50%) rotate(-2deg);
+  backdrop-filter:blur(1px);
+}
+.notebook-content .style-fold .style-list li::after {
+  position:absolute;
+  right:-1px;
+  bottom:-1px;
+  width:18px;
+  height:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,.05) 49%,rgba(73,78,74,.12) 50%);
+  content:"";
+}
+.notebook-content .style-fold .style-list li:nth-child(1) { --note:#fff0a8; --tilt:-1.3deg; }
+.notebook-content .style-fold .style-list li:nth-child(2) { --note:#ffc9bd; --tilt:1.1deg; }
+.notebook-content .style-fold .style-list li:nth-child(3) { --note:#bfe8ef; --tilt:-.5deg; }
+.notebook-content .style-fold .style-list li:nth-child(4) { --note:#d9cff7; --tilt:1.5deg; }
+.notebook-content .style-fold .style-list li:nth-child(5) { --note:#c7e8bf; --tilt:-.9deg; }
+@keyframes style-card-enter {
+  from { opacity:0; transform:translateY(28px) rotate(calc(var(--tilt) - 1.5deg)) scale(.96); }
+  to { opacity:1; transform:translateY(0) rotate(var(--tilt)) scale(1); }
+}
+@media (max-width:760px) {
+  .notebook-content .style-fold .style-list { gap:15px; padding-top:12px; }
+  .notebook-content .style-fold .style-list li { min-height:105px; flex-basis:min(72vw,230px); padding:24px 17px 16px; }
+}
