@@ -22,6 +22,11 @@ const scenarioDetails: Record<string, ScenarioDetail> = {
   "勇敢的色彩": { summary: "收錄於《公主計畫》的小短篇。\n\n當奪心魔的入侵威脅到幽暗地域中的呋嚕王國時，呋嚕公主呼嚕花拉嚕違背父親的期待，前往地面世界尋求幫助。冒險者們能穿越幽暗地域的危險，避開奪心魔的突襲，拯救呋嚕王國嗎？", time: "4～5 小時", players: "3～4 人", condition: "5 等冒險" },
   "追鵝人": { summary: "收錄於《公主計畫》的小短篇。\n\n瓦基歐公爵很煩惱。他很快就要退休了，但他的女兒克勞迪特一直在逃避責任；宮廷法師未經通知就離開了，新的朝臣不斷來訪，以獲得青睞和權力。\n\n近期有一場盛宴要準備，而且，彷彿一切還不夠似的，有隻天鵝一直在威脅著這座豪宅。", time: "約 6 小時", players: "2～4 人", condition: "3 等冒險" },
   "碎鏡之森": { summary: "神秘的委託人請求冒險者將聖物送進碎鏡之森的遺跡裡。", time: "4～5 小時", players: "2～4 人", condition: "3 等冒險" },
+  "初來乍到": { summary: "鄰國的冬至慶典將臨，你的家人已經先一步前往，而你作為年輕的貴族，在完成你的日常修業後，也要踏上傳送陣前往參加。\n\n適合第一次接觸 TRPG 的玩家。", time: "3 小時", players: "1 人", condition: "1 等冒險", coverImage: "first-arrival-cover.jpg" },
+  "失落的凡戴爾礦坑": { summary: "五百年前，侏儒與矮人氏族簽訂了「凡達林協定」，共同開發富含強大魔法力量的「潮音洞穴」。\n\n後來因獸人侵襲，這座神奇的礦坑連同裡面的財寶神祕失落。\n\n如今，英雄們受託護送貨物前往邊境小鎮「凡達林」，卻意外捲入尋找失落礦坑的陰謀與地方惡霸的威脅之中。", time: "短戰役", players: "4～5 人", condition: "1 等冒險", coverImage: "lost-mine-cover.jpg" },
+  "獸人與餅：慶生版": { summary: "獸人與餅，但有人生日。\n\n為朋友慶生寫的小劇本。", time: "2 小時", players: "2～4 人", condition: "1 等冒險" },
+  "命運之輪的轉動": { summary: "冒險者們在萬門之城——法印城的停屍間中醒來。\n\n糟糕的是，你們失去了所有的記憶，甚至發現自己的靈魂與身體出了一些「差錯」。\n\n多重宇宙出現了錯誤，這次的敵人是存在危機！", time: "長戰役", players: "2～4 人", condition: "1 等開始，預計成長到 18 等", coverImage: "turn-of-fortunes-wheel-cover.jpg" },
+  "冬日焰火": { summary: "楚爾特仲冬節將至，重要物資與彭貝隆果實離奇失蹤，慶典陷入災難危機，冒險者需趕在混亂擴大前找出真相。", time: "2～3 小時", players: "2～4 人", condition: "3 等冒險" },
 };
 
 function GameRecord({ game, index }: { game: string; index: number }) {
