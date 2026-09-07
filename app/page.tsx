@@ -137,10 +137,20 @@ export default function Home() {
     window.addEventListener("scroll", updateIntro, { passive: true });
     window.addEventListener("resize", updateIntro);
     window.addEventListener("message", openNotebook);
+    const stats = document.querySelector(".compact-hero .stats");
+    stats?.classList.add("stats-ready");
+    const statsObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        stats.classList.add("is-written");
+        statsObserver.disconnect();
+      }
+    }, { threshold: 0.42 });
+    if (stats) statsObserver.observe(stats);
     return () => {
       window.removeEventListener("scroll", updateIntro);
       window.removeEventListener("resize", updateIntro);
       window.removeEventListener("message", openNotebook);
+      statsObserver.disconnect();
     };
   }, []);
 
