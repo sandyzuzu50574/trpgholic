@@ -34,14 +34,15 @@ canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;tran
 @keyframes exit-hand{from{transform:translate(0,0)}to{transform:translate(110%,110%)}}
 @media(max-width:600px){.book{left:7%;width:37%;height:auto;top:5%}.hand{width:48%;height:33%;bottom:13%}.hint{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.arrive .book{animation:none;transform:rotate(-9deg)}.arrive .hand{animation:none;display:none}.hint{transition:none}.page-preview.ink-visible .ink-quote{animation:none;opacity:1;filter:none;transform:none}.page-preview.ink-visible .ink-quote::before{display:none}}
-</style></head><body><main class="table" data-state="opening"><img class="book" src="notebook-cutout-v3.png" alt="ZUZU TRPG-holic 跑團筆記本"><img class="hand" src="hand-cutout-v3.png" alt="" aria-hidden="true"><div class="opening-stage" aria-hidden="true"><img class="focus-book" src="notebook-cutout-v3.png" alt=""><img class="open-book" src="open-book.png" alt=""><div class="page-preview"><blockquote class="ink-quote"><span class="ink-stain stain-a"></span><span class="ink-stain stain-b"></span><span class="ink-stain stain-c"></span><p class="quote-text"></p><cite class="quote-source"></cite></blockquote></div></div><canvas aria-hidden="true"></canvas><button class="die-hit" type="button" hidden aria-label="重擲d4" data-die="0"></button><button class="die-hit" type="button" hidden aria-label="重擲d6" data-die="1"></button><button class="die-hit" type="button" hidden aria-label="重擲d8" data-die="2"></button><button class="die-hit" type="button" hidden aria-label="重擲d10" data-die="3"></button><button class="die-hit" type="button" hidden aria-label="重擲十位數十面骰" data-die="4"></button><button class="die-hit" type="button" hidden aria-label="重擲d12" data-die="5"></button><button class="die-hit" type="button" hidden aria-label="重擲d20" data-die="6"></button><a class="hint" href="#top" target="_parent">翻開我的跑團筆記<span aria-hidden="true">↓</span></a><p class="sr" role="status" aria-live="polite"></p></main><script>(()=>{
+</style></head><body><main class="table" data-state="opening"><img class="book" src="notebook-cutout-v3.png" alt="ZUZU TRPG-holic 跑團筆記本"><img class="hand" src="hand-cutout-v3.png" alt="" aria-hidden="true"><div class="opening-stage" aria-hidden="true"><img class="focus-book" src="notebook-cutout-v3.png" alt=""><img class="open-book" src="open-book.png" alt=""><div class="page-preview"><blockquote class="ink-quote"><span class="ink-stain stain-a"></span><span class="ink-stain stain-b"></span><span class="ink-stain stain-c"></span><span class="ink-head"></span><p class="quote-text"></p><cite class="quote-source"></cite></blockquote></div></div><canvas aria-hidden="true"></canvas><button class="die-hit" type="button" hidden aria-label="重擲d4" data-die="0"></button><button class="die-hit" type="button" hidden aria-label="重擲d6" data-die="1"></button><button class="die-hit" type="button" hidden aria-label="重擲d8" data-die="2"></button><button class="die-hit" type="button" hidden aria-label="重擲d10" data-die="3"></button><button class="die-hit" type="button" hidden aria-label="重擲十位數十面骰" data-die="4"></button><button class="die-hit" type="button" hidden aria-label="重擲d12" data-die="5"></button><button class="die-hit" type="button" hidden aria-label="重擲d20" data-die="6"></button><a class="hint" href="#top" target="_parent">翻開我的跑團筆記<span aria-hidden="true">↓</span></a><p class="sr" role="status" aria-live="polite"></p></main><script>(()=>{
 const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),root=document.querySelector('.table');
 const hand=document.querySelector('.hand'),hint=document.querySelector('.hint'),status=document.querySelector('[role=status]');
 const book=document.querySelector('.book'),stage=document.querySelector('.opening-stage'),focusBook=document.querySelector('.focus-book'),openBook=document.querySelector('.open-book'),pagePreview=document.querySelector('.page-preview');
 const quotes=[{text:'「我即是土地，我即為先賢。」',source:'斯特拉德·馮·札若維奇'}];
 const selectedQuote=quotes[Math.floor(Math.random()*quotes.length)];
-pagePreview.querySelector('.quote-text').textContent=selectedQuote.text;
-pagePreview.querySelector('.quote-source').textContent='——'+selectedQuote.source;
+const quoteText=pagePreview.querySelector('.quote-text'),quoteSource=pagePreview.querySelector('.quote-source'),inkHead=pagePreview.querySelector('.ink-head');
+const quoteChars=[...selectedQuote.text].map((character,index)=>{const span=document.createElement('span');span.className='ink-char';span.style.setProperty('--char-index',String(index));span.textContent=character;quoteText.appendChild(span);return span;});
+quoteSource.textContent='——'+selectedQuote.source;
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
 const buttons=[...document.querySelectorAll('.die-hit')];
 let w=900,h=650,raf=0,last=0,running=false,entered=false,first=true,age=0,rollCount=0;
@@ -158,10 +159,36 @@ function applyProgress(progress){
   openBook.style.opacity=String(openPhase*(1-clamp01((p-.87)/.13)));
   openBook.style.transform='translate(-50%,-50%) scale('+(0.78+openPhase*.22+fillPhase*2.15)+')';
   pagePreview.style.opacity=String(clamp01((p-.42)/.22));
-  pagePreview.classList.toggle('ink-visible',p>.44);
+  pagePreview.classList.toggle('ink-visible',p>.42);
+  const writePhase=clamp01((p-.42)/.34), total=quoteChars.length;
+  quoteChars.forEach((character,index)=>{
+    const local=clamp01(writePhase*total-index);
+    character.style.opacity=String(local);
+    character.style.clipPath='inset(0 '+((1-local)*100)+'% 0 0)';
+    character.style.filter='blur('+((1-local)*3.2)+'px)';
+  });
+  quoteSource.style.opacity=String(clamp01((writePhase-.78)/.22));
+  quoteSource.style.transform='translateY('+(8*(1-clamp01((writePhase-.78)/.22)))+'px)';
+  inkHead.style.left=(8+writePhase*84)+'%';
+  inkHead.style.opacity=String(writePhase>0&&writePhase<.99?.72:0);
+  document.querySelectorAll('.ink-stain').forEach((stain,index)=>{
+    const wave=clamp01(1-Math.abs(writePhase-(.2+index*.26))/.34);
+    stain.style.opacity=String(wave*.32);
+    stain.style.transform='scale('+(0.55+wave*.72)+')';
+  });
   pagePreview.style.transform='translate(-50%,-50%) scale('+(0.9+fillPhase*.12)+')';
 }
 window.addEventListener('message',event=>{if(event.data?.type==='notebook-progress')applyProgress(event.data.progress);});
 hint.addEventListener('click',e=>{if(window.parent===window)return;e.preventDefault();try{const wrapper=window.frameElement?.parentElement;if(wrapper){window.parent.scrollTo({top:wrapper.offsetTop+wrapper.offsetHeight-window.parent.innerHeight+2,behavior:reduce.matches?'auto':'smooth'});return;}}catch(error){}window.parent.postMessage({type:'open-notebook-request'},'*');});
 Promise.all([...document.images].map(im=>im.decode().catch(()=>{}))).then(()=>{root.classList.add('arrive');setTimeout(()=>roll(),reduce.matches?0:1700);});
-})();</script></body></html>
+})();</script>
+<style>
+/* 捲動驅動的逐字書寫 */
+.ink-quote{opacity:1;filter:none;transform:none}
+.page-preview.ink-visible .ink-quote,.page-preview.ink-visible .ink-quote::before,.page-preview.ink-visible .ink-stain{animation:none}
+.ink-quote p{font-size:clamp(20px,2.35vw,32px);letter-spacing:.055em}
+.ink-char{display:inline-block;opacity:0;filter:blur(3.2px);clip-path:inset(0 100% 0 0);will-change:opacity,clip-path,filter}
+.ink-quote cite{opacity:0;transform:translateY(8px);transition:none;font-size:clamp(12px,1.05vw,15px)}
+.ink-head{position:absolute;z-index:-1;top:35%;left:8%;width:74px;height:52px;border-radius:50%;background:radial-gradient(ellipse,rgba(13,139,103,.24) 0 8%,rgba(13,139,103,.12) 22%,rgba(13,139,103,.045) 48%,transparent 72%);filter:blur(4px);opacity:0;transform:translate(-50%,-50%);mix-blend-mode:multiply}
+@media(max-width:600px){.ink-quote p{font-size:clamp(18px,5.2vw,23px);line-height:1.75}.ink-head{width:52px;height:42px}}
+</style></body></html>
