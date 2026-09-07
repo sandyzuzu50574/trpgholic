@@ -47,10 +47,10 @@ nav { display:flex; gap:24px; color:var(--muted); font-size:12px; } nav a:hover 
 .style-fold .style-list { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:0 0 22px; border-top:0; }
 .style-fold .style-list li { display:flex; min-height:82px; flex-direction:column; align-items:flex-start; justify-content:center; padding:14px 16px; border:0; border-radius:3px; background:var(--accent); color:#fff; font-size:14px; line-height:1.45; }
 .style-fold[open] .style-list li { animation:style-card-enter .68s cubic-bezier(.22,.8,.3,1) both; }
-.style-fold[open] .style-list li:nth-child(2) { animation-delay:.4s; }
-.style-fold[open] .style-list li:nth-child(3) { animation-delay:.1s; }
+.style-fold[open] .style-list li:nth-child(2) { animation-delay:.1s; }
+.style-fold[open] .style-list li:nth-child(3) { animation-delay:.2s; }
 .style-fold[open] .style-list li:nth-child(4) { animation-delay:.3s; }
-.style-fold[open] .style-list li:nth-child(5) { animation-delay:.2s; }
+.style-fold[open] .style-list li:nth-child(5) { animation-delay:.4s; }
 @keyframes style-card-enter { from { opacity:0; transform:translateY(24px) scale(.98); } to { opacity:1; transform:translateY(0) scale(1); } }
 .experience-grid { display:grid; grid-template-columns:repeat(2,1fr); border-top:1px solid var(--line); }
 .experience-grid article { min-height:190px; padding:28px 34px 30px 0; border-bottom:1px solid var(--line); }
