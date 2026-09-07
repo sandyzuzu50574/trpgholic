@@ -146,6 +146,6 @@ function applyProgress(progress){
   pagePreview.style.transform='translate(-50%,-50%) scale('+(0.9+fillPhase*.12)+')';
 }
 window.addEventListener('message',event=>{if(event.data?.type==='notebook-progress')applyProgress(event.data.progress);});
-hint.addEventListener('click',e=>{if(window.parent===window)return;e.preventDefault();window.parent.postMessage({type:'open-notebook-request'},'*');});
+hint.addEventListener('click',e=>{if(window.parent===window)return;e.preventDefault();try{const wrapper=window.frameElement?.parentElement;if(wrapper){window.parent.scrollTo({top:wrapper.offsetTop+wrapper.offsetHeight-window.parent.innerHeight+2,behavior:reduce.matches?'auto':'smooth'});return;}}catch(error){}window.parent.postMessage({type:'open-notebook-request'},'*');});
 Promise.all([...document.images].map(im=>im.decode().catch(()=>{}))).then(()=>{root.classList.add('arrive');setTimeout(()=>roll(),reduce.matches?0:1700);});
 })();</script></body></html>
