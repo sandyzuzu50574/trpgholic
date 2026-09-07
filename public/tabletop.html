@@ -146,8 +146,7 @@ let host=window,section=null;
 try {
  if(window.frameElement){
  const frame=window.frameElement;host=window.parent;
- section=host.document.createElement('section');section.style.cssText='height:220svh;position:relative;background:#fbfdfc';
- frame.before(section);section.appendChild(frame);frame.style.position='sticky';frame.style.top='0';frame.style.minHeight='0';
+ section=frame.parentElement;
  }
 } catch(e) { }
 function scrollBook(){
