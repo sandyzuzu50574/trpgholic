@@ -41,14 +41,11 @@ nav { display:flex; gap:24px; color:var(--muted); font-size:12px; } nav a:hover 
 .style-fold { max-width:1180px; margin:0 auto; padding:0 24px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
 .style-fold summary { display:flex; align-items:center; justify-content:space-between; padding:24px 0; cursor:pointer; list-style:none; }
 .style-fold summary::-webkit-details-marker { display:none; }
-.style-fold .fold-title { flex-direction:row; align-items:baseline; gap:14px; font-size:clamp(27px,3.4vw,40px); }
+.style-fold .fold-title { flex-direction:row; align-items:baseline; gap:14px; font-size:clamp(27px,3vw,36px); }
 .style-fold[open] .fold-action { font-size:0; }
 .style-fold[open] .fold-action::after { content:"收起 －"; font-size:12px; }
-.style-fold .style-list { display:grid; grid-template-columns:repeat(5,1fr); margin:0 0 22px; }
-.style-fold .style-list li { display:flex; min-height:88px; flex-direction:column; gap:8px; padding:14px 16px; border-right:1px solid var(--line); border-bottom:0; font-size:14px; line-height:1.45; }
-.style-fold .style-list li:first-child { padding-left:0; }
-.style-fold .style-list li:last-child { padding-right:0; border-right:0; }
-.style-fold .style-list span { padding-top:0; }
+.style-fold .style-list { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:0 0 22px; border-top:0; }
+.style-fold .style-list li { display:flex; min-height:82px; align-items:flex-start; justify-content:center; padding:14px 16px; border:0; border-radius:3px; background:var(--accent); color:#fff; font-size:14px; line-height:1.45; }
 .experience-grid { display:grid; grid-template-columns:repeat(2,1fr); border-top:1px solid var(--line); }
 .experience-grid article { min-height:190px; padding:28px 34px 30px 0; border-bottom:1px solid var(--line); }
 .experience-grid article:nth-child(odd) { border-right:1px solid var(--line); } .experience-grid article:nth-child(even) { padding-left:34px; }
