@@ -116,6 +116,7 @@ function Collection({ source, player = false }: { source: Record<string, { intro
 
 export default function Home() {
   return <main>
+    <iframe src="tabletop.html" title="ZUZU｜TRPG-holic 互動擲骰桌面" style={{ display: "block", width: "100%", height: "100svh", minHeight: "560px", border: 0 }} />
     <div className="zuzu-pop-in" aria-hidden="true">
       <img src="zuzu-cheers-cutout.png" alt="" />
     </div>
