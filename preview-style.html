@@ -26,6 +26,9 @@
 .style-list li:nth-child(1){--note:#fff0a8;--tilt:-1.3deg}.style-list li:nth-child(2){--note:#ffc9bd;--tilt:1.1deg}.style-list li:nth-child(3){--note:#bfe8ef;--tilt:-.5deg}.style-list li:nth-child(4){--note:#d9cff7;--tilt:1.5deg}.style-list li:nth-child(5){--note:#c7e8bf;--tilt:-.9deg}
 @keyframes enter{from{opacity:0;transform:translateY(28px) rotate(calc(var(--tilt) - 1.5deg)) scale(.96)}to{opacity:1;transform:translateY(0) rotate(var(--tilt)) scale(1)}}
 @media(max-width:760px){.style-list{gap:15px;padding-top:12px}.style-list li{min-height:105px;flex-basis:min(72vw,230px);padding:24px 17px 16px}}
+
+.style-list li{min-height:108px;padding:22px 19px 18px 30%;border:0;border-radius:0;background-color:transparent;background-position:center;background-repeat:no-repeat;background-size:100% 100%;box-shadow:none;font-size:14px;line-height:1.42;transform:none}
+.style-list li:before,.style-list li:after{display:none}.style-list li:nth-child(1){--tilt:0deg;background-image:url("public/sticky-note-1.png")}.style-list li:nth-child(2){--tilt:0deg;background-image:url("public/sticky-note-2.png")}.style-list li:nth-child(3){--tilt:0deg;background-image:url("public/sticky-note-3.png")}.style-list li:nth-child(4){--tilt:0deg;background-image:url("public/sticky-note-4.png")}.style-list li:nth-child(5){--tilt:0deg;background-image:url("public/sticky-note-5.png")}
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
