@@ -285,3 +285,30 @@ footer { display:flex; justify-content:space-between; padding-top:38px; padding-
   .notebook-content .style-fold .style-list { gap:15px; padding-top:12px; }
   .notebook-content .style-fold .style-list li { min-height:105px; flex-basis:min(72vw,230px); padding:24px 17px 16px; }
 }
+
+
+/* 使用參考圖衍生的透明便條素材 */
+.notebook-content .style-fold .style-list li {
+  min-height:108px;
+  padding:22px 19px 18px 30%;
+  border:0;
+  border-radius:0;
+  background-color:transparent;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  box-shadow:none;
+  font-size:14px;
+  line-height:1.42;
+  transform:none;
+}
+.notebook-content .style-fold .style-list li::before,
+.notebook-content .style-fold .style-list li::after { display:none; }
+.notebook-content .style-fold .style-list li:nth-child(1) { --tilt:0deg; background-image:url("/sticky-note-1.png"); }
+.notebook-content .style-fold .style-list li:nth-child(2) { --tilt:0deg; background-image:url("/sticky-note-2.png"); }
+.notebook-content .style-fold .style-list li:nth-child(3) { --tilt:0deg; background-image:url("/sticky-note-3.png"); }
+.notebook-content .style-fold .style-list li:nth-child(4) { --tilt:0deg; background-image:url("/sticky-note-4.png"); }
+.notebook-content .style-fold .style-list li:nth-child(5) { --tilt:0deg; background-image:url("/sticky-note-5.png"); }
+@media (max-width:760px) {
+  .notebook-content .style-fold .style-list li { min-height:108px; padding-left:30%; }
+}
