@@ -1,27 +1,26 @@
-<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ZUZU｜TRPG-holic 擲骰桌面</title><style>
-html,body{margin:0;height:100%;background:#fbfdfc;color:#07674c;overflow:hidden}*{box-sizing:border-box}
-.table{position:relative;width:100%;height:100%;overflow:hidden;background:#fbfdfc}
-canvas{position:absolute;inset:0;width:100%;height:100%;cursor:pointer;touch-action:pan-y;z-index:2}
-.controls{display:none}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
-.book{position:absolute;left:2%;top:3%;width:26%;height:51%;transform-origin:40% 40%;z-index:4;pointer-events:none}
-.book-arrival{position:relative;width:100%;height:100%;animation:book-arrive 1.25s cubic-bezier(.2,.7,.3,1) both}
-.cover{position:absolute;inset:0;background:url("tabletop-art.png") 0 0/384.6% 196.1% no-repeat;transform-origin:12% 50%;backface-visibility:hidden}
-.open-book{position:absolute;left:-65%;top:0;width:200%;height:100%;object-fit:fill;opacity:0}
-.hand{position:absolute;right:0;bottom:0;width:33%;height:46%;background:url("tabletop-art.png") 100% 100%/303% 217.4% no-repeat;z-index:3;pointer-events:none;animation:hand-enter 1.15s .65s cubic-bezier(.2,.7,.3,1) both}
-.hand.withdraw{animation:hand-exit 1s ease-in both}
-.veil{position:absolute;inset:0;z-index:5;background:#fbfdfc;opacity:0;pointer-events:none}
-@keyframes book-arrive{from{transform:translate(-110%,-110%) rotate(-15deg);opacity:0}80%{transform:translate(0,3px) rotate(1deg);opacity:1}to{transform:translate(0,0);opacity:1}}
-@keyframes hand-enter{from{transform:translate(110%,110%)}to{transform:translate(0,0)}}
-@keyframes hand-exit{from{transform:translate(0,0)}to{transform:translate(110%,110%)}}
-@media(max-width:600px){.book{width:38%;height:36%}.hand{width:43%;height:33%}}
-@media(prefers-reduced-motion:reduce){.book-arrival,.hand{animation:none}.hand.withdraw{display:none}}
-</style><main class="table" aria-label="俯瞰桌面，左上角是 ZUZU TRPG-holic 筆記本，右下角是投骰的手"><div class="book" aria-hidden="true"><div class="book-arrival"><img class="open-book" src="open-book.png" alt=""><div class="cover"></div></div></div><div class="hand" aria-hidden="true"></div><div class="veil"></div><canvas aria-label="點擊任一骰子重擲；鍵盤 Enter 可重擲全部骰子"></canvas><div class="controls"><div class="dice-buttons"><button type="button" data-die="0" aria-pressed="true" aria-label="選取d4">d4</button><button type="button" data-die="1" aria-pressed="true" aria-label="選取d6">d6</button><button type="button" data-die="2" aria-pressed="true" aria-label="選取d8">d8</button><button type="button" data-die="3" aria-pressed="true" aria-label="選取d10">d10</button><button type="button" data-die="4" aria-pressed="true" aria-label="選取十位數十面骰">d100</button><button type="button" data-die="5" aria-pressed="true" aria-label="選取d12">d12</button><button type="button" data-die="6" aria-pressed="true" aria-label="選取d20">d20</button></div><button id="roll" type="button">擲選取的骰子</button><p>點選骰子，再擲一次。向下滑，繼續探索。</p><span class="sr" role="status" aria-live="polite"></span></div></main><script>
-(() => {
-const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),status=document.querySelector('[role=status]');
-const buttons=[...document.querySelectorAll('[data-die]')],rollButton=document.querySelector('#roll');
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ZUZU｜跑團筆記</title><style>html,body{margin:0;height:100%;background:#fbfdfc;color:#0d8b67;font-family:Inter,"Microsoft JhengHei",system-ui,sans-serif}*{box-sizing:border-box}
+.table{position:relative;height:100%;min-height:520px;overflow:hidden;max-width:1180px;margin:auto;border-bottom:1px solid #bcd6cb;background:#fbfdfc}
+canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.book{position:absolute;top:5%;left:6%;width:clamp(135px,20vw,215px);height:auto;clip-path:polygon(4% 5%,6% 3%,83% 3%,86% 2.7%,89% 3%,94% 3%,96% 5%,96% 86%,94% 88%,13% 88%,10% 96%,7.5% 98%,8.8% 88%,5% 88%,4% 86%);transform:translate(-130%,-130%) rotate(-12deg);pointer-events:none}
+.hand{position:absolute;right:-2%;bottom:6%;width:34%;height:44%;object-fit:contain;object-position:right bottom;transform:translate(110%,110%);pointer-events:none;z-index:2}
+.arrive .book{animation:place-book 1.1s cubic-bezier(.2,.8,.3,1) both}.arrive .hand{animation:enter-hand .85s .7s ease-out both}
+.arrive .hand.withdraw{animation:exit-hand .85s ease-in both}
+.die-hit{position:absolute;left:0;top:0;border:0;background:transparent;border-radius:50%;cursor:pointer;z-index:3;touch-action:pan-y;padding:0}
+.die-hit:hover{box-shadow:0 0 0 1px #0d8b6730}.die-hit:focus-visible{outline:2px dashed #0d8b67;outline-offset:3px}
+.hint{position:absolute;bottom:25px;left:0;width:100%;text-align:center;z-index:4;color:#64706b;text-decoration:none;font-size:14px;letter-spacing:.04em;opacity:.65;transition:opacity .6s}.hint.ready{opacity:1}.hint span{display:block;margin-top:9px;color:#0d8b67}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+@keyframes place-book{from{transform:translate(-130%,-130%) rotate(-18deg)}to{transform:translate(0,0) rotate(-9deg)}}
+@keyframes enter-hand{to{transform:translate(0,0)}}
+@keyframes exit-hand{from{transform:translate(0,0)}to{transform:translate(110%,110%)}}
+@media(max-width:600px){.book{left:7%;width:37%;height:auto;top:5%}.hand{width:48%;height:33%;bottom:13%}.hint{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.arrive .book{animation:none;transform:rotate(-9deg)}.arrive .hand{animation:none;display:none}.hint{transition:none}}
+</style></head><body><main class="table" data-state="opening"><img class="book" src="notebook-cutout-v3.png" alt="ZUZU TRPG-holic 跑團筆記本"><img class="hand" src="hand-cutout-v3.png" alt="" aria-hidden="true"><canvas aria-hidden="true"></canvas><button class="die-hit" type="button" hidden aria-label="重擲d4" data-die="0"></button><button class="die-hit" type="button" hidden aria-label="重擲d6" data-die="1"></button><button class="die-hit" type="button" hidden aria-label="重擲d8" data-die="2"></button><button class="die-hit" type="button" hidden aria-label="重擲d10" data-die="3"></button><button class="die-hit" type="button" hidden aria-label="重擲十位數十面骰" data-die="4"></button><button class="die-hit" type="button" hidden aria-label="重擲d12" data-die="5"></button><button class="die-hit" type="button" hidden aria-label="重擲d20" data-die="6"></button><a class="hint" href="#top" target="_parent">往下翻，看看我的跑團筆記<span aria-hidden="true">↓</span></a><p class="sr" role="status" aria-live="polite"></p></main><script>(()=>{
+const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),root=document.querySelector('.table');
+const hand=document.querySelector('.hand'),hint=document.querySelector('.hint'),status=document.querySelector('[role=status]');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
-let entered=false;let firstThrow=true;let w=1000,h=650,raf=0,last=0,running=false,age=0;
-const dice=[4,6,8,10,10,12,20].map((s,i)=>({s,i,x:0,y:0,vx:0,vy:0,a:0,spin:0,z:0,vz:0,value:1,selected:true}));
+const buttons=[...document.querySelectorAll('.die-hit')];
+let w=900,h=650,raf=0,last=0,running=false,entered=false,first=true,age=0,rollCount=0;
+const dice=[4,6,8,10,10,12,20].map((s,i)=>({s,i,x:0,y:0,vx:0,vy:0,a:i*.71,spin:0,z:0,vz:0}));
 const dot=(a,b)=>a.reduce((v,n,i)=>v+n*b[i],0),sub=(a,b)=>a.map((n,i)=>n-b[i]),cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
 const unit=a=>{let l=Math.hypot(...a);return a.map(v=>v/l)};
 function hull(v){
@@ -59,109 +58,65 @@ const max=Math.max(...v.map(p=>Math.hypot(...p)));v=v.map(p=>p.map(x=>x/max));
 return {v,f:hull(v)};
 }
 const meshes=Object.fromEntries([4,6,8,10,12,20].map(s=>[s,mesh(s)]));
-function radius(){return Math.max(21,Math.min(38,w*.036));}
+
+function radius(){return Math.max(23,Math.min(40,w*.045));}
 function resize(){
-const oldW=w,oldH=h;w=canvas.clientWidth;h=canvas.clientHeight;
+const ow=w,oh=h;w=canvas.clientWidth;h=canvas.clientHeight;
 const dpr=Math.min(devicePixelRatio||1,2);canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-dice.forEach((d,i)=>{d.x=d.x?d.x*w/oldW:w*(.34+(i%4)*.14);d.y=d.y?d.y*h/oldH:h*(.46+Math.floor(i/4)*.20);});
-draw();
+dice.forEach((d,i)=>{d.x=d.x?d.x*w/ow:w*(.27+(i%4)*.16);d.y=d.y?d.y*h/oh:h*(.49+Math.floor(i/4)*.20);});draw();
 }
-function value(d){return d.i===4?String(d.value*10).padStart(2,'0'):String(d.value);}
-function sync(){
-buttons.forEach((b,i)=>{b.setAttribute('aria-pressed',String(dice[i].selected));b.textContent=(i===4?'d%':'d'+dice[i].s)+(running?'':' · '+value(dice[i]));});
-rollButton.disabled=running||!dice.some(d=>d.selected);
-}
-function project(p,d){
-let a=d.a,b=running?(d.a*.73):.5;
-let x=p[0]*Math.cos(a)-p[1]*Math.sin(a),y=p[0]*Math.sin(a)+p[1]*Math.cos(a);
-return [x,y*Math.cos(b)-p[2]*Math.sin(b),y*Math.sin(b)+p[2]*Math.cos(b)];
-}
+function project(p,d){const a=d.a,b=.55+Math.min(1,d.z/70)*Math.sin(a)*.7;const x=p[0]*Math.cos(a)-p[1]*Math.sin(a),y=p[0]*Math.sin(a)+p[1]*Math.cos(a);return[x,y*Math.cos(b)-p[2]*Math.sin(b),y*Math.sin(b)+p[2]*Math.cos(b)];}
 function draw(){
-ctx.clearRect(0,0,w,h);const r=radius();
-for(const d of dice){
-if(!entered)continue;
-let rr=r*(1+d.z/450),xx=d.x,yy=d.y-d.z*.35;
-ctx.save();ctx.translate(xx,yy);
-if(false){ctx.beginPath();ctx.arc(0,0,rr+7,0,Math.PI*2);ctx.strokeStyle='#0d8b6760';ctx.setLineDash([2,5]);ctx.lineWidth=1;ctx.stroke();ctx.setLineDash([]);}
-const m=meshes[d.s],ps=m.v.map(p=>project(p,d));
-const faces=m.f.map(f=>({...f,z:f.ids.reduce((s,i)=>s+ps[i][2],0)/f.ids.length})).sort((a,b)=>a.z-b.z);
-for(const f of faces){
-ctx.beginPath();f.ids.forEach((id,k)=>{const p=ps[id];k?ctx.lineTo(p[0]*rr,p[1]*rr):ctx.moveTo(p[0]*rr,p[1]*rr)});ctx.closePath();
-ctx.fillStyle='#fbfdfc';ctx.fill();ctx.strokeStyle='#0d8b67';ctx.lineWidth=1.35;ctx.stroke();
-}
+ctx.clearRect(0,0,w,h);if(!entered)return;
+const r=radius();
+dice.forEach(d=>{
+const rr=r*(1+d.z/380),yy=d.y-d.z*.38,m=meshes[d.s],ps=m.v.map(p=>project(p,d));
+ctx.save();ctx.translate(d.x,yy);
+m.f.map(f=>({...f,z:f.ids.reduce((s,i)=>s+ps[i][2],0)/f.ids.length})).sort((a,b)=>a.z-b.z).forEach(f=>{
+ctx.beginPath();f.ids.forEach((id,k)=>{const p=ps[id];k?ctx.lineTo(p[0]*rr,p[1]*rr):ctx.moveTo(p[0]*rr,p[1]*rr)});ctx.closePath();ctx.fillStyle='#fbfdfc';ctx.fill();ctx.strokeStyle='#0d8b67';ctx.lineWidth=1.6;ctx.stroke();});
 ctx.restore();
-}
+const b=buttons[d.i];b.hidden=false;b.style.width=b.style.height=(rr*2+18)+'px';b.style.transform='translate('+(d.x-rr-9)+'px,'+(yy-rr-9)+'px)';
+});
 }
 function step(dt){
-let r=radius();
-for(const d of dice){
+const r=radius();
+dice.forEach(d=>{
 d.x+=d.vx*dt;d.y+=d.vy*dt;d.z+=d.vz*dt;
-if(d.z>0||d.vz>0)d.vz-=650*dt;
-if(d.z<0){d.z=0;d.vz=Math.abs(d.vz)>35?-d.vz*.35:0;d.vx*=.84;d.vy*=.84;}
-let f=Math.exp(-(d.z>1?.45:2.4)*dt);d.vx*=f;d.vy*=f;d.spin*=f;d.a+=d.spin*dt;
-let loX=r+10,hiX=w-r-10,loY=h*.3+r,hiY=h-r-35;
-if(d.x<loX){d.x=loX;d.vx=Math.abs(d.vx)*.65;}
-if(d.x>hiX){d.x=hiX;d.vx=-Math.abs(d.vx)*.65;}
-if(d.y<loY){d.y=loY;d.vy=Math.abs(d.vy)*.65;}
-if(d.y>hiY){d.y=hiY;d.vy=-Math.abs(d.vy)*.65;}
-}
+if(d.z>0||d.vz>0)d.vz-=720*dt;
+if(d.z<0){d.z=0;d.vz=Math.abs(d.vz)>42?-d.vz*.28:0;}
+const f=Math.exp(-(d.z>1?.5:3.1)*dt);d.vx*=f;d.vy*=f;d.spin*=f;d.a+=d.spin*dt;
+const lx=r+16,hx=w-r-16,ly=h*.38+r,hy=h-r-85;
+if(d.x<lx){d.x=lx;d.vx=Math.abs(d.vx)*.65;}if(d.x>hx){d.x=hx;d.vx=-Math.abs(d.vx)*.65;}
+if(d.y<ly){d.y=ly;d.vy=Math.abs(d.vy)*.65;}if(d.y>hy){d.y=hy;d.vy=-Math.abs(d.vy)*.65;}
+});
 for(let i=0;i<7;i++)for(let j=i+1;j<7;j++){
-const a=dice[i],b=dice[j];let dx=b.x-a.x,dy=b.y-a.y,dist=Math.hypot(dx,dy);
-if(dist<r*2+4&&Math.abs(a.z-b.z)<r*2){
-let nx=dist?dx/dist:1,ny=dist?dy/dist:0,overlap=r*2+4-dist;
+const a=dice[i],b=dice[j],dx=b.x-a.x,dy=b.y-a.y,dist=Math.hypot(dx,dy);
+if(dist<r*2+5&&Math.abs(a.z-b.z)<r){
+const nx=dist?dx/dist:1,ny=dist?dy/dist:0,overlap=r*2+5-dist;
 a.x-=nx*overlap*.5;a.y-=ny*overlap*.5;b.x+=nx*overlap*.5;b.y+=ny*overlap*.5;
-let rel=(b.vx-a.vx)*nx+(b.vy-a.vy)*ny;
-if(rel<0){let impulse=-rel*.82;a.vx-=impulse*nx;a.vy-=impulse*ny;b.vx+=impulse*nx;b.vy+=impulse*ny;a.spin-=rel*.01;b.spin+=rel*.01;}
+const rel=(b.vx-a.vx)*nx+(b.vy-a.vy)*ny;
+if(rel<0){const force=-rel*.8;a.vx-=force*nx;a.vy-=force*ny;b.vx+=force*nx;b.vy+=force*ny;a.spin-=rel*.012;b.spin+=rel*.012;}
+}}
 }
+function finish(){running=false;dice.forEach(d=>{d.vx=d.vy=d.vz=d.z=d.spin=0;});draw();if(first){first=false;hand.classList.add('withdraw');hint.classList.add('ready');}status.textContent='骰子已停下。點任一顆可以再擲一次。';root.dataset.state='settled';}
+function frame(t){const dt=Math.min((t-last)/1000||.016,.032);last=t;age+=dt;for(let i=0;i<3;i++)step(dt/3);draw();if(age>1&&dice.every(d=>Math.hypot(d.vx,d.vy)<2&&d.z<1)||age>7){finish();return;}raf=requestAnimationFrame(frame);}
+function roll(index){
+if(!entered&&index!==undefined)return;entered=true;rollCount++;root.dataset.rollCount=String(rollCount);age=0;
+const chosen=index===undefined?dice:[dice[index]];
+chosen.forEach((d,k)=>{
+if(index===undefined){d.x=w*.72+(k%3)*radius()*1.7;d.y=h*.66+Math.floor(k/3)*radius()*1.6;}
+d.z=reduce.matches?0:35;d.vz=reduce.matches?0:210;
+const a=index===undefined?Math.PI*1.22+(Math.random()-.5)*.7:Math.random()*Math.PI*2;
+const speed=index===undefined?w*.65:100+Math.random()*110;
+d.vx=Math.cos(a)*speed;d.vy=Math.sin(a)*speed;d.spin=(Math.random()-.5)*12;
+});
+if(reduce.matches){if(index===undefined)dice.forEach((d,i)=>{d.x=w*(.17+(i%4)*.21);d.y=h*(.49+Math.floor(i/4)*.21);});chosen.forEach(d=>d.a+=1.2);finish();return;}
+status.textContent='骰子滾動中';root.dataset.state='rolling';if(!running){running=true;last=0;raf=requestAnimationFrame(frame);}
 }
-}
-function frame(t){
-let dt=Math.min((t-last)/1000||.016,.032);last=t;age+=dt;
-for(let i=0;i<3;i++)step(dt/3);draw();
-if(age>1.3&&dice.every(d=>Math.hypot(d.vx,d.vy)<2&&d.z<1)||age>8){
-running=false;if(firstThrow){firstThrow=false;document.querySelector('.hand').classList.add('withdraw');}dice.forEach(d=>{d.vx=d.vy=d.vz=d.z=d.spin=0;});draw();sync();status.textContent=dice.map(d=>(d.i===4?'十位骰':'d'+d.s)+'：'+value(d)).join('，');return;
-}
-raf=requestAnimationFrame(frame);
-}
-function roll(initial=false){
-entered=true;
-if(running)return;
-const chosen=dice.filter(d=>initial||d.selected);if(!chosen.length)return;
-chosen.forEach((d,k)=>{d.value=d.s===10?Math.floor(Math.random()*10):1+Math.floor(Math.random()*d.s);if(initial){d.x=w*.72+(k%3)*radius()*2.1;d.y=h*.72+Math.floor(k/3)*radius()*2.1;}d.z=reduce.matches?0:50+k*10;d.vz=reduce.matches?0:130+Math.random()*80;d.vx=-w*(.3+Math.random()*.45);d.vy=-h*(.2+Math.random()*.5);d.spin=(Math.random()-.5)*16;});
-if(reduce.matches){chosen.forEach((d,k)=>{d.x=w*(.18+(k%4)*.20);d.y=h*(.48+Math.floor(k/4)*.2);d.vx=d.vy=d.spin=0;});draw();sync();status.textContent='擲骰完成。'+dice.map(d=>value(d)).join('、');return;}
-running=true;age=0;last=0;sync();status.textContent='骰子滾動中';raf=requestAnimationFrame(frame);
-}
-buttons.forEach((b,i)=>b.addEventListener('click',()=>{if(running)return;dice[i].selected=!dice[i].selected;sync();draw();}));
-rollButton.addEventListener('click',()=>roll());
-canvas.addEventListener('click',e=>{if(running)return;const rect=canvas.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;let d=dice.find(d=>Math.hypot(x-d.x,y-d.y)<radius()+12);if(d){dice.forEach(x=>x.selected=x===d);roll();}});
-new ResizeObserver(resize).observe(canvas);
-document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);}else if(running){last=0;raf=requestAnimationFrame(frame);}});
+buttons.forEach((b,i)=>b.addEventListener('click',()=>roll(i)));
+new ResizeObserver(resize).observe(canvas);resize();
+document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(raf);else if(running){last=0;raf=requestAnimationFrame(frame);}});
 window.addEventListener('pagehide',()=>cancelAnimationFrame(raf));
-resize();sync();
-setTimeout(()=>{roll(true);if(reduce.matches)document.querySelector('.hand').classList.add('withdraw');},reduce.matches?0:1800);
-canvas.tabIndex=0;
-canvas.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();dice.forEach(d=>d.selected=true);roll();}});
-const book=document.querySelector('.book'),cover=document.querySelector('.cover'),openBook=document.querySelector('.open-book');
-let host=window,section=null;
-try {
- if(window.frameElement){
- const frame=window.frameElement;host=window.parent;
- section=frame.parentElement;
- }
-} catch(e) { }
-function scrollBook(){
- if(!section)return;
- const p=Math.max(0,Math.min(1,-section.getBoundingClientRect().top/(section.offsetHeight-host.innerHeight)));
- const q=reduce.matches?0:p;
- const width=canvas.clientWidth,height=canvas.clientHeight;
- book.style.transform='translate('+q*width*.34+'px,'+q*height*.23+'px) scale('+(1+q*9)+')';
- cover.style.transform='perspective(800px) rotateY('+(-Math.min(1,q*2.5)*130)+'deg)';
- cover.style.opacity=String(1-Math.min(1,q*3));
- openBook.style.opacity=String(Math.min(1,q*3));
- canvas.style.opacity=String(1-Math.min(1,q*2));
- document.querySelector('.veil').style.opacity=String(Math.max(0,(p-.72)/.28));
-}
-host.addEventListener('scroll',scrollBook,{passive:true});host.addEventListener('resize',scrollBook);scrollBook();
-
-window.tabletopDiagnostics={faceCounts:Object.fromEntries(Object.entries(meshes).map(([s,m])=>[s,m.f.length]))};
-})();</script></html>
+hint.addEventListener('click',e=>{if(window.parent===window)return;try{const frame=window.frameElement;if(frame){e.preventDefault();window.parent.scrollTo({top:window.parent.scrollY+frame.getBoundingClientRect().bottom,behavior:reduce.matches?'auto':'smooth'});}}catch(e){}});
+Promise.all([...document.images].map(im=>im.decode().catch(()=>{}))).then(()=>{root.classList.add('arrive');setTimeout(()=>roll(),reduce.matches?0:1700);});
+})();</script></body></html>
