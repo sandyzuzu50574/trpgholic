@@ -1,6 +1,15 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ZUZU｜跑團筆記</title><style>html,body{margin:0;height:100%;background:#fbfdfc;color:#0d8b67;font-family:Inter,"Microsoft JhengHei",system-ui,sans-serif}*{box-sizing:border-box}
 .table{position:relative;height:100%;min-height:520px;overflow:hidden;max-width:1180px;margin:auto;border-bottom:1px solid #bcd6cb;background:#fbfdfc}
-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;transition:opacity .12s linear}
+.opening-stage{position:absolute;z-index:6;inset:0;overflow:hidden;pointer-events:none;opacity:0;perspective:1200px}
+.focus-book{position:absolute;top:50%;left:50%;width:clamp(190px,25vw,290px);height:auto;clip-path:polygon(4% 5%,6% 3%,83% 3%,86% 2.7%,89% 3%,94% 3%,96% 5%,96% 86%,94% 88%,13% 88%,10% 96%,7.5% 98%,8.8% 88%,5% 88%,4% 86%);transform-origin:left center;filter:drop-shadow(0 14px 24px rgba(21,33,29,.13))}
+.open-book{position:absolute;top:50%;left:50%;width:min(92vw,980px);height:auto;mix-blend-mode:multiply;filter:drop-shadow(0 18px 30px rgba(21,33,29,.08))}
+.page-preview{position:absolute;top:50%;left:50%;width:min(68vw,720px);opacity:0;color:#15211d;text-align:left}
+.page-preview h1{margin:0 0 30px;color:#15211d;font-size:clamp(38px,6vw,76px);line-height:.95;letter-spacing:-.07em}.page-preview h1 span{color:#0d8b67}
+.page-preview .preview-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid #0d8b67}
+.page-preview .preview-stats div{padding:16px 8px 0 0}.page-preview strong{display:block;font-size:clamp(22px,3vw,34px);letter-spacing:-.05em}.page-preview small{color:#64706b;font-size:11px}
+.table.transitioning .hint{opacity:0;pointer-events:none}
+@media(max-width:600px){.open-book{width:145vw}.page-preview{width:80vw}.page-preview h1{font-size:clamp(32px,10vw,48px);white-space:normal}.page-preview .preview-stats{grid-template-columns:repeat(2,1fr);row-gap:14px}}
 .book{position:absolute;top:5%;left:6%;width:clamp(135px,20vw,215px);height:auto;clip-path:polygon(4% 5%,6% 3%,83% 3%,86% 2.7%,89% 3%,94% 3%,96% 5%,96% 86%,94% 88%,13% 88%,10% 96%,7.5% 98%,8.8% 88%,5% 88%,4% 86%);transform:translate(-130%,-130%) rotate(-12deg);pointer-events:none}
 .hand{position:absolute;right:-2%;bottom:6%;width:34%;height:44%;object-fit:contain;object-position:right bottom;transform:translate(110%,110%);pointer-events:none;z-index:2}
 .arrive .book{animation:place-book 1.1s cubic-bezier(.2,.8,.3,1) both}.arrive .hand{animation:enter-hand .85s .7s ease-out both}
@@ -14,9 +23,10 @@ canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 @keyframes exit-hand{from{transform:translate(0,0)}to{transform:translate(110%,110%)}}
 @media(max-width:600px){.book{left:7%;width:37%;height:auto;top:5%}.hand{width:48%;height:33%;bottom:13%}.hint{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.arrive .book{animation:none;transform:rotate(-9deg)}.arrive .hand{animation:none;display:none}.hint{transition:none}}
-</style></head><body><main class="table" data-state="opening"><img class="book" src="notebook-cutout-v3.png" alt="ZUZU TRPG-holic 跑團筆記本"><img class="hand" src="hand-cutout-v3.png" alt="" aria-hidden="true"><canvas aria-hidden="true"></canvas><button class="die-hit" type="button" hidden aria-label="重擲d4" data-die="0"></button><button class="die-hit" type="button" hidden aria-label="重擲d6" data-die="1"></button><button class="die-hit" type="button" hidden aria-label="重擲d8" data-die="2"></button><button class="die-hit" type="button" hidden aria-label="重擲d10" data-die="3"></button><button class="die-hit" type="button" hidden aria-label="重擲十位數十面骰" data-die="4"></button><button class="die-hit" type="button" hidden aria-label="重擲d12" data-die="5"></button><button class="die-hit" type="button" hidden aria-label="重擲d20" data-die="6"></button><a class="hint" href="#top" target="_parent">往下翻，看看我的跑團筆記<span aria-hidden="true">↓</span></a><p class="sr" role="status" aria-live="polite"></p></main><script>(()=>{
+</style></head><body><main class="table" data-state="opening"><img class="book" src="notebook-cutout-v3.png" alt="ZUZU TRPG-holic 跑團筆記本"><img class="hand" src="hand-cutout-v3.png" alt="" aria-hidden="true"><div class="opening-stage" aria-hidden="true"><img class="focus-book" src="notebook-cutout-v3.png" alt=""><img class="open-book" src="open-book.png" alt=""><div class="page-preview"><h1>ZUZU<span>｜</span>TRPG-holic</h1><div class="preview-stats"><div><strong>2017</strong><small>年至今</small></div><div><strong>31</strong><small>套系統支援</small></div><div><strong>153</strong><small>團主持</small></div><div><strong>173</strong><small>團玩家</small></div></div></div></div><canvas aria-hidden="true"></canvas><button class="die-hit" type="button" hidden aria-label="重擲d4" data-die="0"></button><button class="die-hit" type="button" hidden aria-label="重擲d6" data-die="1"></button><button class="die-hit" type="button" hidden aria-label="重擲d8" data-die="2"></button><button class="die-hit" type="button" hidden aria-label="重擲d10" data-die="3"></button><button class="die-hit" type="button" hidden aria-label="重擲十位數十面骰" data-die="4"></button><button class="die-hit" type="button" hidden aria-label="重擲d12" data-die="5"></button><button class="die-hit" type="button" hidden aria-label="重擲d20" data-die="6"></button><a class="hint" href="#top" target="_parent">翻開我的跑團筆記<span aria-hidden="true">↓</span></a><p class="sr" role="status" aria-live="polite"></p></main><script>(()=>{
 const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),root=document.querySelector('.table');
 const hand=document.querySelector('.hand'),hint=document.querySelector('.hint'),status=document.querySelector('[role=status]');
+const book=document.querySelector('.book'),stage=document.querySelector('.opening-stage'),focusBook=document.querySelector('.focus-book'),openBook=document.querySelector('.open-book'),pagePreview=document.querySelector('.page-preview');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
 const buttons=[...document.querySelectorAll('.die-hit')];
 let w=900,h=650,raf=0,last=0,running=false,entered=false,first=true,age=0,rollCount=0;
@@ -117,6 +127,25 @@ buttons.forEach((b,i)=>b.addEventListener('click',()=>roll(i)));
 new ResizeObserver(resize).observe(canvas);resize();
 document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(raf);else if(running){last=0;raf=requestAnimationFrame(frame);}});
 window.addEventListener('pagehide',()=>cancelAnimationFrame(raf));
-hint.addEventListener('click',e=>{if(window.parent===window)return;try{const frame=window.frameElement;if(frame){e.preventDefault();window.parent.scrollTo({top:window.parent.scrollY+frame.getBoundingClientRect().bottom,behavior:reduce.matches?'auto':'smooth'});}}catch(e){}});
+function clamp01(v){return Math.max(0,Math.min(1,v));}
+function applyProgress(progress){
+  const p=clamp01(Number(progress)||0), diceFade=1-clamp01((p-.05)/.22), stageIn=clamp01((p-.08)/.18);
+  root.classList.toggle('transitioning',p>.025);
+  root.dataset.progress=p.toFixed(3);
+  canvas.style.opacity=String(diceFade);
+  hand.style.opacity=String(diceFade);
+  book.style.opacity=String(1-clamp01((p-.06)/.18));
+  buttons.forEach(b=>{b.style.opacity=String(diceFade);b.style.pointerEvents=p<.08?'auto':'none';});
+  stage.style.opacity=String(stageIn);
+  const closePhase=clamp01((p-.10)/.30), openPhase=clamp01((p-.30)/.34), fillPhase=clamp01((p-.62)/.38);
+  focusBook.style.opacity=String(stageIn*(1-openPhase));
+  focusBook.style.transform='translate(-50%,-50%) scale('+(0.72+closePhase*.55)+') rotate(' + (-9+closePhase*8) + 'deg) rotateY(' + (-openPhase*74) + 'deg)';
+  openBook.style.opacity=String(openPhase*(1-clamp01((p-.87)/.13)));
+  openBook.style.transform='translate(-50%,-50%) scale('+(0.78+openPhase*.22+fillPhase*2.15)+')';
+  pagePreview.style.opacity=String(clamp01((p-.48)/.28));
+  pagePreview.style.transform='translate(-50%,-50%) scale('+(0.9+fillPhase*.12)+')';
+}
+window.addEventListener('message',event=>{if(event.data?.type==='notebook-progress')applyProgress(event.data.progress);});
+hint.addEventListener('click',e=>{if(window.parent===window)return;e.preventDefault();window.parent.postMessage({type:'open-notebook-request'},'*');});
 Promise.all([...document.images].map(im=>im.decode().catch(()=>{}))).then(()=>{root.classList.add('arrive');setTimeout(()=>roll(),reduce.matches?0:1700);});
 })();</script></body></html>
