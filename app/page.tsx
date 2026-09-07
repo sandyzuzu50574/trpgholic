@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { playerCategories } from "./player-data";
@@ -115,17 +116,46 @@ function Collection({ source, player = false }: { source: Record<string, { intro
 }
 
 export default function Home() {
+  const introRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateIntro = () => {
+      const wrapper = introRef.current;
+      const frame = wrapper?.querySelector("iframe") as HTMLIFrameElement | null;
+      if (!wrapper || !frame?.contentWindow) return;
+      const rect = wrapper.getBoundingClientRect();
+      const distance = Math.max(1, wrapper.offsetHeight - window.innerHeight);
+      const progress = Math.max(0, Math.min(1, -rect.top / distance));
+      frame.contentWindow.postMessage({ type: "notebook-progress", progress }, "*");
+    };
+    const openNotebook = (event: MessageEvent) => {
+      if (event.data?.type !== "open-notebook-request" || !introRef.current) return;
+      const target = introRef.current.offsetTop + introRef.current.offsetHeight - window.innerHeight + 2;
+      window.scrollTo({ top: target, behavior: "smooth" });
+    };
+    updateIntro();
+    window.addEventListener("scroll", updateIntro, { passive: true });
+    window.addEventListener("resize", updateIntro);
+    window.addEventListener("message", openNotebook);
+    return () => {
+      window.removeEventListener("scroll", updateIntro);
+      window.removeEventListener("resize", updateIntro);
+      window.removeEventListener("message", openNotebook);
+    };
+  }, []);
+
   return <main>
-    <iframe src="tabletop.html" title="ZUZU｜跑團筆記互動入口" style={{ display:"block", width:"100%", height:"88svh", minHeight:"560px", border:0 }} />
-    <div className="zuzu-pop-in" aria-hidden="true">
-      <img src="zuzu-cheers-cutout.png" alt="" />
+    <div className="intro-scroll" ref={introRef}>
+      <iframe className="tabletop-frame" src="tabletop.html" title="ZUZU｜跑團筆記互動入口" />
     </div>
+    <div className="notebook-content">
     <header className="site-header"><a className="brand" href="#top">ZUZU <span>／</span> TRPG-holic</a><nav aria-label="主要導覽"><a href="#style">我喜歡！</a><a href="#experience">我做過！</a><a href="#systems">帶過的團</a><a href="#played">跑過的團</a></nav><details className="mobile-nav"><summary aria-label="開啟導覽選單"><span></span><span></span></summary><div>{[["#style","我喜歡！"],["#experience","我做過！"],["#systems","帶過的團"],["#played","跑過的團"]].map(([href,label]) => <a href={href} key={href} onClick={event => { const menu = event.currentTarget.closest("details"); if (menu) menu.open = false; }}>{label}</a>)}</div></details></header>
     <section className="hero compact-hero" id="top"><h1>ZUZU<span>｜</span>TRPG-holic</h1><div className="stats" aria-label="TRPG經歷統計"><div><strong>2017</strong><span>年至今</span></div><div><strong>31</strong><span>套系統支援</span></div><div><strong>153</strong><span>團主持</span></div><div><strong>173</strong><span>團玩家</span></div></div></section>
     <details className="style-fold" id="style"><summary><span className="fold-title"><small>01</small> 我喜歡！</span><span className="fold-action">展開查看 ＋</span></summary><ol className="style-list"><li>理解角色，成為角色的粉絲</li><li>重視共同創作與交流互動</li><li>喜愛即興回應與關係敘事</li><li>玩出系統與劇本的風味</li><li>再加一點我們都喜歡的東西</li></ol></details>
     <details className="experience-fold" id="experience"><summary><span className="fold-title"><small>02</small> 我做過！</span><span className="fold-action">展開查看 ＋</span></summary><div className="experience-grid">
       <article><h3>長期戰役主持</h3><p>D&D 5e《斯特拉德的詛咒》、《命運之輪》<br />CoC 7e《寂靜之音》</p></article><article><h3>劇本撰寫</h3><p>為多種系統撰寫約30篇劇本</p></article><article><h3>系統創作</h3><p>《我們的多重宇宙》<br />《About Our Time》</p></article><article><h3>大型企劃</h3><p>愚人節系統車輪戰<br />10人《斯特拉德的詛咒》LARP<br />五桌連動《斯特拉德必須死》</p></article><article><h3>推廣與活動</h3><p>於各地推廣會及大型活動擔任 GM</p></article><article><h3>講座分享</h3><p>《VL01：活用PbtA的方法來玩各種團！》<br />《南推：如何成為一個好玩家》<br />《骰子物語：介紹夕燒小燒》</p></article>
     </div></details>
+    </div>
     <section className="section systems-section" id="systems"><p className="section-index">03</p><h2>帶過的團</h2><Collection source={categories} /></section>
     <section className="section systems-section" id="played"><p className="section-index">04</p><h2>跑過的團</h2><Collection source={playerCategories} player /></section>
     <footer><span>ZUZU｜TRPG-holic</span><span>Play, talk, create.</span></footer>
