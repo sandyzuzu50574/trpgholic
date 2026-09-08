@@ -93,6 +93,34 @@ canvas{z-index:2}
 .s-leaf{top:49%;right:-1%;width:42px}
 }
 @media(prefers-reduced-motion:reduce){.desk-sticker:hover,.desk-sticker:focus-visible{animation:none}.decor-stickers{transition:none}}
+
+/* 貼紙框第二版：白色木紋、放大貼紙、固定手勢 */
+html,body{background:#fff}
+.table{background-color:#fff;background-image:linear-gradient(rgba(255,255,255,.84),rgba(255,255,255,.84)),url("pale-wood-table-v1.webp");background-position:center;background-size:cover}
+.book{top:7%;left:8%;width:clamp(195px,29vw,315px)}
+.arrive .hand.withdraw{animation:none;transform:translate(0,0)}
+.desk-sticker{width:clamp(76px,9vw,126px)}
+.decor-stickers .s-d8{width:clamp(68px,7.5vw,100px)}
+.decor-stickers .s-bat{width:clamp(122px,12vw,172px)}
+.decor-stickers .s-beer{width:clamp(82px,9vw,122px)}
+.decor-stickers .s-fern{width:clamp(78px,8.5vw,116px)}
+.decor-stickers .s-branch{width:clamp(68px,7vw,94px)}
+.decor-stickers .s-leaf{width:clamp(54px,5.8vw,78px)}
+.s-d8b{--r:9deg;top:14%;left:-2%;width:clamp(68px,7.5vw,100px)}
+.s-d10b{--r:-10deg;top:-4%;left:69%}
+.s-d6b{--r:8deg;top:16%;right:-2%}
+.s-d20b{--r:-8deg;bottom:-5%;left:66%}
+.s-d4b{--r:10deg;top:56%;left:-2%}
+.s-batb{--r:-8deg;bottom:-3%;left:41%;width:clamp(118px,11vw,160px)}
+.s-beerb{--r:-9deg;top:36%;right:-2%;width:clamp(82px,9vw,122px)}
+.s-fernb{--r:8deg;right:21%;bottom:-8%;width:clamp(78px,8.5vw,116px)}
+.s-branchb{--r:-9deg;top:-8%;left:20%;width:clamp(68px,7vw,94px)}
+.s-leafb{--r:11deg;right:-1%;bottom:22%;width:clamp(54px,5.8vw,78px)}
+@media(max-width:600px){
+  .book{top:8%;left:7%;width:54%}
+  .desk-sticker{width:64px}
+  .s-d8b,.s-d10b,.s-d6b,.s-d20b,.s-d4b,.s-batb,.s-beerb,.s-fernb,.s-branchb,.s-leafb{display:none}
+}
 </style></head><body><main class="table" data-state="opening"><div class="decor-stickers" aria-hidden="true">
 <img class="desk-sticker s-d8" src="sticker-d8.png" alt="" draggable="false">
 <img class="desk-sticker s-d10" src="sticker-d10.png" alt="" draggable="false">
@@ -106,6 +134,16 @@ canvas{z-index:2}
 <img class="desk-sticker s-fern" src="sticker-fern.png" alt="" draggable="false">
 <img class="desk-sticker s-branch" src="sticker-branch.png" alt="" draggable="false">
 <img class="desk-sticker s-leaf" src="sticker-leaf.png" alt="" draggable="false">
+<img class="desk-sticker s-d8b" src="sticker-d8.png" alt="" draggable="false">
+<img class="desk-sticker s-d10b" src="sticker-d10.png" alt="" draggable="false">
+<img class="desk-sticker s-d6b" src="sticker-d6.png" alt="" draggable="false">
+<img class="desk-sticker s-d20b" src="sticker-d20.png" alt="" draggable="false">
+<img class="desk-sticker s-d4b" src="sticker-d4.png" alt="" draggable="false">
+<img class="desk-sticker s-batb" src="sticker-bat.png" alt="" draggable="false">
+<img class="desk-sticker s-beerb" src="sticker-beer.png" alt="" draggable="false">
+<img class="desk-sticker s-fernb" src="sticker-fern.png" alt="" draggable="false">
+<img class="desk-sticker s-branchb" src="sticker-branch.png" alt="" draggable="false">
+<img class="desk-sticker s-leafb" src="sticker-leaf.png" alt="" draggable="false">
 </div><div class="book" aria-label="ZUZU TRPG-holic 跑團筆記本"><img src="intro-notebook-sticker-v1.png" alt=""><span class="book-label"><strong>ZUZU</strong><small>TRPG-holic</small></span></div><img class="hand" src="intro-hand-sticker-v3.png" alt="" aria-hidden="true"><div class="opening-stage" aria-hidden="true"><div class="focus-book"><img src="intro-notebook-sticker-v1.png" alt=""><span class="book-label"><strong>ZUZU</strong><small>TRPG-holic</small></span></div><img class="open-book" src="open-book.png" alt=""><div class="page-preview"><blockquote class="ink-quote"><span class="ink-stain stain-a"></span><span class="ink-stain stain-b"></span><span class="ink-stain stain-c"></span><span class="ink-head"></span><p class="quote-text"></p><cite class="quote-source"></cite></blockquote></div></div><canvas aria-hidden="true"></canvas><button class="die-hit" type="button" hidden aria-label="重擲d4" data-die="0"></button><button class="die-hit" type="button" hidden aria-label="重擲d6" data-die="1"></button><button class="die-hit" type="button" hidden aria-label="重擲d8" data-die="2"></button><button class="die-hit" type="button" hidden aria-label="重擲d10" data-die="3"></button><button class="die-hit" type="button" hidden aria-label="重擲十位數十面骰" data-die="4"></button><button class="die-hit" type="button" hidden aria-label="重擲d12" data-die="5"></button><button class="die-hit" type="button" hidden aria-label="重擲d20" data-die="6"></button><a class="hint" href="#top" target="_parent">翻開我的跑團筆記<span aria-hidden="true">↓</span></a><p class="sr" role="status" aria-live="polite"></p></main><script>(()=>{
 const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),root=document.querySelector('.table');
 const hand=document.querySelector('.hand'),hint=document.querySelector('.hint'),status=document.querySelector('[role=status]');
