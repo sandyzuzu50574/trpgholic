@@ -498,6 +498,18 @@
 @media(prefers-reduced-motion:reduce) {
   .system-card { transition:none; }
 }
+
+
+/* 對齊第三段寬度並微調一般文字尺寸 */
+.notebook .systems-fold {
+  width:100%;
+  max-width:none;
+  margin-left:0;
+  margin-right:0;
+}
+.action { font-size:13px; }
+details[open] .action::after { font-size:13px; }
+.style-list li { font-size:15px; }
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
