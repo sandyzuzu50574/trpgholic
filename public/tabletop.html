@@ -2,8 +2,7 @@
 .table{position:relative;width:min(1380px,calc(100% - 48px));height:100%;min-height:520px;overflow:hidden;margin:auto;border-bottom:1px solid #bcd6cb;background:#fbfdfc;box-shadow:0 22px 48px rgba(46,43,36,.12)}
 canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;transition:opacity .12s linear}
 .opening-stage{--page-fill:0;position:absolute;z-index:6;inset:0;overflow:hidden;pointer-events:none;opacity:0;perspective:1200px}
-.opening-stage::before{position:absolute;z-index:0;inset:0;background-image:linear-gradient(90deg,transparent 0 72px,rgba(13,139,103,.14) 73px,transparent 74px),repeating-linear-gradient(180deg,transparent 0,transparent 31px,rgba(13,139,103,.075) 32px),url("notebook-frame-redraw-v1.webp");background-position:left top,left top,center top;background-size:100% 100%,100% 32px,100% auto;background-repeat:no-repeat,repeat,repeat-y;content:"";opacity:var(--page-fill)}
-.opening-stage::after{display:none}
+.opening-stage::before,.opening-stage::after{display:none}
 .focus-book{position:absolute;z-index:2;top:50%;left:50%;width:clamp(190px,25vw,290px);height:auto;clip-path:polygon(4% 5%,6% 3%,83% 3%,86% 2.7%,89% 3%,94% 3%,96% 5%,96% 86%,94% 88%,13% 88%,10% 96%,7.5% 98%,8.8% 88%,5% 88%,4% 86%);transform-origin:left center;filter:drop-shadow(0 14px 24px rgba(21,33,29,.13))}
 .open-book{position:absolute;z-index:1;top:50%;left:50%;width:min(92vw,980px);height:auto;object-fit:contain;mix-blend-mode:normal;filter:none}
 .page-preview{position:absolute;z-index:3;top:50%;left:50%;width:min(68vw,720px);opacity:0;color:#15211d;text-align:left}
@@ -259,10 +258,9 @@ function applyProgress(progress){
   const closePhase=clamp01((p-.10)/.30), openPhase=clamp01((p-.30)/.34), fillPhase=clamp01((p-.62)/.38);
   focusBook.style.opacity=String(stageIn*(1-openPhase));
   focusBook.style.transform='translate(-50%,-50%) scale('+(0.95+closePhase*.30)+') rotate(' + (-6+closePhase*5) + 'deg) rotateY(' + (-openPhase*74) + 'deg)';
-  const paperPhase=clamp01((p-.38)/.18),bookExit=clamp01((p-.48)/.38);
-  stage.style.setProperty('--page-fill',String(paperPhase));
-  openBook.style.opacity=String(openPhase*(1-bookExit));
-  openBook.style.transform='translate(calc(-50% - '+(bookExit*46)+'vw),-50%) scale('+(0.78+openPhase*.22+bookExit*2.15)+') rotate('+(openPhase*5.5)+'deg)';
+  const bookExit=clamp01((p-.66)/.34);
+  openBook.style.opacity=String(openPhase*(1-Math.pow(bookExit,1.7)));
+  openBook.style.transform='translate(calc(-50% - '+(bookExit*30)+'vw),-50%) scale('+(0.78+openPhase*.22+bookExit*2.15)+') rotate('+(openPhase*5.5)+'deg)';
 }
 window.addEventListener('message',event=>{if(event.data?.type==='notebook-progress')applyProgress(event.data.progress);});
 hint.addEventListener('click',e=>{if(window.parent===window)return;e.preventDefault();try{const wrapper=window.frameElement?.parentElement;if(wrapper){window.parent.scrollTo({top:wrapper.offsetTop+wrapper.offsetHeight-window.parent.innerHeight+2,behavior:reduce.matches?'auto':'smooth'});return;}}catch(error){}window.parent.postMessage({type:'open-notebook-request'},'*');});
