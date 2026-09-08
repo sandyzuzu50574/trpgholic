@@ -38,7 +38,12 @@ canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;tran
 const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),root=document.querySelector('.table');
 const hand=document.querySelector('.hand'),hint=document.querySelector('.hint'),status=document.querySelector('[role=status]');
 const book=document.querySelector('.book'),stage=document.querySelector('.opening-stage'),focusBook=document.querySelector('.focus-book'),openBook=document.querySelector('.open-book'),pagePreview=document.querySelector('.page-preview');
-const quotes=[{text:'「我即是土地，我即為先賢。」',source:'斯特拉德·馮·札若維奇'}];
+const quotes=[
+{text:'『如果說故事的直覺好的話，規則只是在幫你背書。』',source:'TRPG 胡適'},
+{text:'『我喜歡 TRPG 的地方在，所有玩家的自由可以形成一個有意義和價值的世界，這個自由應該要優先於其他價值才行。』',source:'TRPG 胡適'},
+{text:'『以遊戲主持人來說，我覺得他有他該做的事，就是要先相信玩家不是在惡搞。』',source:'TRPG 胡適'},
+{text:'『與其讀空氣，先去讀規則。』',source:'TRPG 胡適'}
+];
 const selectedQuote=quotes[Math.floor(Math.random()*quotes.length)];
 const quoteText=pagePreview.querySelector('.quote-text'),quoteSource=pagePreview.querySelector('.quote-source'),inkHead=pagePreview.querySelector('.ink-head');
 const quoteChars=[...selectedQuote.text].map((character,index)=>{const span=document.createElement('span');span.className='ink-char';span.style.setProperty('--char-index',String(index));span.textContent=character;quoteText.appendChild(span);return span;});
