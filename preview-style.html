@@ -39,11 +39,43 @@
 
 .about-title-row{display:flex;min-height:220px;align-items:flex-end;justify-content:space-between;gap:28px;margin-bottom:34px}.about-title-row h1{margin:0;font-family:"ChenYuluoyan Thin","Klee One","DFKai-SB","BiauKai","Kaiti TC",cursive;font-size:clamp(40px,6vw,72px);font-weight:400;letter-spacing:.055em;line-height:1.08}.about-sticker{display:block;width:clamp(150px,18vw,225px);height:auto;margin:-54px 5% -22px 0;flex:0 0 auto;filter:drop-shadow(2px 5px 5px rgba(42,54,48,.12));transform:rotate(3.2deg);transform-origin:center bottom;transition:transform .35s cubic-bezier(.22,.8,.3,1)}.about-sticker:hover{transform:rotate(1deg) translateY(-4px)}
 @media(max-width:760px){.about-title-row{min-height:170px;gap:10px;margin-bottom:26px}.about-title-row h1{max-width:58%;font-size:clamp(34px,9.6vw,42px);line-height:1.08}.about-sticker{width:clamp(104px,31vw,142px);margin:-20px 0 -10px;transform:rotate(3deg)}}@media(prefers-reduced-motion:reduce){.about-sticker{transition:none}}
+
+
+/* 筆記本右上角更新日期 */
+.notebook-content .update-date {
+  display:inline-flex;
+  min-width:224px;
+  align-items:baseline;
+  justify-content:flex-end;
+  gap:14px;
+  margin-left:auto;
+  padding:7px 10px 6px;
+  border-bottom:1px solid rgba(13,139,103,.55);
+  color:var(--accent);
+  transform:rotate(-.35deg);
+}
+.notebook-content .update-date span {
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.14em;
+}
+.notebook-content .update-date b {
+  color:var(--ink);
+  font-family:"ChenYuluoyan Thin","Klee One","DFKai-SB","BiauKai","Kaiti TC",cursive;
+  font-size:19px;
+  font-weight:400;
+  letter-spacing:.08em;
+}
+@media (max-width:760px) {
+  .notebook-content .update-date { min-width:0; gap:8px; padding:5px 2px 4px 8px; }
+  .notebook-content .update-date span { font-size:10px; }
+  .notebook-content .update-date b { font-size:16px; }
+}
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
 <div class="notebook">
-<header class="site-header" id="top"><nav>我喜歡！　 我做過！　 帶過的團　 跑過的團</nav></header>
+<header class="site-header" id="top"><time class="update-date" datetime="2026-09-08"><span>更新日期</span><b>2026.09.08</b></time></header>
 <section class="hero"><div class="about-title-row"><h1>關於我的一些記錄</h1><img class="about-sticker" src="public/zuzu-about-sticker-v1.png" alt="朱朱舉杯的形象貼紙"></div><div class="stats"><div><strong>2017</strong><span>年至今</span></div><div><strong>31</strong><span>套系統支援</span></div><div><strong>153</strong><span>團主持</span></div><div><strong>173</strong><span>團玩家</span></div></div></section>
 <details class="fold style-fold"><summary><span class="fold-title"><small>01</small>我喜歡！</span><span class="action">展開查看 ＋</span></summary><ol class="style-list"><li>理解角色，成為粉絲</li><li>共同創作與交流互動</li><li>即興回應與關係敘事</li><li>玩出系統與劇本的風味</li><li>再加點我們都喜歡的東西</li></ol></details>
 <details class="fold experience-fold"><summary><span class="fold-title"><small>02</small>我做過！</span><span class="action">展開查看 ＋</span></summary><div class="experience-grid"><article><h3>長期戰役主持</h3><p>D&D 5e《斯特拉德的詛咒》、《命運之輪》<br>CoC 7e《寂靜之音》</p></article><article><h3>劇本撰寫</h3><p>為多種系統撰寫約30篇劇本</p></article><article><h3>系統創作</h3><p>《我們的多重宇宙》<br>《About Our Time》</p></article><article><h3>大型企劃</h3><p>愚人節系統車輪戰<br>五桌連動《斯特拉德必須死》</p></article></div></details>
