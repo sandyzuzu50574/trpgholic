@@ -312,3 +312,25 @@ footer { display:flex; justify-content:space-between; padding-top:38px; padding-
 @media (max-width:760px) {
   .notebook-content .style-fold .style-list li { min-height:108px; padding-left:30%; }
 }
+
+
+/* About me 形象貼紙 */
+.about-title-row { display:flex; min-height:220px; align-items:flex-end; justify-content:space-between; gap:28px; margin-bottom:34px; }
+.notebook-content .about-title-row h1 { margin:0; }
+.about-sticker {
+  display:block;
+  width:clamp(150px,18vw,225px);
+  height:auto;
+  margin:-54px 5% -22px 0;
+  flex:0 0 auto;
+  filter:drop-shadow(2px 5px 5px rgba(42,54,48,.12));
+  transform:rotate(3.2deg);
+  transform-origin:center bottom;
+  transition:transform .35s cubic-bezier(.22,.8,.3,1);
+}
+.about-sticker:hover { transform:rotate(1deg) translateY(-4px); }
+@media (max-width:760px) {
+  .about-title-row { min-height:170px; gap:10px; margin-bottom:26px; }
+  .about-sticker { width:clamp(104px,31vw,142px); margin:-20px 0 -10px 0; transform:rotate(3deg); }
+}
+@media (prefers-reduced-motion:reduce) { .about-sticker { transition:none; } }
