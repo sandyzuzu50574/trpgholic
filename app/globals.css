@@ -479,3 +479,37 @@ footer { display:flex; justify-content:space-between; padding-top:38px; padding-
   .notebook-content .experience-fold .experience-grid { grid-template-columns:1fr; gap:28px; padding:18px 8px 34px; }
   .notebook-content .experience-fold .experience-grid article { min-height:165px; padding:31px 24px 24px; }
 }
+
+
+/* 手帳 Date 欄位修正版 */
+.notebook-content .site-header { justify-content:flex-end; }
+.notebook-content .update-date {
+  min-width:268px;
+  justify-content:flex-start;
+  gap:12px;
+  margin-left:auto;
+  padding:5px 3px 4px;
+  border-bottom:1px dotted rgba(21,33,29,.72);
+  color:var(--ink);
+  transform:none;
+}
+.notebook-content .update-date span {
+  color:var(--ink);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:12px;
+  font-style:italic;
+  font-weight:600;
+  letter-spacing:.02em;
+}
+.notebook-content .update-date b {
+  color:var(--accent);
+  font-family:"ChenYuluoyan Thin","Klee One","DFKai-SB","BiauKai","Kaiti TC",cursive;
+  font-size:21px;
+  font-weight:400;
+  letter-spacing:.055em;
+  line-height:1;
+}
+@media (max-width:760px) {
+  .notebook-content .update-date { min-width:226px; gap:8px; padding-right:0; }
+  .notebook-content .update-date b { font-size:18px; letter-spacing:.035em; }
+}
