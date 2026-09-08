@@ -1095,6 +1095,13 @@ body.drawer-open { overflow:hidden; }
   .portal-card > img,.category-backdrop,.script-backdrop,.category-drawer { transition:none; }
 }
 
+/* 開書保留較長捲動距離，內頁仍與入口重疊一個畫面 */
+.intro-scroll{height:150svh}
+.portal-card > span{display:none}
+.category-system-grid[hidden]{display:none}
+.portal-flight{position:fixed;z-index:54;pointer-events:none;transform-origin:50% 62%;object-fit:contain}
+@media(max-width:760px){.intro-scroll{height:140svh}}
+@media(prefers-reduced-motion:reduce){.intro-scroll{height:100svh}}
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
@@ -1161,8 +1168,16 @@ const systemScripts={
 const categoryDrawer=document.querySelector('.category-drawer'),categoryBackdrop=document.querySelector('.category-backdrop'),categoryTitle=document.querySelector('#category-drawer-title'),categoryClose=document.querySelector('.category-drawer-close'),categoryGrid=document.querySelector('.category-system-grid'),categoryEmpty=document.querySelector('.category-empty');
 const drawer=document.querySelector('.script-drawer'),scriptBackdrop=document.querySelector('.script-backdrop'),drawerTitle=document.querySelector('#drawer-title'),scriptCards=document.querySelector('#script-cards'),closeDrawerButton=document.querySelector('.drawer-close');
 let categoryTrigger=null,drawerTrigger=null,categoryTimer=0,drawerTimer=0;
+let portalAnimations=[],portalFlight=null;
+function clearPortalMotion(){
+  portalAnimations.forEach(animation=>animation.cancel());
+  portalAnimations=[];
+  portalFlight?.remove();portalFlight=null;
+}
 function openCategory(trigger){
+  if(categoryDrawer.classList.contains('is-open'))return;
   clearTimeout(categoryTimer);
+  clearPortalMotion();
   categoryTrigger=trigger;
   const name=trigger.dataset.category;
   const hasSystems=name==='奇幻冒險';
@@ -1173,13 +1188,39 @@ function openCategory(trigger){
   categoryBackdrop.hidden=false;
   categoryDrawer.setAttribute('aria-hidden','false');
   document.body.classList.add('drawer-open');
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    categoryBackdrop.classList.add('is-open');
-    categoryDrawer.classList.add('is-open');
-    categoryClose.focus();
-  }));
+  categoryBackdrop.classList.add('is-open');
+  categoryDrawer.classList.add('is-open');
+  categoryDrawer.scrollTop=0;
+  categoryClose.focus({preventScroll:true});
+  if(reducedMotion.matches||!categoryDrawer.animate)return;
+  const picture=trigger.querySelector('img'),rect=picture.getBoundingClientRect();
+  const x=rect.left+rect.width*.5,y=rect.top+rect.height*.62;
+  const panel=categoryDrawer.getBoundingClientRect();
+  const panelLeft=innerWidth-panel.width;
+  const originX=x-panelLeft,originY=y;
+  categoryDrawer.style.transformOrigin=originX+'px '+originY+'px';
+  portalFlight=picture.cloneNode();
+  portalFlight.className='portal-flight';portalFlight.alt='';
+  portalFlight.setAttribute('aria-hidden','true');
+  Object.assign(portalFlight.style,{left:rect.left+'px',top:rect.top+'px',width:rect.width+'px',height:rect.height+'px'});
+  document.body.append(portalFlight);
+  const zoom=Math.min(18,Math.max(innerWidth/Math.max(rect.width*.3,1),innerHeight/Math.max(rect.height*.4,1)));
+  portalAnimations.push(portalFlight.animate([
+    {transform:'scale(1)',opacity:1,offset:0},
+    {transform:'scale(1.12)',opacity:1,offset:.22},
+    {transform:'scale('+zoom+')',opacity:0,offset:1}
+  ],{duration:900,easing:'cubic-bezier(.55,.02,.25,1)',fill:'both'}));
+  const emergence=categoryDrawer.animate([
+    {transform:'scale(.015)',opacity:0,borderRadius:'48%',offset:0},
+    {transform:'scale(.12)',opacity:.85,borderRadius:'40%',offset:.32},
+    {transform:'scale(1)',opacity:1,borderRadius:'0',offset:1}
+  ],{duration:850,delay:180,easing:'cubic-bezier(.22,.75,.25,1)',fill:'both'});
+  portalAnimations.push(emergence);
+  emergence.finished.then(()=>{clearPortalMotion();categoryDrawer.style.transformOrigin='';}).catch(()=>{});
 }
 function closeCategory(){
+  clearPortalMotion();
+  categoryDrawer.style.transformOrigin='';
   if(drawer.classList.contains('is-open'))closeDrawer(false);
   categoryBackdrop.classList.remove('is-open');
   categoryDrawer.classList.remove('is-open');
@@ -1189,6 +1230,53 @@ function closeCategory(){
     document.body.classList.remove('drawer-open');
     categoryTrigger?.focus();
   },reducedMotion.matches?0:520);
+}
+function makeScriptRow(title,index){
+  const expandable=title==='魔女的詛咒';
+  const item=document.createElement(expandable?'details':'article');
+  item.className='script-entry'+(expandable?' is-expandable':'');
+  const row=document.createElement(expandable?'summary':'div');
+  row.className='script-row';
+  const number=document.createElement('span'),heading=document.createElement('h3');
+  number.className='script-number';
+  number.textContent=String(index+1).padStart(2,'0');
+  heading.textContent='《'+title+'》';
+  row.append(number,heading);
+  if(expandable){
+    const action=document.createElement('span');
+    action.className='script-entry-action';
+    action.textContent='展開 ＋';
+    row.append(action);
+    const detail=document.createElement('div');
+    detail.className='scenario-preview-card';
+    const image=document.createElement('img');
+    image.src='public/witch-curse-cover.png';
+    image.alt='《魔女的詛咒》劇本封面';
+    image.className='scenario-preview-image';
+    const copy=document.createElement('div');
+    copy.className='scenario-preview-copy';
+    const label=document.createElement('span');
+    label.className='scenario-preview-label';
+    label.textContent='劇本簡介';
+    const summary=document.createElement('p');
+    summary.textContent='小村莊詛咒肆虐，冒險者被請求前往高塔討伐魔女。';
+    const meta=document.createElement('div');
+    meta.className='scenario-preview-meta';
+    ['約 5 小時','3～4 人','1 等冒險'].forEach(text=>{const tag=document.createElement('span');tag.textContent=text;meta.append(tag);});
+    const link=document.createElement('a');
+    link.className='scenario-preview-link';
+    link.href='https://www.plurk.com/p/mjcyrd';
+    link.target='_blank';
+    link.rel='noreferrer';
+    link.innerHTML='<span>閱讀相關貼文</span><b>PLURK ↗</b>';
+    copy.append(label,summary,meta,link);
+    detail.append(image,copy);
+    item.append(row,detail);
+    item.addEventListener('toggle',()=>{action.textContent=item.open?'收起 －':'展開 ＋';});
+  }else{
+    item.append(row);
+  }
+  return item;
 }
 function renderScripts(name){
   drawerTitle.textContent=name;
@@ -1215,7 +1303,10 @@ function closeDrawer(restoreFocus=true){
     if(restoreFocus)drawerTrigger?.focus();
   },reducedMotion.matches?0:500);
 }
-document.querySelectorAll('.portal-card').forEach(card=>card.addEventListener('click',()=>openCategory(card)));
+document.querySelectorAll('.portal-card').forEach((card,index)=>{
+  card.setAttribute('aria-label','探索第'+(index+1)+'扇傳送門');
+  card.addEventListener('click',()=>openCategory(card));
+});
 document.querySelectorAll('.category-drawer .system-card').forEach(card=>card.addEventListener('click',()=>openDrawer(card)));
 categoryClose.addEventListener('click',closeCategory);
 categoryBackdrop.addEventListener('click',closeCategory);
