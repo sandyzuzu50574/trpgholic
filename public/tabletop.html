@@ -1,9 +1,9 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ZUZU｜跑團筆記</title><style>@import url("https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap");html,body{margin:0;height:100%;background:#fbfdfc;color:#0d8b67;font-family:Inter,"Microsoft JhengHei",system-ui,sans-serif}*{box-sizing:border-box}
-.table{position:relative;height:100%;min-height:520px;overflow:hidden;max-width:1180px;margin:auto;border-bottom:1px solid #bcd6cb;background:#fbfdfc}
+.table{position:relative;width:min(1380px,calc(100% - 48px));height:100%;min-height:520px;overflow:hidden;margin:auto;border-bottom:1px solid #bcd6cb;background:#fbfdfc;box-shadow:0 22px 48px rgba(46,43,36,.12)}
 canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;transition:opacity .12s linear}
 .opening-stage{--page-fill:0;position:absolute;z-index:6;inset:0;overflow:hidden;pointer-events:none;opacity:0;perspective:1200px}
-.opening-stage::before{position:absolute;z-index:0;inset:0;background:linear-gradient(90deg,transparent 0,transparent max(32px,calc((100vw - 1180px)/2 + 52px)),rgba(13,139,103,.16) max(32px,calc((100vw - 1180px)/2 + 53px)),transparent max(32px,calc((100vw - 1180px)/2 + 54px))),repeating-linear-gradient(180deg,#fbfdfc 0,#fbfdfc 31px,rgba(13,139,103,.075) 32px);content:"";opacity:var(--page-fill)}
-.opening-stage::after{position:absolute;z-index:0;top:0;bottom:0;left:max(12px,calc((100vw - 1180px)/2 + 4px));width:18px;background:radial-gradient(circle,#bdd3ca 0 3px,transparent 3.6px) center 8px/18px 32px repeat-y;content:"";opacity:var(--page-fill)}
+.opening-stage::before{position:absolute;z-index:0;inset:0;background-image:linear-gradient(90deg,transparent 0 72px,rgba(13,139,103,.14) 73px,transparent 74px),repeating-linear-gradient(180deg,transparent 0,transparent 31px,rgba(13,139,103,.075) 32px),url("notebook-frame-redraw-v1.webp");background-position:left top,left top,center top;background-size:100% 100%,100% 32px,100% auto;background-repeat:no-repeat,repeat,repeat-y;content:"";opacity:var(--page-fill)}
+.opening-stage::after{display:none}
 .focus-book{position:absolute;z-index:2;top:50%;left:50%;width:clamp(190px,25vw,290px);height:auto;clip-path:polygon(4% 5%,6% 3%,83% 3%,86% 2.7%,89% 3%,94% 3%,96% 5%,96% 86%,94% 88%,13% 88%,10% 96%,7.5% 98%,8.8% 88%,5% 88%,4% 86%);transform-origin:left center;filter:drop-shadow(0 14px 24px rgba(21,33,29,.13))}
 .open-book{position:absolute;z-index:1;top:50%;left:50%;width:min(92vw,980px);height:auto;object-fit:contain;mix-blend-mode:normal;filter:none}
 .page-preview{position:absolute;z-index:3;top:50%;left:50%;width:min(68vw,720px);opacity:0;color:#15211d;text-align:left}
@@ -137,6 +137,11 @@ html,body{background:#fff}
   .book{transform:translate(-50%,-50%) rotate(-6deg)}
   .arrive .book{animation:none;transform:translate(-50%,-50%) rotate(-6deg)}
 }
+
+@media(max-width:760px){
+  .table{width:100%;box-shadow:0 14px 30px rgba(46,43,36,.10)}
+  .opening-stage::before{background-image:linear-gradient(90deg,transparent 0 39px,rgba(13,139,103,.14) 40px,transparent 41px),repeating-linear-gradient(180deg,transparent 0,transparent 29px,rgba(13,139,103,.07) 30px),url("notebook-frame-redraw-v1.webp");background-size:100% 100%,100% 30px,100% auto}
+}
 </style></head><body><main class="table" data-state="opening"><div class="book" aria-label="ZUZU TRPG-holic 跑團筆記本"><img src="intro-notebook-sticker-v1.png" alt=""><span class="book-label"><strong>ZUZU</strong><small>TRPG-holic</small></span></div><img class="hand" src="intro-hand-sticker-v3.png" alt="" aria-hidden="true"><div class="opening-stage" aria-hidden="true"><div class="focus-book"><img src="intro-notebook-sticker-v1.png" alt=""><span class="book-label"><strong>ZUZU</strong><small>TRPG-holic</small></span></div><img class="open-book" src="intro-open-notebook-sticker-v3.webp" alt=""><div class="page-preview"><blockquote class="ink-quote"><span class="ink-stain stain-a"></span><span class="ink-stain stain-b"></span><span class="ink-stain stain-c"></span><span class="ink-head"></span><p class="quote-text"></p><cite class="quote-source"></cite></blockquote></div></div><canvas aria-hidden="true"></canvas><button class="die-hit" type="button" hidden aria-label="重擲d4" data-die="0"></button><button class="die-hit" type="button" hidden aria-label="重擲d6" data-die="1"></button><button class="die-hit" type="button" hidden aria-label="重擲d8" data-die="2"></button><button class="die-hit" type="button" hidden aria-label="重擲d10" data-die="3"></button><button class="die-hit" type="button" hidden aria-label="重擲十位數十面骰" data-die="4"></button><button class="die-hit" type="button" hidden aria-label="重擲d12" data-die="5"></button><button class="die-hit" type="button" hidden aria-label="重擲d20" data-die="6"></button><a class="hint" href="#top" target="_parent">翻開我的跑團筆記<span aria-hidden="true">↓</span></a><p class="sr" role="status" aria-live="polite"></p></main><script>(()=>{
 const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),root=document.querySelector('.table');
 const hand=document.querySelector('.hand'),hint=document.querySelector('.hint'),status=document.querySelector('[role=status]');
@@ -264,10 +269,10 @@ function applyProgress(progress){
   const closePhase=clamp01((p-.10)/.30), openPhase=clamp01((p-.30)/.34), fillPhase=clamp01((p-.62)/.38);
   focusBook.style.opacity=String(stageIn*(1-openPhase));
   focusBook.style.transform='translate(-50%,-50%) scale('+(0.95+closePhase*.30)+') rotate(' + (-6+closePhase*5) + 'deg) rotateY(' + (-openPhase*74) + 'deg)';
-  const paperPhase=clamp01((p-.40)/.20),bookExit=clamp01((p-.58)/.30);
+  const paperPhase=clamp01((p-.38)/.18),bookExit=clamp01((p-.48)/.38);
   stage.style.setProperty('--page-fill',String(paperPhase));
   openBook.style.opacity=String(openPhase*(1-bookExit));
-  openBook.style.transform='translate(calc(-50% - '+(bookExit*38)+'vw),-50%) scale('+(0.78+openPhase*.22+bookExit*.08)+') rotate('+(openPhase*5.5)+'deg)';
+  openBook.style.transform='translate(calc(-50% - '+(bookExit*46)+'vw),-50%) scale('+(0.78+openPhase*.22+bookExit*2.15)+') rotate('+(openPhase*5.5)+'deg)';
   pagePreview.style.opacity=String(clamp01((p-.42)/.22));
   pagePreview.classList.toggle('ink-visible',p>.42);
   const writePhase=clamp01((p-.42)/.34), total=quoteChars.length;
