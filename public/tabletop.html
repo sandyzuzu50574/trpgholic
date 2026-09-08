@@ -51,7 +51,62 @@ canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;tran
   .book-label strong{font-size:clamp(16px,5.6vw,24px)}
   .book-label small{font-size:8px}
 }
-</style></head><body><main class="table" data-state="opening"><div class="book" aria-label="ZUZU TRPG-holic 跑團筆記本"><img src="intro-notebook-sticker-v1.png" alt=""><span class="book-label"><strong>ZUZU</strong><small>TRPG-holic</small></span></div><img class="hand" src="intro-hand-sticker-v3.png" alt="" aria-hidden="true"><div class="opening-stage" aria-hidden="true"><div class="focus-book"><img src="intro-notebook-sticker-v1.png" alt=""><span class="book-label"><strong>ZUZU</strong><small>TRPG-holic</small></span></div><img class="open-book" src="open-book.png" alt=""><div class="page-preview"><blockquote class="ink-quote"><span class="ink-stain stain-a"></span><span class="ink-stain stain-b"></span><span class="ink-stain stain-c"></span><span class="ink-head"></span><p class="quote-text"></p><cite class="quote-source"></cite></blockquote></div></div><canvas aria-hidden="true"></canvas><button class="die-hit" type="button" hidden aria-label="重擲d4" data-die="0"></button><button class="die-hit" type="button" hidden aria-label="重擲d6" data-die="1"></button><button class="die-hit" type="button" hidden aria-label="重擲d8" data-die="2"></button><button class="die-hit" type="button" hidden aria-label="重擲d10" data-die="3"></button><button class="die-hit" type="button" hidden aria-label="重擲十位數十面骰" data-die="4"></button><button class="die-hit" type="button" hidden aria-label="重擲d12" data-die="5"></button><button class="die-hit" type="button" hidden aria-label="重擲d20" data-die="6"></button><a class="hint" href="#top" target="_parent">翻開我的跑團筆記<span aria-hidden="true">↓</span></a><p class="sr" role="status" aria-live="polite"></p></main><script>(()=>{
+
+/* 淡木紋桌面與入口貼紙牆 */
+html,body{background:#f7f5ef url("pale-wood-table-v1.webp") center/cover fixed}
+.table{background:linear-gradient(rgba(255,255,255,.46),rgba(255,255,255,.46)),url("pale-wood-table-v1.webp") center/cover}
+canvas{z-index:2}
+.book{z-index:4;top:7%;left:9%;width:clamp(155px,23vw,248px)}
+.hand{z-index:3;right:-9%;bottom:-6%;width:33.5%;max-height:42%}
+.hint{z-index:5}
+.book-label{color:rgba(255,255,255,.92);opacity:.9;text-shadow:0 1px 0 rgba(67,48,27,.16);filter:blur(.08px);transform:translate(-50%,-50%) rotate(-1.5deg) skewY(-1deg)}
+.book-label strong{font-weight:600;letter-spacing:.11em}
+.book-label small{color:rgba(255,255,255,.84);font-weight:600;letter-spacing:.06em}
+.decor-stickers{position:absolute;z-index:1;inset:0;pointer-events:none;opacity:1;transition:opacity .65s ease}
+.desk-sticker{--r:0deg;position:absolute;display:block;width:clamp(62px,7.4vw,104px);height:auto;pointer-events:auto;user-select:none;cursor:default;transform:rotate(var(--r));transform-origin:50% 55%;filter:drop-shadow(0 4px 5px rgba(45,38,29,.09));transition:filter .22s ease}
+.desk-sticker:hover,.desk-sticker:focus-visible{animation:sticker-wiggle .68s ease-in-out both;filter:drop-shadow(0 7px 8px rgba(45,38,29,.14))}
+.s-d8{--r:-8deg;top:1%;left:1%;width:clamp(56px,6vw,82px)}
+.s-d10{--r:8deg;top:-3%;left:33%}
+.s-d100{--r:-7deg;top:1%;left:52%}
+.s-d6{--r:7deg;bottom:-3%;left:50%}
+.s-d20{--r:-9deg;top:34%;left:-1%}
+.s-d12{--r:9deg;right:1%;bottom:1%}
+.s-d4{--r:-7deg;bottom:-2%;left:3%}
+.s-bat{--r:7deg;top:-2%;right:6%;width:clamp(100px,10vw,145px)}
+.s-beer{--r:8deg;bottom:-3%;left:15%;width:clamp(68px,7.5vw,105px)}
+.s-fern{--r:-7deg;bottom:-7%;left:32%;width:clamp(64px,7vw,96px)}
+.s-branch{--r:11deg;top:48%;right:-1%;width:clamp(55px,5.6vw,78px)}
+.s-leaf{--r:-12deg;top:25%;right:1%;width:clamp(44px,4.5vw,64px)}
+.table.transitioning .decor-stickers{opacity:0;pointer-events:none}
+@keyframes sticker-wiggle{0%,100%{transform:rotate(var(--r)) scale(1)}24%{transform:rotate(calc(var(--r) - 5deg)) scale(1.045)}48%{transform:rotate(calc(var(--r) + 4deg)) scale(1.045)}72%{transform:rotate(calc(var(--r) - 2deg)) scale(1.02)}}
+@media(max-width:600px){
+.book{top:7%;left:8%;width:46%}
+.hand{right:-15%;bottom:-4%;width:50%;max-height:35%}
+.desk-sticker{width:58px}
+.s-d10,.s-d100,.s-d6,.s-d12,.s-branch{display:none}
+.s-d8{top:1%;left:auto;right:2%;width:48px}
+.s-d20{top:38%;left:-3%;width:54px}
+.s-d4{bottom:1%;left:3%;width:56px}
+.s-bat{top:17%;right:-3%;width:88px}
+.s-beer{bottom:1%;left:21%;width:58px}
+.s-fern{bottom:-4%;left:45%;width:52px}
+.s-leaf{top:49%;right:-1%;width:42px}
+}
+@media(prefers-reduced-motion:reduce){.desk-sticker:hover,.desk-sticker:focus-visible{animation:none}.decor-stickers{transition:none}}
+</style></head><body><main class="table" data-state="opening"><div class="decor-stickers" aria-hidden="true">
+<img class="desk-sticker s-d8" src="sticker-d8.png" alt="" draggable="false">
+<img class="desk-sticker s-d10" src="sticker-d10.png" alt="" draggable="false">
+<img class="desk-sticker s-d100" src="sticker-d100.png" alt="" draggable="false">
+<img class="desk-sticker s-d6" src="sticker-d6.png" alt="" draggable="false">
+<img class="desk-sticker s-d20" src="sticker-d20.png" alt="" draggable="false">
+<img class="desk-sticker s-d12" src="sticker-d12.png" alt="" draggable="false">
+<img class="desk-sticker s-d4" src="sticker-d4.png" alt="" draggable="false">
+<img class="desk-sticker s-bat" src="sticker-bat.png" alt="" draggable="false">
+<img class="desk-sticker s-beer" src="sticker-beer.png" alt="" draggable="false">
+<img class="desk-sticker s-fern" src="sticker-fern.png" alt="" draggable="false">
+<img class="desk-sticker s-branch" src="sticker-branch.png" alt="" draggable="false">
+<img class="desk-sticker s-leaf" src="sticker-leaf.png" alt="" draggable="false">
+</div><div class="book" aria-label="ZUZU TRPG-holic 跑團筆記本"><img src="intro-notebook-sticker-v1.png" alt=""><span class="book-label"><strong>ZUZU</strong><small>TRPG-holic</small></span></div><img class="hand" src="intro-hand-sticker-v3.png" alt="" aria-hidden="true"><div class="opening-stage" aria-hidden="true"><div class="focus-book"><img src="intro-notebook-sticker-v1.png" alt=""><span class="book-label"><strong>ZUZU</strong><small>TRPG-holic</small></span></div><img class="open-book" src="open-book.png" alt=""><div class="page-preview"><blockquote class="ink-quote"><span class="ink-stain stain-a"></span><span class="ink-stain stain-b"></span><span class="ink-stain stain-c"></span><span class="ink-head"></span><p class="quote-text"></p><cite class="quote-source"></cite></blockquote></div></div><canvas aria-hidden="true"></canvas><button class="die-hit" type="button" hidden aria-label="重擲d4" data-die="0"></button><button class="die-hit" type="button" hidden aria-label="重擲d6" data-die="1"></button><button class="die-hit" type="button" hidden aria-label="重擲d8" data-die="2"></button><button class="die-hit" type="button" hidden aria-label="重擲d10" data-die="3"></button><button class="die-hit" type="button" hidden aria-label="重擲十位數十面骰" data-die="4"></button><button class="die-hit" type="button" hidden aria-label="重擲d12" data-die="5"></button><button class="die-hit" type="button" hidden aria-label="重擲d20" data-die="6"></button><a class="hint" href="#top" target="_parent">翻開我的跑團筆記<span aria-hidden="true">↓</span></a><p class="sr" role="status" aria-live="polite"></p></main><script>(()=>{
 const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),root=document.querySelector('.table');
 const hand=document.querySelector('.hand'),hint=document.querySelector('.hint'),status=document.querySelector('[role=status]');
 const book=document.querySelector('.book'),stage=document.querySelector('.opening-stage'),focusBook=document.querySelector('.focus-book'),openBook=document.querySelector('.open-book'),pagePreview=document.querySelector('.page-preview');
