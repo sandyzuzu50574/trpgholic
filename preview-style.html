@@ -29,12 +29,15 @@
 
 .style-list li{min-height:108px;padding:22px 19px 18px 30%;border:0;border-radius:0;background-color:transparent;background-position:center;background-repeat:no-repeat;background-size:100% 100%;box-shadow:none;font-size:14px;line-height:1.42;transform:none}
 .style-list li:before,.style-list li:after{display:none}.style-list li:nth-child(1){--tilt:0deg;background-image:url("public/sticky-note-1.png")}.style-list li:nth-child(2){--tilt:0deg;background-image:url("public/sticky-note-2.png")}.style-list li:nth-child(3){--tilt:0deg;background-image:url("public/sticky-note-3.png")}.style-list li:nth-child(4){--tilt:0deg;background-image:url("public/sticky-note-4.png")}.style-list li:nth-child(5){--tilt:0deg;background-image:url("public/sticky-note-5.png")}
+
+.about-title-row{display:flex;min-height:220px;align-items:flex-end;justify-content:space-between;gap:28px;margin-bottom:34px}.about-title-row h1{margin:0}.about-sticker{display:block;width:clamp(150px,18vw,225px);height:auto;margin:-54px 5% -22px 0;flex:0 0 auto;filter:drop-shadow(2px 5px 5px rgba(42,54,48,.12));transform:rotate(3.2deg);transform-origin:center bottom;transition:transform .35s cubic-bezier(.22,.8,.3,1)}.about-sticker:hover{transform:rotate(1deg) translateY(-4px)}
+@media(max-width:760px){.about-title-row{min-height:170px;gap:10px;margin-bottom:26px}.about-sticker{width:clamp(104px,31vw,142px);margin:-20px 0 -10px;transform:rotate(3deg)}}@media(prefers-reduced-motion:reduce){.about-sticker{transition:none}}
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
 <div class="notebook">
 <header class="site-header" id="top"><nav>我喜歡！　 我做過！　 帶過的團　 跑過的團</nav></header>
-<section class="hero"><h1>About me</h1><div class="stats"><div><strong>2017</strong><span>年至今</span></div><div><strong>31</strong><span>套系統支援</span></div><div><strong>153</strong><span>團主持</span></div><div><strong>173</strong><span>團玩家</span></div></div></section>
+<section class="hero"><div class="about-title-row"><h1>About me</h1><img class="about-sticker" src="public/zuzu-about-sticker-v1.png" alt="朱朱舉杯的形象貼紙"></div><div class="stats"><div><strong>2017</strong><span>年至今</span></div><div><strong>31</strong><span>套系統支援</span></div><div><strong>153</strong><span>團主持</span></div><div><strong>173</strong><span>團玩家</span></div></div></section>
 <details class="fold style-fold"><summary><span class="fold-title"><small>01</small>我喜歡！</span><span class="action">展開查看 ＋</span></summary><ol class="style-list"><li>理解角色，成為角色的粉絲</li><li>重視共同創作與交流互動</li><li>喜愛即興回應與關係敘事</li><li>玩出系統與劇本的風味</li><li>再加一點我們都喜歡的東西</li></ol></details>
 <details class="fold experience-fold"><summary><span class="fold-title"><small>02</small>我做過！</span><span class="action">展開查看 ＋</span></summary><div class="experience-grid"><article><h3>長期戰役主持</h3><p>D&D 5e《斯特拉德的詛咒》、《命運之輪》<br>CoC 7e《寂靜之音》</p></article><article><h3>劇本撰寫</h3><p>為多種系統撰寫約30篇劇本</p></article><article><h3>系統創作</h3><p>《我們的多重宇宙》<br>《About Our Time》</p></article><article><h3>大型企劃</h3><p>愚人節系統車輪戰<br>五桌連動《斯特拉德必須死》</p></article></div></details>
 </div>
