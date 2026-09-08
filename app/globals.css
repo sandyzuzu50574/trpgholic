@@ -318,7 +318,7 @@ footer { display:flex; justify-content:space-between; padding-top:38px; padding-
 .notebook-content .style-fold .style-list li:nth-child(4) { --tilt:0deg; background-image:url("/sticky-note-4.png"); }
 .notebook-content .style-fold .style-list li:nth-child(5) { --tilt:0deg; background-image:url("/sticky-note-5.png"); }
 @media (max-width:760px) {
-  .notebook-content .style-fold .style-list li { min-height:108px; padding-left:30%; }
+  .notebook-content .style-fold .style-list li { min-height:108px; padding-left:70px; padding-right:16px; }
 }
 
 
