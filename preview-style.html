@@ -73,6 +73,108 @@
 }
 
 @media(max-width:760px){.style-list li{padding-left:70px;padding-right:16px}}
+
+
+/* 「值得紀念」手帳便條紙 */
+.experience-fold .fold-title { align-items:center; }
+.clap-sticker {
+  display:block;
+  width:54px;
+  height:54px;
+  margin:-14px 0 -10px 8px;
+  object-fit:contain;
+  filter:drop-shadow(1px 3px 3px rgba(45,52,47,.14));
+  transform:rotate(7deg);
+}
+.experience-fold .experience-grid {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:34px 42px;
+  padding:22px 12px 40px;
+  border-top:0;
+}
+.experience-fold .experience-grid article {
+  position:relative;
+  z-index:0;
+  min-height:190px;
+  overflow:visible;
+  padding:34px 30px 28px;
+  border:0 !important;
+  border-radius:2px;
+  box-shadow:4px 8px 14px rgba(64,57,45,.14);
+  transform:rotate(var(--paper-tilt));
+}
+.experience-fold .experience-grid article::before {
+  position:absolute;
+  z-index:2;
+  top:-11px;
+  left:50%;
+  width:66px;
+  height:22px;
+  background:var(--tape);
+  box-shadow:0 2px 3px rgba(55,49,40,.06);
+  content:"";
+  opacity:.76;
+  transform:translateX(-50%) rotate(var(--tape-tilt));
+}
+.experience-fold .experience-grid article:nth-child(1) {
+  --paper-tilt:-.7deg;
+  --tape:rgba(255,214,82,.7);
+  --tape-tilt:-3deg;
+  background:
+    repeating-linear-gradient(180deg,transparent 0,transparent 28px,rgba(67,93,83,.075) 29px),
+    #fffdf1;
+  clip-path:polygon(0 1%,5% 0,11% 1.2%,18% .2%,26% 1%,35% 0,45% 1.1%,54% .2%,64% 1%,74% 0,84% 1%,93% .2%,100% 1%,99.4% 99%,91% 98.5%,82% 100%,71% 98.8%,61% 100%,50% 98.7%,39% 100%,28% 98.8%,17% 100%,8% 98.6%,0 99%);
+}
+.experience-fold .experience-grid article:nth-child(2) {
+  --paper-tilt:.8deg;
+  --tape:rgba(142,168,255,.62);
+  --tape-tilt:4deg;
+  border-radius:3px 15px 15px 3px;
+  background:
+    radial-gradient(circle at 11px 18px,#d3bba0 0 2.5px,transparent 3px) 0 0/22px 29px repeat-y,
+    repeating-linear-gradient(180deg,transparent 0,transparent 28px,rgba(102,141,174,.11) 29px),
+    #fff;
+}
+.experience-fold .experience-grid article:nth-child(3) {
+  --paper-tilt:.6deg;
+  --tape:rgba(255,180,115,.58);
+  --tape-tilt:-4deg;
+  background:
+    linear-gradient(90deg,transparent 0 31px,rgba(224,109,101,.18) 32px,transparent 33px),
+    repeating-linear-gradient(180deg,transparent 0,transparent 27px,rgba(97,126,111,.1) 28px),
+    #fff2a9;
+}
+.experience-fold .experience-grid article:nth-child(4) {
+  --paper-tilt:-.9deg;
+  --tape:rgba(183,224,162,.64);
+  --tape-tilt:3deg;
+  background:
+    linear-gradient(rgba(79,137,106,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(79,137,106,.08) 1px,transparent 1px),
+    #e8f4df;
+  background-size:15px 15px;
+}
+.experience-fold .experience-grid h3 {
+  position:relative;
+  z-index:1;
+  display:inline;
+  padding:0 .28em .06em;
+  background:linear-gradient(177deg,transparent 12%,var(--marker) 13%,var(--marker) 86%,transparent 87%);
+  color:var(--ink);
+  font-family:"Klee One","DFKai-SB","BiauKai","Kaiti TC",cursive;
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+}
+.experience-fold .experience-grid article:nth-child(1) h3 { --marker:rgba(255,225,82,.58); }
+.experience-fold .experience-grid article:nth-child(2) h3 { --marker:rgba(105,217,210,.45); }
+.experience-fold .experience-grid article:nth-child(3) h3 { --marker:rgba(255,143,167,.42); }
+.experience-fold .experience-grid article:nth-child(4) h3 { --marker:rgba(155,218,99,.48); }
+.experience-fold .experience-grid p { position:relative; z-index:1; margin-top:20px; line-height:1.8; }
+@media (max-width:760px) {
+  .clap-sticker { width:42px; height:42px; margin:-10px 0 -7px 4px; }
+  .experience-fold .experience-grid { grid-template-columns:1fr; gap:28px; padding:18px 8px 34px; }
+  .experience-fold .experience-grid article { min-height:165px; padding:31px 24px 24px; }
+}
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
@@ -80,7 +182,7 @@
 <header class="site-header" id="top"><time class="update-date" datetime="2026-09-08"><span>更新日期</span><b>2026.09.08</b></time></header>
 <section class="hero"><div class="about-title-row"><h1>關於我的一些記錄</h1><img class="about-sticker" src="public/zuzu-about-sticker-v1.png" alt="朱朱舉杯的形象貼紙"></div><div class="stats"><div><strong>2017</strong><span>年至今</span></div><div><strong>31</strong><span>套系統支援</span></div><div><strong>153</strong><span>團主持</span></div><div><strong>173</strong><span>團玩家</span></div></div></section>
 <details class="fold style-fold"><summary><span class="fold-title"><small>01</small>我喜歡！</span><span class="action">展開查看 ＋</span></summary><ol class="style-list"><li>理解角色，成為粉絲</li><li>共同創作與交流互動</li><li>即興回應與關係敘事</li><li>玩出系統與劇本的風味</li><li>再加點我們都喜歡的東西</li></ol></details>
-<details class="fold experience-fold"><summary><span class="fold-title"><small>02</small>我做過！</span><span class="action">展開查看 ＋</span></summary><div class="experience-grid"><article><h3>長期戰役主持</h3><p>D&D 5e《斯特拉德的詛咒》、《命運之輪》<br>CoC 7e《寂靜之音》</p></article><article><h3>劇本撰寫</h3><p>為多種系統撰寫約30篇劇本</p></article><article><h3>系統創作</h3><p>《我們的多重宇宙》<br>《About Our Time》</p></article><article><h3>大型企劃</h3><p>愚人節系統車輪戰<br>五桌連動《斯特拉德必須死》</p></article></div></details>
+<details class="fold experience-fold"><summary><span class="fold-title"><small>02</small>值得紀念<img class="clap-sticker" src="public/clap-sticker-v1.png" alt="拍手貼紙"></span><span class="action">展開查看 ＋</span></summary><div class="experience-grid"><article><h3>長期戰役主持</h3><p>D&D 5e《斯特拉德的詛咒》、《命運之輪》<br>CoC 7e《寂靜之音》</p></article><article><h3>劇本撰寫</h3><p>為多種系統撰寫約30篇劇本</p></article><article><h3>系統創作</h3><p>《我們的多重宇宙》<br>《About Our Time》</p></article><article><h3>大型企劃</h3><p>愚人節系統車輪戰<br>五桌連動《斯特拉德必須死》</p></article></div></details>
 </div>
 <section class="next"><small>03</small><h2>帶過的團</h2><p>後半段暫時維持原網站卡片框架，這裡是兩種設計的比較界線。</p></section>
 <script>
