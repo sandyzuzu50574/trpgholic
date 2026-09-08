@@ -345,3 +345,35 @@ footer { display:flex; justify-content:space-between; padding-top:38px; padding-
   .about-sticker { width:clamp(104px,31vw,142px); margin:-20px 0 -10px 0; transform:rotate(3deg); }
 }
 @media (prefers-reduced-motion:reduce) { .about-sticker { transition:none; } }
+
+
+/* 筆記本右上角更新日期 */
+.notebook-content .update-date {
+  display:inline-flex;
+  min-width:224px;
+  align-items:baseline;
+  justify-content:flex-end;
+  gap:14px;
+  margin-left:auto;
+  padding:7px 10px 6px;
+  border-bottom:1px solid rgba(13,139,103,.55);
+  color:var(--accent);
+  transform:rotate(-.35deg);
+}
+.notebook-content .update-date span {
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.14em;
+}
+.notebook-content .update-date b {
+  color:var(--ink);
+  font-family:"ChenYuluoyan Thin","Klee One","DFKai-SB","BiauKai","Kaiti TC",cursive;
+  font-size:19px;
+  font-weight:400;
+  letter-spacing:.08em;
+}
+@media (max-width:760px) {
+  .notebook-content .update-date { min-width:0; gap:8px; padding:5px 2px 4px 8px; }
+  .notebook-content .update-date span { font-size:10px; }
+  .notebook-content .update-date b { font-size:16px; }
+}
