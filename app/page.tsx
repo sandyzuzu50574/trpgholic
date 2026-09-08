@@ -159,7 +159,7 @@ export default function Home() {
       <iframe className="tabletop-frame" src="tabletop.html" title="ZUZU｜跑團筆記互動入口" />
     </div>
     <div className="notebook-content">
-    <header className="site-header"><time className="update-date" dateTime="2026-09-08"><span>更新日期</span><b>2026.09.08</b></time></header>
+    <header className="site-header"><time className="update-date" dateTime="2026-09-08"><span>Date.</span><b>2026&nbsp;&nbsp;/&nbsp;&nbsp;09&nbsp;&nbsp;/&nbsp;&nbsp;08</b></time></header>
     <section className="hero compact-hero" id="top"><div className="about-title-row"><h1>關於我的一些記錄</h1><img className="about-sticker" src="zuzu-about-sticker-v1.png" alt="朱朱舉杯的形象貼紙" /></div><div className="stats" aria-label="TRPG經歷統計"><div><strong>2017</strong><span>年至今</span></div><div><strong>31</strong><span>套系統支援</span></div><div><strong>153</strong><span>團主持</span></div><div><strong>173</strong><span>團玩家</span></div></div></section>
     <details className="style-fold" id="style"><summary><span className="fold-title"><small>01</small> 我喜歡！</span><span className="fold-action">展開查看 ＋</span></summary><ol className="style-list"><li>理解角色，成為粉絲</li><li>共同創作與交流互動</li><li>即興回應與關係敘事</li><li>玩出系統與劇本的風味</li><li>再加點我們都喜歡的東西</li></ol></details>
     <details className="experience-fold" id="experience"><summary><span className="fold-title"><small>02</small> 值得紀念<img className="clap-sticker" src="clap-sticker-v1.png" alt="拍手貼紙" /></span><span className="fold-action">展開查看 ＋</span></summary><div className="experience-grid">
