@@ -544,3 +544,12 @@ footer { display:flex; justify-content:space-between; padding-top:38px; padding-
   .notebook-content .style-fold,
   .notebook-content .experience-fold { padding-left:48px; }
 }
+
+
+/* 讓筆記本底圖穿透收合區塊 */
+.notebook-content .style-fold,
+.notebook-content .experience-fold,
+.notebook-content .style-fold summary,
+.notebook-content .experience-fold summary {
+  background:transparent;
+}
