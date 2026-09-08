@@ -875,7 +875,14 @@ body.drawer-open { overflow:hidden; }
     linear-gradient(90deg,rgba(13,139,103,.11) 1px,transparent 1px);
   background-position:-1px -1px;
   background-size:20px 20px;
-  box-shadow:none;
+  box-shadow:0 12px 18px -9px rgba(42,45,41,.32);
+}
+
+/* 右側紙張使用單張紋理，避免重複鋪排產生暗色接縫 */
+.script-drawer {
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
 }
 </style></head>
 <body>
