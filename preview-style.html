@@ -342,6 +342,33 @@
     padding:14px 8px 12px;
   }
 }
+
+
+/* 內頁橫線與日期對齊 */
+.notebook .hero::after { content:none; }
+.notebook .site-header {
+  width:auto;
+  margin-left:clamp(96px,8vw,126px);
+  margin-right:clamp(46px,4vw,68px);
+  padding-left:0;
+  padding-right:0;
+  border-bottom:1px solid var(--line);
+}
+.notebook .update-date {
+  margin-left:auto;
+  margin-right:0;
+}
+.notebook .fold { border:0; }
+.notebook .fold summary {
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+@media(max-width:760px) {
+  .notebook .site-header {
+    margin-left:50px;
+    margin-right:18px;
+  }
+}
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
