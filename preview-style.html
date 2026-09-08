@@ -546,6 +546,165 @@ details[open] .action::after { font-size:13px; }
     margin-left:68px;
   }
 }
+
+
+/* 右側翻頁式劇本抽屜 */
+.system-card {
+  width:100%;
+  appearance:none;
+  font:inherit;
+  cursor:pointer;
+}
+.system-card:focus-visible {
+  outline:2px dashed var(--accent);
+  outline-offset:4px;
+}
+.drawer-backdrop {
+  position:fixed;
+  z-index:40;
+  inset:0;
+  background:rgba(20,31,27,.28);
+  opacity:0;
+  transition:opacity .35s ease;
+}
+.drawer-backdrop.is-open { opacity:1; }
+.script-drawer {
+  position:fixed;
+  z-index:41;
+  top:0;
+  right:0;
+  width:min(720px,100%);
+  height:100svh;
+  overflow-y:auto;
+  padding:76px 58px 64px 118px;
+  border-left:1px solid rgba(13,139,103,.24);
+  background-color:#fbfdfc;
+  background-image:
+    linear-gradient(90deg,transparent 0 76px,rgba(13,139,103,.14) 77px,transparent 78px),
+    repeating-linear-gradient(180deg,transparent 0,transparent 31px,rgba(13,139,103,.075) 32px),
+    url("public/notebook-frame-redraw-v1.webp");
+  background-position:left top,left top,center top;
+  background-size:100% 100%,100% 32px,100% auto;
+  background-repeat:no-repeat,repeat,repeat-y;
+  box-shadow:-18px 0 40px rgba(36,42,38,.2);
+  transform:translateX(104%);
+  transition:transform .48s cubic-bezier(.22,.78,.28,1);
+  visibility:hidden;
+}
+.script-drawer.is-open {
+  transform:translateX(0);
+  visibility:visible;
+}
+.drawer-close {
+  position:absolute;
+  top:22px;
+  right:26px;
+  width:42px;
+  height:42px;
+  border:1px solid var(--accent);
+  border-radius:50%;
+  background:rgba(251,253,252,.88);
+  color:var(--accent);
+  font:400 28px/1 system-ui,sans-serif;
+  cursor:pointer;
+}
+.drawer-close:focus-visible {
+  outline:2px dashed var(--accent);
+  outline-offset:3px;
+}
+.drawer-header {
+  margin-bottom:42px;
+  padding-bottom:22px;
+  border-bottom:1px solid var(--line);
+}
+.drawer-header span {
+  color:var(--accent);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.15em;
+}
+.drawer-header h2 {
+  margin:10px 0 0;
+  font-family:"ChenYuluoyan Thin","Klee One","DFKai-SB","BiauKai","Kaiti TC",cursive;
+  font-size:clamp(38px,6vw,58px);
+  font-weight:400;
+  letter-spacing:.04em;
+  line-height:1.1;
+}
+.script-cards {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:30px 24px;
+}
+.script-card {
+  --script-tape:#f2d36d;
+  position:relative;
+  min-height:112px;
+  padding:30px 20px 20px;
+  border:1px solid rgba(74,93,85,.16);
+  border-radius:2px;
+  background:
+    repeating-linear-gradient(180deg,transparent 0,transparent 27px,rgba(75,105,91,.07) 28px),
+    rgba(255,255,255,.9);
+  box-shadow:0 10px 13px -7px rgba(48,46,39,.3);
+  transform:rotate(var(--script-tilt,-.25deg));
+}
+.script-card::before {
+  position:absolute;
+  top:-10px;
+  left:-7px;
+  width:60px;
+  height:22px;
+  background:var(--script-tape);
+  box-shadow:0 2px 3px rgba(50,46,38,.1);
+  content:"";
+  opacity:.76;
+  transform:rotate(-8deg);
+}
+.script-card:nth-child(4n+2) {
+  --script-tape:#acd8e5;
+  --script-tilt:.35deg;
+}
+.script-card:nth-child(4n+3) {
+  --script-tape:#e8b3c5;
+  --script-tilt:-.45deg;
+}
+.script-card:nth-child(4n) {
+  --script-tape:#b9daa9;
+  --script-tilt:.25deg;
+}
+.script-number {
+  display:block;
+  margin-bottom:13px;
+  color:var(--accent);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.12em;
+}
+.script-card h3 {
+  margin:0;
+  font-family:"Klee One","DFKai-SB","BiauKai","Kaiti TC",cursive;
+  font-size:16px;
+  font-weight:600;
+  line-height:1.5;
+}
+body.drawer-open { overflow:hidden; }
+@media(max-width:600px) {
+  .script-drawer {
+    padding:70px 20px 48px 76px;
+    background-image:
+      linear-gradient(90deg,transparent 0 47px,rgba(13,139,103,.14) 48px,transparent 49px),
+      repeating-linear-gradient(180deg,transparent 0,transparent 29px,rgba(13,139,103,.07) 30px),
+      url("public/notebook-frame-redraw-v1.webp");
+    background-size:100% 100%,100% 30px,100% auto;
+  }
+  .drawer-close { top:16px; right:16px; }
+  .drawer-header { margin-bottom:34px; }
+  .script-cards { grid-template-columns:1fr; gap:27px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .drawer-backdrop,.script-drawer { transition:none; }
+}
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
@@ -555,16 +714,22 @@ details[open] .action::after { font-size:13px; }
 <details class="fold style-fold"><summary><span class="fold-title"><small>01</small>我喜歡！</span><span class="action">展開查看 ＋</span></summary><ol class="style-list"><li>理解角色，成為粉絲</li><li>共同創作與交流互動</li><li>即興回應與關係敘事</li><li>玩出系統與劇本的風味</li><li>再加點我們都喜歡的東西</li></ol></details>
 <details class="fold experience-fold"><summary><span class="fold-title"><small>02</small>值得紀念<img class="clap-sticker" src="public/clap-sticker-v1.png" alt="拍手貼紙"></span><span class="action">展開查看 ＋</span></summary><div class="experience-grid"><article><h3>長期戰役主持</h3><p>D&D 5e《斯特拉德的詛咒》、《命運之輪》<br>CoC 7e《寂靜之音》</p></article><article><h3>劇本撰寫</h3><p>為多種系統撰寫約30篇劇本</p></article><article><h3>系統創作</h3><p>《我們的多重宇宙》<br>《About Our Time》</p></article><article><h3>大型企劃</h3><p>愚人節系統車輪戰<br>五桌連動《斯特拉德必須死》</p></article></div></details>
 <details class="fold systems-fold" id="systems"><summary><span class="fold-title"><small>03</small>帶過的團</span><span class="action">展開查看 ＋</span></summary><div class="systems-panel"><div class="systems-index-row"><span class="category-index">奇幻冒險</span></div><div class="systems-grid">
-<article class="system-card" style="--cover:url('public/dnd-35-players-handbook.png')"><span class="system-count">2 個劇本</span><span class="system-name">龍與地下城 3r</span><span class="system-en">Dungeons &amp; Dragons 3r</span><span class="system-link">查看劇本 ↗</span></article>
-<article class="system-card" style="--cover:url('public/dnd-5e-cover.webp')"><span class="system-count">16 個劇本</span><span class="system-name">龍與地下城 5e</span><span class="system-en">Dungeons &amp; Dragons 5e</span><span class="system-link">查看劇本 ↗</span></article>
-<article class="system-card" style="--cover:url('public/lady-blackbird-cover.webp')"><span class="system-count">1 個劇本</span><span class="system-name">蒼穹的紀錄</span><span class="system-en">Archives of the Sky</span><span class="system-link">查看劇本 ↗</span></article>
-<article class="system-card" style="--cover:url('public/ryuutama-rulebook.jpg')"><span class="system-count">2 個劇本</span><span class="system-name">龍蛋物語</span><span class="system-link">查看劇本 ↗</span></article>
-<article class="system-card" style="--cover:url('public/quest-rpg-cover.jpg')"><span class="system-count">9 個劇本</span><span class="system-name">QUEST</span><span class="system-link">查看劇本 ↗</span></article>
-<article class="system-card" style="--cover:url('public/fate-core-cover.png')"><span class="system-count">5 個劇本</span><span class="system-name">FATE Core／快速版</span><span class="system-link">查看劇本 ↗</span></article>
-<article class="system-card" style="--cover:url('public/neon-city-overdrive-cover.webp')"><span class="system-count">1 個劇本</span><span class="system-name">超載霓虹城</span><span class="system-en">Neon City Overdrive</span><span class="system-link">查看劇本 ↗</span></article>
-<article class="system-card" style="--cover:url('public/cosmere-rpg-cover.webp')"><span class="system-count">1 個劇本</span><span class="system-name">寰宇RPG</span><span class="system-en">Cosmere RPG</span><span class="system-link">查看劇本 ↗</span></article>
+<button class="system-card" type="button" data-system="龍與地下城 3r" aria-haspopup="dialog" style="--cover:url('public/dnd-35-players-handbook.png')"><span class="system-count">2 個劇本</span><span class="system-name">龍與地下城 3r</span><span class="system-en">Dungeons &amp; Dragons 3r</span><span class="system-link">查看劇本 ↗</span></button>
+<button class="system-card" type="button" data-system="龍與地下城 5e" aria-haspopup="dialog" style="--cover:url('public/dnd-5e-cover.webp')"><span class="system-count">16 個劇本</span><span class="system-name">龍與地下城 5e</span><span class="system-en">Dungeons &amp; Dragons 5e</span><span class="system-link">查看劇本 ↗</span></button>
+<button class="system-card" type="button" data-system="蒼穹的紀錄" aria-haspopup="dialog" style="--cover:url('public/lady-blackbird-cover.webp')"><span class="system-count">1 個劇本</span><span class="system-name">蒼穹的紀錄</span><span class="system-en">Archives of the Sky</span><span class="system-link">查看劇本 ↗</span></button>
+<button class="system-card" type="button" data-system="龍蛋物語" aria-haspopup="dialog" style="--cover:url('public/ryuutama-rulebook.jpg')"><span class="system-count">2 個劇本</span><span class="system-name">龍蛋物語</span><span class="system-link">查看劇本 ↗</span></button>
+<button class="system-card" type="button" data-system="QUEST" aria-haspopup="dialog" style="--cover:url('public/quest-rpg-cover.jpg')"><span class="system-count">9 個劇本</span><span class="system-name">QUEST</span><span class="system-link">查看劇本 ↗</span></button>
+<button class="system-card" type="button" data-system="FATE Core／快速版" aria-haspopup="dialog" style="--cover:url('public/fate-core-cover.png')"><span class="system-count">5 個劇本</span><span class="system-name">FATE Core／快速版</span><span class="system-link">查看劇本 ↗</span></button>
+<button class="system-card" type="button" data-system="超載霓虹城" aria-haspopup="dialog" style="--cover:url('public/neon-city-overdrive-cover.webp')"><span class="system-count">1 個劇本</span><span class="system-name">超載霓虹城</span><span class="system-en">Neon City Overdrive</span><span class="system-link">查看劇本 ↗</span></button>
+<button class="system-card" type="button" data-system="寰宇RPG" aria-haspopup="dialog" style="--cover:url('public/cosmere-rpg-cover.webp')"><span class="system-count">1 個劇本</span><span class="system-name">寰宇RPG</span><span class="system-en">Cosmere RPG</span><span class="system-link">查看劇本 ↗</span></button>
 </div></div></details>
 </div>
+<div class="drawer-backdrop" hidden></div>
+<aside class="script-drawer" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="drawer-title">
+  <button class="drawer-close" type="button" aria-label="關閉劇本頁">×</button>
+  <header class="drawer-header"><span>劇本紀錄</span><h2 id="drawer-title"></h2></header>
+  <div class="script-cards" id="script-cards"></div>
+</aside>
 <script>
 const intro=document.querySelector('#intro'),frame=document.querySelector('iframe'),notebook=document.querySelector('.notebook'),reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 function update(){
@@ -578,4 +743,60 @@ function update(){
 addEventListener('scroll',update,{passive:true});addEventListener('resize',update);addEventListener('load',update);reducedMotion.addEventListener?.('change',update);
 addEventListener('message',e=>{if(e.data?.type!=='open-notebook-request')return;scrollTo({top:intro.offsetTop+intro.offsetHeight-innerHeight+2,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})});
 const stats=document.querySelector('.stats');stats.classList.add('stats-ready');const observer=new IntersectionObserver(([entry])=>{if(entry.isIntersecting){stats.classList.add('is-written');observer.disconnect()}},{threshold:.42});observer.observe(stats);
+
+const systemScripts={
+  "龍與地下城 3r":["魔女的詛咒","聖樹夢境"],
+  "龍與地下城 5e":["斯特拉德的詛咒","死亡小屋","德魯伊的試煉：大地","德魯伊的試煉：牧人","逐龍的龍裔們","羊羊快跑","邱比特的麻雀","魔女的詛咒","勇敢的色彩","追鵝人","碎鏡之森","初來乍到","失落的凡戴爾礦坑","獸人與餅：慶生版","命運之輪的轉動","冬日焰火"],
+  "蒼穹的紀錄":["黑鳥小姐（Lady Blackbird）"],
+  "龍蛋物語":["下雨的草原","傳火之旅"],
+  "QUEST":["寶藏山","原初之火","濡沫淚礁","前瞻的先知女王","安眠遊樂場","蔽日巨獸在呼嚕","金鉤幫與聖誕老人","台北大縱走","跨年的煙火"],
+  "FATE Core／快速版":["H×H：友客鑫拍賣會後","獻祭吧！間諜家庭","貓的秘密：年獸","貓的秘密：清明","Uder Spy"],
+  "超載霓虹城":["Cybereat之佛跳牆"],
+  "寰宇RPG":["橋九隊"]
+};
+const drawer=document.querySelector('.script-drawer'),backdrop=document.querySelector('.drawer-backdrop'),drawerTitle=document.querySelector('#drawer-title'),scriptCards=document.querySelector('#script-cards'),closeDrawerButton=document.querySelector('.drawer-close');
+let drawerTrigger=null,drawerTimer=0;
+function renderScripts(name){
+  drawerTitle.textContent=name;
+  scriptCards.replaceChildren(...(systemScripts[name]||[]).map((title,index)=>{
+    const card=document.createElement('article'),number=document.createElement('span'),heading=document.createElement('h3');
+    card.className='script-card';
+    number.className='script-number';
+    number.textContent=String(index+1).padStart(2,'0');
+    heading.textContent='《'+title+'》';
+    card.append(number,heading);
+    return card;
+  }));
+}
+function openDrawer(trigger){
+  clearTimeout(drawerTimer);
+  drawerTrigger=trigger;
+  renderScripts(trigger.dataset.system);
+  backdrop.hidden=false;
+  drawer.setAttribute('aria-hidden','false');
+  document.body.classList.add('drawer-open');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    backdrop.classList.add('is-open');
+    drawer.classList.add('is-open');
+    closeDrawerButton.focus();
+  }));
+}
+function closeDrawer(){
+  backdrop.classList.remove('is-open');
+  drawer.classList.remove('is-open');
+  document.body.classList.remove('drawer-open');
+  drawerTimer=setTimeout(()=>{
+    backdrop.hidden=true;
+    drawer.setAttribute('aria-hidden','true');
+    drawerTrigger?.focus();
+  },reducedMotion.matches?0:500);
+}
+document.querySelectorAll('.system-card').forEach(card=>card.addEventListener('click',()=>openDrawer(card)));
+closeDrawerButton.addEventListener('click',closeDrawer);
+backdrop.addEventListener('click',closeDrawer);
+addEventListener('keydown',event=>{
+  if(!drawer.classList.contains('is-open'))return;
+  if(event.key==='Escape')closeDrawer();
+  if(event.key==='Tab'){event.preventDefault();closeDrawerButton.focus();}
+});
 </script></body></html>
