@@ -121,30 +121,21 @@ html,body{background:#fff}
   .desk-sticker{width:64px}
   .s-d8b,.s-d10b,.s-d6b,.s-d20b,.s-d4b,.s-batb,.s-beerb,.s-fernb,.s-branchb,.s-leafb{display:none}
 }
-</style></head><body><main class="table" data-state="opening"><div class="decor-stickers" aria-hidden="true">
-<img class="desk-sticker s-d8" src="sticker-d8.png" alt="" draggable="false">
-<img class="desk-sticker s-d10" src="sticker-d10.png" alt="" draggable="false">
-<img class="desk-sticker s-d100" src="sticker-d100.png" alt="" draggable="false">
-<img class="desk-sticker s-d6" src="sticker-d6.png" alt="" draggable="false">
-<img class="desk-sticker s-d20" src="sticker-d20.png" alt="" draggable="false">
-<img class="desk-sticker s-d12" src="sticker-d12.png" alt="" draggable="false">
-<img class="desk-sticker s-d4" src="sticker-d4.png" alt="" draggable="false">
-<img class="desk-sticker s-bat" src="sticker-bat.png" alt="" draggable="false">
-<img class="desk-sticker s-beer" src="sticker-beer.png" alt="" draggable="false">
-<img class="desk-sticker s-fern" src="sticker-fern.png" alt="" draggable="false">
-<img class="desk-sticker s-branch" src="sticker-branch.png" alt="" draggable="false">
-<img class="desk-sticker s-leaf" src="sticker-leaf.png" alt="" draggable="false">
-<img class="desk-sticker s-d8b" src="sticker-d8.png" alt="" draggable="false">
-<img class="desk-sticker s-d10b" src="sticker-d10.png" alt="" draggable="false">
-<img class="desk-sticker s-d6b" src="sticker-d6.png" alt="" draggable="false">
-<img class="desk-sticker s-d20b" src="sticker-d20.png" alt="" draggable="false">
-<img class="desk-sticker s-d4b" src="sticker-d4.png" alt="" draggable="false">
-<img class="desk-sticker s-batb" src="sticker-bat.png" alt="" draggable="false">
-<img class="desk-sticker s-beerb" src="sticker-beer.png" alt="" draggable="false">
-<img class="desk-sticker s-fernb" src="sticker-fern.png" alt="" draggable="false">
-<img class="desk-sticker s-branchb" src="sticker-branch.png" alt="" draggable="false">
-<img class="desk-sticker s-leafb" src="sticker-leaf.png" alt="" draggable="false">
-</div><div class="book" aria-label="ZUZU TRPG-holic 跑團筆記本"><img src="intro-notebook-sticker-v1.png" alt=""><span class="book-label"><strong>ZUZU</strong><small>TRPG-holic</small></span></div><img class="hand" src="intro-hand-sticker-v3.png" alt="" aria-hidden="true"><div class="opening-stage" aria-hidden="true"><div class="focus-book"><img src="intro-notebook-sticker-v1.png" alt=""><span class="book-label"><strong>ZUZU</strong><small>TRPG-holic</small></span></div><img class="open-book" src="open-book.png" alt=""><div class="page-preview"><blockquote class="ink-quote"><span class="ink-stain stain-a"></span><span class="ink-stain stain-b"></span><span class="ink-stain stain-c"></span><span class="ink-head"></span><p class="quote-text"></p><cite class="quote-source"></cite></blockquote></div></div><canvas aria-hidden="true"></canvas><button class="die-hit" type="button" hidden aria-label="重擲d4" data-die="0"></button><button class="die-hit" type="button" hidden aria-label="重擲d6" data-die="1"></button><button class="die-hit" type="button" hidden aria-label="重擲d8" data-die="2"></button><button class="die-hit" type="button" hidden aria-label="重擲d10" data-die="3"></button><button class="die-hit" type="button" hidden aria-label="重擲十位數十面骰" data-die="4"></button><button class="die-hit" type="button" hidden aria-label="重擲d12" data-die="5"></button><button class="die-hit" type="button" hidden aria-label="重擲d20" data-die="6"></button><a class="hint" href="#top" target="_parent">翻開我的跑團筆記<span aria-hidden="true">↓</span></a><p class="sr" role="status" aria-live="polite"></p></main><script>(()=>{
+
+/* 極簡入口：只保留中央筆記本 */
+html,body{background:#fff}
+.table{background:#fff}
+.decor-stickers,.hand,canvas,.die-hit{display:none!important}
+.book,.focus-book{top:50%;left:50%;width:clamp(260px,34vw,390px)}
+.book{z-index:4;transform:translate(-50%,-50%) rotate(-6deg)}
+.arrive .book{animation:none;transform:translate(-50%,-50%) rotate(-6deg)}
+.hint{z-index:5}
+@media(max-width:600px){
+  .book,.focus-book{top:48%;left:50%;width:68%}
+  .book{transform:translate(-50%,-50%) rotate(-6deg)}
+  .arrive .book{animation:none;transform:translate(-50%,-50%) rotate(-6deg)}
+}
+</style></head><body><main class="table" data-state="opening"><div class="book" aria-label="ZUZU TRPG-holic 跑團筆記本"><img src="intro-notebook-sticker-v1.png" alt=""><span class="book-label"><strong>ZUZU</strong><small>TRPG-holic</small></span></div><img class="hand" src="intro-hand-sticker-v3.png" alt="" aria-hidden="true"><div class="opening-stage" aria-hidden="true"><div class="focus-book"><img src="intro-notebook-sticker-v1.png" alt=""><span class="book-label"><strong>ZUZU</strong><small>TRPG-holic</small></span></div><img class="open-book" src="open-book.png" alt=""><div class="page-preview"><blockquote class="ink-quote"><span class="ink-stain stain-a"></span><span class="ink-stain stain-b"></span><span class="ink-stain stain-c"></span><span class="ink-head"></span><p class="quote-text"></p><cite class="quote-source"></cite></blockquote></div></div><canvas aria-hidden="true"></canvas><button class="die-hit" type="button" hidden aria-label="重擲d4" data-die="0"></button><button class="die-hit" type="button" hidden aria-label="重擲d6" data-die="1"></button><button class="die-hit" type="button" hidden aria-label="重擲d8" data-die="2"></button><button class="die-hit" type="button" hidden aria-label="重擲d10" data-die="3"></button><button class="die-hit" type="button" hidden aria-label="重擲十位數十面骰" data-die="4"></button><button class="die-hit" type="button" hidden aria-label="重擲d12" data-die="5"></button><button class="die-hit" type="button" hidden aria-label="重擲d20" data-die="6"></button><a class="hint" href="#top" target="_parent">翻開我的跑團筆記<span aria-hidden="true">↓</span></a><p class="sr" role="status" aria-live="polite"></p></main><script>(()=>{
 const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),root=document.querySelector('.table');
 const hand=document.querySelector('.hand'),hint=document.querySelector('.hint'),status=document.querySelector('[role=status]');
 const book=document.querySelector('.book'),stage=document.querySelector('.opening-stage'),focusBook=document.querySelector('.focus-book'),openBook=document.querySelector('.open-book'),pagePreview=document.querySelector('.page-preview');
@@ -270,7 +261,7 @@ function applyProgress(progress){
   stage.style.opacity=String(stageIn);
   const closePhase=clamp01((p-.10)/.30), openPhase=clamp01((p-.30)/.34), fillPhase=clamp01((p-.62)/.38);
   focusBook.style.opacity=String(stageIn*(1-openPhase));
-  focusBook.style.transform='translate(-50%,-50%) scale('+(0.72+closePhase*.55)+') rotate(' + (-9+closePhase*8) + 'deg) rotateY(' + (-openPhase*74) + 'deg)';
+  focusBook.style.transform='translate(-50%,-50%) scale('+(0.95+closePhase*.30)+') rotate(' + (-6+closePhase*5) + 'deg) rotateY(' + (-openPhase*74) + 'deg)';
   openBook.style.opacity=String(openPhase*(1-clamp01((p-.87)/.13)));
   openBook.style.transform='translate(-50%,-50%) scale('+(0.78+openPhase*.22+fillPhase*2.15)+')';
   pagePreview.style.opacity=String(clamp01((p-.42)/.22));
@@ -295,7 +286,7 @@ function applyProgress(progress){
 }
 window.addEventListener('message',event=>{if(event.data?.type==='notebook-progress')applyProgress(event.data.progress);});
 hint.addEventListener('click',e=>{if(window.parent===window)return;e.preventDefault();try{const wrapper=window.frameElement?.parentElement;if(wrapper){window.parent.scrollTo({top:wrapper.offsetTop+wrapper.offsetHeight-window.parent.innerHeight+2,behavior:reduce.matches?'auto':'smooth'});return;}}catch(error){}window.parent.postMessage({type:'open-notebook-request'},'*');});
-Promise.all([...document.images].map(im=>im.decode().catch(()=>{}))).then(()=>{root.classList.add('arrive');setTimeout(()=>roll(),reduce.matches?0:1700);});
+Promise.all([...document.images].map(im=>im.decode().catch(()=>{}))).then(()=>{root.classList.add('arrive');root.dataset.state='settled';hint.classList.add('ready');status.textContent='向下滑動，翻開跑團筆記。';});
 })();</script>
 <style>
 /* 捲動驅動的逐字書寫 */
