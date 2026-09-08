@@ -264,10 +264,10 @@ function applyProgress(progress){
   const closePhase=clamp01((p-.10)/.30), openPhase=clamp01((p-.30)/.34), fillPhase=clamp01((p-.62)/.38);
   focusBook.style.opacity=String(stageIn*(1-openPhase));
   focusBook.style.transform='translate(-50%,-50%) scale('+(0.95+closePhase*.30)+') rotate(' + (-6+closePhase*5) + 'deg) rotateY(' + (-openPhase*74) + 'deg)';
-  const paperPhase=clamp01((p-.72)/.24);
+  const paperPhase=clamp01((p-.40)/.20),bookExit=clamp01((p-.58)/.30);
   stage.style.setProperty('--page-fill',String(paperPhase));
-  openBook.style.opacity=String(openPhase*(1-clamp01((p-.79)/.19)));
-  openBook.style.transform='translate(-50%,-50%) scale('+(0.78+openPhase*.22+fillPhase*2.15)+')';
+  openBook.style.opacity=String(openPhase*(1-bookExit));
+  openBook.style.transform='translate(calc(-50% - '+(bookExit*38)+'vw),-50%) scale('+(0.78+openPhase*.22+bookExit*.08)+') rotate('+(openPhase*5.5)+'deg)';
   pagePreview.style.opacity=String(clamp01((p-.42)/.22));
   pagePreview.classList.toggle('ink-visible',p>.42);
   const writePhase=clamp01((p-.42)/.34), total=quoteChars.length;
