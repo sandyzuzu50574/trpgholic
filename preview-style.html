@@ -213,8 +213,12 @@
 
 /* 高解析筆記本底層 */
 .notebook {
+  z-index:2;
   width:min(1380px,calc(100% - 48px));
-  margin:0 auto 56px;
+  margin:-100svh auto 56px;
+  opacity:0;
+  transform:translateY(6svh);
+  will-change:opacity,transform;
   background-image:
     linear-gradient(90deg,transparent 0 72px,rgba(13,139,103,.14) 73px,transparent 74px),
     repeating-linear-gradient(180deg,transparent 0,transparent 31px,rgba(13,139,103,.075) 32px),
@@ -349,9 +353,16 @@
 </div>
 <section class="next"><small>03</small><h2>帶過的團</h2><p>後半段暫時維持原網站卡片框架，這裡是兩種設計的比較界線。</p></section>
 <script>
-const intro=document.querySelector('#intro'),frame=document.querySelector('iframe');
-function update(){const rect=intro.getBoundingClientRect(),distance=Math.max(1,intro.offsetHeight-innerHeight),progress=Math.max(0,Math.min(1,-rect.top/distance));frame.contentWindow?.postMessage({type:'notebook-progress',progress},'*')}
-addEventListener('scroll',update,{passive:true});addEventListener('resize',update);addEventListener('load',update);
+const intro=document.querySelector('#intro'),frame=document.querySelector('iframe'),notebook=document.querySelector('.notebook'),reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+function update(){
+  const rect=intro.getBoundingClientRect(),distance=Math.max(1,intro.offsetHeight-innerHeight),progress=Math.max(0,Math.min(1,-rect.top/distance));
+  const reveal=reducedMotion.matches?1:Math.max(0,Math.min(1,(progress-.42)/.50));
+  notebook.style.opacity=String(reveal);
+  notebook.style.transform=reducedMotion.matches?'none':'translateY('+(6*(1-reveal))+'svh)';
+  notebook.style.pointerEvents=reveal>.9?'auto':'none';
+  frame.contentWindow?.postMessage({type:'notebook-progress',progress},'*');
+}
+addEventListener('scroll',update,{passive:true});addEventListener('resize',update);addEventListener('load',update);reducedMotion.addEventListener?.('change',update);
 addEventListener('message',e=>{if(e.data?.type!=='open-notebook-request')return;scrollTo({top:intro.offsetTop+intro.offsetHeight-innerHeight+2,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})});
 const stats=document.querySelector('.stats');stats.classList.add('stats-ready');const observer=new IntersectionObserver(([entry])=>{if(entry.isIntersecting){stats.classList.add('is-written');observer.disconnect()}},{threshold:.42});observer.observe(stats);
 </script></body></html>
