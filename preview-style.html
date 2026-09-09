@@ -1319,7 +1319,7 @@ body.drawer-open { overflow:hidden; }
   --camp-image:none;
 }
 .category-drawer.is-camp.is-city {
-  --camp-image:url("public/city-night-alley-bg-v1.webp");
+  --camp-image:url("public/city-neon-alley-bg-v2.webp");
 }
 .is-camp:not(.is-fantasy) .camp-atmosphere svg,
 .is-camp:not(.is-fantasy) .camp-sparks {
@@ -1640,6 +1640,43 @@ body.drawer-open { overflow:hidden; }
   .is-camp.is-party .party-confetti { display:none; }
 }
 /* 彩帶效果結束 */
+
+/* 輕鬆派對：以旋轉 DISCO 球取代標題文字 */
+.is-camp.is-party .category-drawer-header h2 {
+  display:flex;
+  min-height:clamp(112px,13vw,148px);
+  align-items:center;
+  justify-content:center;
+  margin:0;
+  font-size:0!important;
+  line-height:0;
+}
+.is-camp.is-party .category-drawer-header h2::before {
+  display:block;
+  width:clamp(108px,12vw,140px);
+  aspect-ratio:1;
+  background:url("public/party-disco-ball-spin-v4.gif") center/contain no-repeat;
+  content:"";
+  filter:drop-shadow(0 9px 10px rgba(77,58,48,.16));
+}
+.is-camp.is-city .category-drawer-header h2 { color:#ffd88f; }
+.is-camp.is-city .system-card { border-color:rgba(66,205,239,.42); }
+.is-camp.is-city .system-card:hover {
+  border-color:rgba(255,91,160,.62);
+  box-shadow:0 19px 44px rgba(0,4,8,.56),0 0 20px rgba(24,196,235,.14),inset 0 1px 0 rgba(255,174,92,.16);
+}
+.is-camp.is-city .system-card .system-count { color:#69dcff; }
+.is-camp.is-city .system-card .system-link { color:#ff7eb6; }
+@media(max-width:640px) {
+  .is-camp.is-party .category-drawer-header h2 { min-height:108px; }
+  .is-camp.is-party .category-drawer-header h2::before { width:104px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .is-camp.is-party .category-drawer-header h2::before {
+    background-image:url("public/party-disco-ball-static-v4.png");
+  }
+}
+/* DISCO 球標題結束 */
 
 /* 營火分類頁調整結束 */
 </style></head>
