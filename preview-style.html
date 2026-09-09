@@ -1487,6 +1487,11 @@ body.drawer-open { overflow:hidden; }
 .is-camp.is-city .system-card .system-link { color:#e8bb7d; }
 /* 城市一角主題結束 */
 
+@media(max-width:640px) {
+  .is-camp.is-party .category-drawer-header h2 {
+    font-size:clamp(16px,5vw,20px);
+  }
+}
 /* 營火分類頁調整結束 */
 </style></head>
 <body>
@@ -1585,6 +1590,12 @@ const categorySystems={
     {name:"哥布林跑跑腿",en:"Goblin Errands"},
     {name:"我們的多重宇宙",en:"Our Multiverse v1.43"}
   ]
+};
+const categoryPageTitles={
+  "奇幻冒險":"踏上旅途吧，冒險者，或是我該稱你為……英雄？",
+  "探索恐怖":"再深入下去，會很危險哦？",
+  "城市一角":"這個城市，還有許多秘密……",
+  "輕鬆派對":"零食準備好，可以開始放飛了！"
 };
 const categoryThemeClass={
   "奇幻冒險":"is-fantasy",
@@ -1688,7 +1699,7 @@ function openCategory(trigger){
     categoryDrawer.classList.add('is-camp',categoryThemeClass[name]);
     renderCategorySystems(name);
   }
-  categoryTitle.textContent=name==='奇幻冒險'?'踏上旅途吧，冒險者，或是我該稱你為……英雄？':name;
+  categoryTitle.textContent=categoryPageTitles[name]||name;
   categoryGrid.hidden=!hasSystems;
   categoryEmpty.hidden=hasSystems;
   categoryEmpty.style.display=hasSystems?'none':'grid';
