@@ -1310,7 +1310,7 @@ body.drawer-open { overflow:hidden; }
   white-space:nowrap;
 }
 .category-drawer.is-camp.is-horror {
-  --camp-image:url("public/horror-corridor-bg-v1.webp");
+  --camp-image:none;
 }
 .category-drawer.is-camp.is-emotion {
   --camp-image:none;
@@ -1765,6 +1765,54 @@ body.drawer-open { overflow:hidden; }
  .is-camp.is-horror .horror-walk-controls{gap:14px;margin-top:18px}
 }
 
+
+/* A unified unlit corridor with an interactive light aperture. */
+.category-drawer.is-camp.is-horror{
+ background-image:none;background-color:#090c0d;
+ color:#e2ddd0;
+}
+.is-camp.is-horror .category-drawer-header h2{color:#d6d2c7;text-shadow:0 2px 12px #000}
+.is-camp.is-horror .horror-walk-controls{color:#c4c5bb}
+.is-camp.is-horror .horror-walk-controls button{background:#111718;border-color:#5d645f;color:#dfdccb}
+.horror-scene{display:contents}
+.is-horror .horror-scene{display:block;position:relative;isolation:isolate;overflow:hidden;background:#101617}
+.is-camp.is-horror .category-system-grid{
+ border:0;box-shadow:none;position:relative;z-index:0;
+ padding-top:90px;padding-bottom:110px;
+ background:
+ linear-gradient(180deg,#0b1012 0%,#273133 20%,#202829 calc(100% - 114px),#454a44 calc(100% - 113px),#080d0e calc(100% - 105px),#262c2a calc(100% - 100px),#0c1011 100%);
+ background-attachment:local;
+ scrollbar-color:#62685f #080d0e;
+}
+.is-camp.is-horror .category-system-grid .system-card{
+ border-color:#3d4947;
+ box-shadow:0 3px 0 #737969,0 20px 32px #000b,0 0 0 9px #151c1d,0 0 0 11px #343e3b;
+ background:#070b0c;
+}
+.is-camp.is-horror .door-leaf{
+ background:linear-gradient(95deg,#11191a,#283132 52%,#172021);
+ border-color:#56615b;
+ box-shadow:inset 0 0 0 8px #111819,inset 0 0 0 10px #3b4844,8px 0 24px #000b;
+}
+.is-camp.is-horror .system-card .system-name{border-color:#767b68;background:#172022;color:#eee9d4;box-shadow:0 3px 5px #0008,inset 0 0 0 3px #303d39}
+.is-camp.is-horror .system-card .system-link{border-color:#6b7568}
+.horror-flashlight{display:none}
+.is-horror .horror-flashlight{
+ display:block;position:absolute;inset:0;z-index:5;pointer-events:none;
+ background:radial-gradient(circle var(--beam-size,240px) at var(--beam-x,32%) var(--beam-y,44%),
+ rgba(244,230,192,.07) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,.16) 48%,rgba(0,0,0,.65) 78%,rgba(0,0,0,.76) 100%);
+}
+.is-camp.is-horror .system-card.is-door-ajar .door-leaf{transform:rotateY(-12deg);transition-duration:2.4s}
+.is-camp.is-horror .system-card:nth-child(even).is-door-ajar .door-leaf{transform:rotateY(12deg);transition-duration:2.4s}
+@media(max-width:640px){
+ .is-horror .horror-flashlight{--beam-size:195px}
+ .is-camp.is-horror .category-system-grid{padding-top:60px;padding-bottom:90px}
+}
+@media(prefers-reduced-motion:reduce){
+ .is-horror .horror-flashlight{background:rgba(0,0,0,.14)}
+ .is-camp.is-horror .system-card.is-door-ajar .door-leaf{transform:none;transition:none}
+}
+
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
@@ -2011,6 +2059,7 @@ function openCategory(trigger){
   categoryDrawer.classList.add('is-open');
   categoryDrawer.scrollTop=0;
   categoryGrid.scrollLeft=0;
+  resetHorrorScene();
   requestAnimationFrame(updateHorrorWalk);
   scheduleCampMist();
   categoryClose.focus({preventScroll:true});
@@ -2048,6 +2097,7 @@ function openCategory(trigger){
   }).catch(()=>{});
 }
 function closeCategory(){
+  resetHorrorScene();
   cancelHorrorDoor();
   clearPortalMotion();
   categoryDrawer.classList.remove('is-atmosphere-ready');
@@ -2235,5 +2285,69 @@ categoryGrid.addEventListener('keydown',event=>{
  cards[next].focus({preventScroll:true});
  cards[next].scrollIntoView({block:'nearest',inline:'center',behavior:reducedMotion.matches?'instant':'smooth'});
 });
+</script>
+
+<script>
+const horrorScene=document.createElement('div');
+horrorScene.className='horror-scene';
+categoryGrid.before(horrorScene);
+horrorScene.append(categoryGrid);
+const horrorFlashlight=document.createElement('div');
+horrorFlashlight.className='horror-flashlight';
+horrorFlashlight.setAttribute('aria-hidden','true');
+horrorScene.append(horrorFlashlight);
+let horrorLightFrame=0,horrorLightPoint=null,horrorResponded=false;
+function resetHorrorScene(){
+ cancelAnimationFrame(horrorLightFrame);horrorLightFrame=0;horrorLightPoint=null;horrorResponded=false;
+ horrorScene.style.removeProperty('--beam-x');horrorScene.style.removeProperty('--beam-y');
+ categoryGrid.querySelectorAll('.is-door-ajar').forEach(card=>card.classList.remove('is-door-ajar'));
+}
+function pointHorrorLight(x,y){
+ if(!categoryDrawer.classList.contains('is-horror')||reducedMotion.matches)return;
+ horrorLightPoint={x,y};
+ if(horrorLightFrame)return;
+ horrorLightFrame=requestAnimationFrame(()=>{
+  horrorLightFrame=0;
+  if(!horrorLightPoint||!categoryDrawer.classList.contains('is-horror'))return;
+  const rect=horrorScene.getBoundingClientRect();
+  horrorScene.style.setProperty('--beam-x',Math.max(0,Math.min(rect.width,horrorLightPoint.x-rect.left))+'px');
+  horrorScene.style.setProperty('--beam-y',Math.max(0,Math.min(rect.height,horrorLightPoint.y-rect.top))+'px');
+ });
+}
+horrorScene.addEventListener('pointermove',event=>pointHorrorLight(event.clientX,event.clientY),{passive:true});
+horrorScene.addEventListener('pointerdown',event=>pointHorrorLight(event.clientX,event.clientY),{passive:true});
+categoryGrid.addEventListener('focusin',event=>{
+ if(!categoryDrawer.classList.contains('is-horror'))return;
+ const card=event.target.closest('.system-card');if(!card)return;
+ card.classList.remove('is-door-ajar');
+});
+function settleHorrorDoor(event){
+ if(!categoryDrawer.classList.contains('is-horror'))return;
+ event.target.closest('.system-card')?.classList.remove('is-door-ajar');
+}
+categoryGrid.addEventListener('pointerover',settleHorrorDoor);
+categoryGrid.addEventListener('pointerdown',settleHorrorDoor);
+function respondHorrorScene(){
+ if(!categoryDrawer.classList.contains('is-horror')||!categoryDrawer.classList.contains('is-open')||drawer.classList.contains('is-open')||reducedMotion.matches||horrorResponded)return;
+ const first=categoryGrid.querySelector('.system-card');if(!first)return;
+ const doorRect=first.getBoundingClientRect(),sceneRect=horrorScene.getBoundingClientRect();
+ if(doorRect.right<sceneRect.left-60&&!first.classList.contains('is-door-entering')&&document.activeElement!==first){
+  horrorResponded=true;
+  first.classList.add('is-door-ajar');
+ }
+}
+function followHorrorFocus(){
+ if(!categoryDrawer.classList.contains('is-horror'))return;
+ const card=document.activeElement;
+ if(!card?.matches('.system-card:focus-visible')||!categoryGrid.contains(card))return;
+ const rect=card.getBoundingClientRect();
+ pointHorrorLight(rect.left+rect.width/2,rect.top+rect.height*.4);
+}
+categoryGrid.addEventListener('focusin',()=>requestAnimationFrame(followHorrorFocus));
+categoryGrid.addEventListener('scroll',()=>{
+ respondHorrorScene();
+ followHorrorFocus();
+},{passive:true});
+reducedMotion.addEventListener('change',resetHorrorScene);
 </script>
 </body></html>
