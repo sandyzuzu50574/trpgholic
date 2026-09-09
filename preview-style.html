@@ -1696,6 +1696,43 @@ body.drawer-open { overflow:hidden; }
 /* DISCO 球標題結束 */
 
 /* 營火分類頁調整結束 */
+
+/* Paired hinged system doors across a central aisle. */
+.is-camp.is-horror .category-system-grid{display:grid;grid-template-columns:repeat(2,minmax(0,240px));justify-content:space-between;align-items:start;width:min(940px,calc(100% - 64px));gap:72px clamp(36px,16vw,260px);margin:56px auto 0;padding:0 0 110px}
+.is-camp.is-horror .system-card{display:block;position:relative;width:100%;height:370px;min-height:0;padding:0;border:7px ridge #504a3d;border-bottom-width:3px;border-radius:2px;overflow:visible;isolation:isolate;perspective:1000px;background:#090b0c;box-shadow:0 20px 40px #0009,inset 0 0 22px #000;text-align:center;transform:none!important}
+.is-camp.is-horror .system-card:nth-child(even){margin-top:80px}
+.is-camp.is-horror .system-card::before,.is-camp.is-horror .system-card::after{display:none;content:none}
+.is-camp.is-horror .system-card .camp-cover{inset:0;width:100%;height:100%;border-radius:0;object-fit:cover;opacity:1;filter:none;transform:none}
+.is-camp.is-horror .door-leaf{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;padding:30px 16px 24px;box-sizing:border-box;background:linear-gradient(100deg,#191e20,#30312c 55%,#1b201f);border:2px solid #77705a;border-right:4px solid #aea080;box-shadow:inset 0 0 0 8px #161b1b,inset 0 0 0 10px #555547,8px 0 24px #000b;transform-origin:left center;transform:rotateY(0deg);backface-visibility:hidden;transition:transform .6s cubic-bezier(.2,.65,.25,1),filter .4s ease}
+.is-camp.is-horror .system-card:nth-child(even) .door-leaf{transform-origin:right center;border-right-width:2px;border-left:4px solid #aea080}
+.is-camp.is-horror .system-card .system-name{max-width:100%;width:100%;box-sizing:border-box;margin:12px 0;padding:14px 6px;border:1px solid #ab9670;border-radius:2px;background:#171b1b;color:#f3e6c9;font-size:clamp(18px,2vw,23px);line-height:1.5;text-shadow:0 1px 3px #000;box-shadow:0 3px 5px #0008,inset 0 0 0 3px #38392e}
+.is-camp.is-horror .system-card .system-count,.is-camp.is-horror .system-card .system-en,.is-camp.is-horror .system-card .system-link{max-width:100%;color:#dccbaa;line-height:1.5;text-shadow:0 1px 4px #000}
+.is-camp.is-horror .system-card .system-count{font-size:14px;margin:0}
+.is-camp.is-horror .system-card .system-en{font-size:14px}
+.is-camp.is-horror .system-card .system-link{margin-top:auto;padding:10px 16px;border:1px solid #8e8167;font-size:14px}
+.is-camp.is-horror .system-card:focus-visible{outline:3px solid #f4dba7;outline-offset:8px}
+@media(hover:hover){
+.is-camp.is-horror .system-card:hover .door-leaf{transform:rotateY(-34deg);filter:brightness(1.12)}
+.is-camp.is-horror .system-card:nth-child(even):hover .door-leaf{transform:rotateY(34deg)}
+}
+.is-camp.is-horror .system-card:focus-visible .door-leaf{transform:rotateY(-34deg)}
+.is-camp.is-horror .system-card:nth-child(even):focus-visible .door-leaf{transform:rotateY(34deg)}
+.is-camp.is-horror .system-card.is-door-entering .door-leaf{transform:rotateY(-102deg)}
+.is-camp.is-horror .system-card:nth-child(even).is-door-entering .door-leaf{transform:rotateY(102deg)}
+@media(max-width:640px){
+.is-camp.is-horror .category-system-grid{width:calc(100% - 40px);gap:36px 24px;margin-top:36px}
+.is-camp.is-horror .system-card{height:300px;border-width:4px}
+.is-camp.is-horror .system-card:nth-child(even){margin-top:48px}
+.is-camp.is-horror .door-leaf{padding:22px 10px 18px}
+.is-camp.is-horror .system-card .system-name{font-size:18px;padding:12px 4px}
+.is-camp.is-horror .system-card .system-link{padding:7px 10px}
+}
+@media(max-width:359px){
+.is-camp.is-horror .category-system-grid{grid-template-columns:minmax(0,240px);justify-content:center}
+.is-camp.is-horror .system-card:nth-child(even){margin-top:0}
+}
+@media(prefers-reduced-motion:reduce){.is-camp.is-horror .door-leaf{transition:none}}
+
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
@@ -1850,6 +1887,24 @@ function clearPortalMotion(){
   portalAnimations=[];
   portalFlight?.remove();portalFlight=null;
 }
+let horrorDoorTimer=0,horrorDoorPending=null;
+function cancelHorrorDoor(){
+  clearTimeout(horrorDoorTimer);
+  horrorDoorPending?.classList.remove('is-door-entering');
+  horrorDoorPending=null;
+}
+function enterHorrorDoor(card){
+  if(horrorDoorPending||drawer.classList.contains('is-open'))return;
+  horrorDoorPending=card;
+  card.classList.add('is-door-entering');
+  const enter=()=>{
+    if(horrorDoorPending!==card||!categoryDrawer.classList.contains('is-open'))return;
+    horrorDoorPending=null;
+    openDrawer(card);
+  };
+  if(reducedMotion.matches)enter();
+  else horrorDoorTimer=setTimeout(enter,600);
+}
 function renderCategorySystems(categoryName){
   const systems=categorySystems[categoryName]||[];
   const cards=systems.map(system=>{
@@ -1885,7 +1940,17 @@ function renderCategorySystems(categoryName){
     link.className='system-link';
     link.textContent='查看劇本 ↗';
     card.append(link);
-    card.addEventListener('click',()=>openDrawer(card));
+    if(categoryName==='探索恐怖'){
+      const leaf=document.createElement('span');
+      leaf.className='door-leaf';
+      [...card.children].filter(child=>!child.classList.contains('camp-cover')).forEach(child=>leaf.append(child));
+      link.textContent='推門查看';
+      card.append(leaf);
+      card.setAttribute('aria-label',system.name+'，'+total+' 個劇本，推門查看');
+      card.addEventListener('click',()=>enterHorrorDoor(card));
+    }else{
+      card.addEventListener('click',()=>openDrawer(card));
+    }
     return card;
   });
   categoryGrid.replaceChildren(...cards);
@@ -1949,6 +2014,7 @@ function openCategory(trigger){
   }).catch(()=>{});
 }
 function closeCategory(){
+  cancelHorrorDoor();
   clearPortalMotion();
   categoryDrawer.classList.remove('is-atmosphere-ready');
   categoryDrawer.style.transformOrigin='';
@@ -2026,6 +2092,7 @@ function openDrawer(trigger){
   }));
 }
 function closeDrawer(restoreFocus=true){
+  drawerTrigger?.classList.remove('is-door-entering');
   scriptBackdrop.classList.remove('is-open');
   drawer.classList.remove('is-open');
   drawerTimer=setTimeout(()=>{
