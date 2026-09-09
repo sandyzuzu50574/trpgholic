@@ -1205,10 +1205,12 @@ body.drawer-open { overflow:hidden; }
   content:"";
   position:absolute;
   z-index:1;
-  inset:0;
+  inset:0 auto 0 0;
+  width:min(82%,360px);
   border-radius:inherit;
-  background:linear-gradient(90deg,rgba(10,20,15,.98) 0%,rgba(13,24,18,.91) 43%,rgba(15,24,18,.34) 72%,rgba(15,24,18,.12) 100%);
+  background:linear-gradient(90deg,rgba(8,17,12,.96) 0%,rgba(10,20,14,.86) 42%,rgba(11,19,13,.48) 66%,rgba(11,19,13,0) 100%);
   pointer-events:none;
+  transition:width .25s ease,background .25s ease;
 }
 .is-camp .system-card::after { display:none; content:none; }
 .is-camp .system-card:hover {
@@ -1235,9 +1237,9 @@ body.drawer-open { overflow:hidden; }
   transition:opacity .25s ease,filter .25s ease,transform .35s ease;
 }
 .is-camp .system-card:hover .camp-cover {
-  opacity:.70;
-  filter:saturate(.94) contrast(1.04) brightness(.80);
-  transform:scale(1.025);
+  opacity:1;
+  filter:none;
+  transform:scale(1.018);
 }
 .is-camp .system-card .system-count,
 .is-camp .system-card .system-name,
@@ -1245,179 +1247,88 @@ body.drawer-open { overflow:hidden; }
 .is-camp .system-card .system-link {
   position:relative;
   z-index:2;
-  grid-column:auto;
-  text-shadow:0 1px 8px rgba(0,0,0,.55);
+  max-width:66%;
+  text-shadow:0 1px 8px rgba(0,0,0,.78);
 }
 .is-camp .system-card .system-count {
   margin:0 0 18px;
-  color:#d8bf87;
+  color:#e5ca8e;
   font-size:12px;
   letter-spacing:.1em;
 }
 .is-camp .system-card .system-name {
-  max-width:88%;
   color:#fff7e5;
-  font-size:clamp(20px,2vw,26px);
-  line-height:1.2;
+  font-size:clamp(19px,1.65vw,25px);
+  font-weight:760;
+  line-height:1.22;
 }
 .is-camp .system-card .system-en {
-  max-width:78%;
   margin-top:7px;
-  color:#bdc8bd;
+  color:rgba(255,247,229,.78);
   font-size:12px;
-  line-height:1.4;
+  line-height:1.35;
 }
 .is-camp .system-card .system-link {
-  align-self:flex-start;
   margin-top:auto;
-  padding-top:18px;
-  color:#e5cd98;
+  padding-top:16px;
+  color:#f5e5bd;
   font-size:12px;
+  font-weight:700;
 }
-.is-camp .system-card:focus-visible {
-  outline:2px solid #e3c98f;
-  outline-offset:4px;
-}
-@media(max-width:1050px) {
-  .is-camp .category-system-grid {
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    width:min(780px,calc(100% - 40px));
-  }
+@media(max-width:980px) {
+  .is-camp .category-system-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
 @media(max-width:640px) {
   .is-camp .category-system-grid {
     grid-template-columns:1fr;
-    width:calc(100% - 28px);
+    width:min(92%,520px);
     gap:14px;
   }
-  .is-camp .system-card {
-    min-height:178px;
-    padding:20px;
-  }
-  .is-camp .system-card .system-name { font-size:22px; }
-}
-
-/* 免費的分層環境動畫：樹冠、草叢、火光與星火各自緩慢運動。 */
-.is-camp .camp-atmosphere::before,
-.is-camp .camp-atmosphere::after {
-  position:absolute;
-  inset:-3%;
-  background-image:var(--camp-image);
-  background-position:center bottom;
-  background-size:cover;
-  background-repeat:no-repeat;
-  content:"";
-  pointer-events:none;
-  will-change:transform;
-}
-.is-camp .camp-atmosphere::before {
-  z-index:0;
-  clip-path:polygon(0 0,100% 0,100% 69%,0 62%);
-  mask-image:linear-gradient(180deg,#000 0 54%,rgba(0,0,0,.82) 62%,transparent 72%);
-  -webkit-mask-image:linear-gradient(180deg,#000 0 54%,rgba(0,0,0,.82) 62%,transparent 72%);
-  transform-origin:50% 20%;
-  animation:camp-canopy-sway 10s ease-in-out infinite alternate;
-}
-.is-camp .camp-atmosphere::after {
-  z-index:1;
-  clip-path:polygon(0 55%,100% 57%,100% 100%,0 100%);
-  mask-image:linear-gradient(0deg,#000 0 31%,rgba(0,0,0,.78) 39%,transparent 54%);
-  -webkit-mask-image:linear-gradient(0deg,#000 0 31%,rgba(0,0,0,.78) 39%,transparent 54%);
-  transform-origin:50% 100%;
-  animation:camp-grass-sway 5.8s ease-in-out infinite alternate;
-}
-.is-camp .camp-atmosphere svg {
-  z-index:3;
-  filter:drop-shadow(0 0 20px rgba(255,142,55,.20));
-  animation:camp-fire-glow 2.4s ease-in-out infinite alternate;
-}
-.camp-sparks {
-  position:absolute;
-  z-index:4;
-  inset:0;
-  overflow:hidden;
-  pointer-events:none;
-}
-.camp-sparks i {
-  --x:0px;
-  --drift:10px;
-  --delay:0s;
-  --duration:3s;
-  position:absolute;
-  left:calc(50% + var(--x));
-  bottom:17%;
-  width:3px;
-  height:3px;
-  border-radius:50%;
-  background:#ffd58a;
-  box-shadow:0 0 8px #ff9d48;
-  opacity:0;
-  animation:camp-spark var(--duration) var(--delay) ease-out infinite;
-}
-.camp-sparks i:nth-child(1){--x:-52px;--drift:-18px;--delay:-.4s;--duration:3.1s}
-.camp-sparks i:nth-child(2){--x:-30px;--drift:14px;--delay:-1.8s;--duration:3.8s}
-.camp-sparks i:nth-child(3){--x:-12px;--drift:-8px;--delay:-2.7s;--duration:3.4s}
-.camp-sparks i:nth-child(4){--x:8px;--drift:20px;--delay:-1.1s;--duration:4.1s}
-.camp-sparks i:nth-child(5){--x:26px;--drift:-13px;--delay:-3.2s;--duration:3.6s}
-.camp-sparks i:nth-child(6){--x:48px;--drift:11px;--delay:-2.1s;--duration:3.3s}
-.camp-sparks i:nth-child(7){--x:-42px;--drift:24px;--delay:-3.6s;--duration:4.3s}
-.camp-sparks i:nth-child(8){--x:38px;--drift:-22px;--delay:-.8s;--duration:3.9s}
-@keyframes camp-canopy-sway {
-  0% { transform:translate3d(-.35%,0,0) scale(1.018) rotate(-.08deg); }
-  100% { transform:translate3d(.45%,.12%,0) scale(1.022) rotate(.10deg); }
-}
-@keyframes camp-grass-sway {
-  0% { transform:translate3d(-.18%,.10%,0) scale(1.012) skewX(-.12deg); }
-  100% { transform:translate3d(.24%,-.08%,0) scale(1.018) skewX(.16deg); }
-}
-@keyframes camp-fire-glow {
-  0% { opacity:.72; filter:drop-shadow(0 0 14px rgba(255,131,44,.17)); }
-  38% { opacity:.92; }
-  100% { opacity:.78; filter:drop-shadow(0 0 30px rgba(255,166,72,.30)); }
-}
-@keyframes camp-spark {
-  0%,12% { opacity:0; transform:translate3d(0,0,0) scale(.45); }
-  24% { opacity:.95; }
-  74% { opacity:.45; }
-  100% { opacity:0; transform:translate3d(var(--drift),-150px,0) scale(.15); }
-}
-@media(prefers-reduced-motion:reduce) {
-  .is-camp .camp-atmosphere::before,
-  .is-camp .camp-atmosphere::after,
-  .is-camp .camp-atmosphere svg,
-  .camp-sparks i { animation:none!important; }
-  .is-camp .camp-atmosphere::before,
-  .is-camp .camp-atmosphere::after,
-  .camp-sparks { display:none!important; }
+  .is-camp .system-card { min-height:184px; padding:20px; }
+  .is-camp .system-card::before { width:min(86%,360px); }
+  .is-camp .system-card .system-count,
+  .is-camp .system-card .system-name,
+  .is-camp .system-card .system-en,
+  .is-camp .system-card .system-link { max-width:70%; }
 }
 /* 系統卡片矩形版結束 */
-/* 營火分類頁：標題與封面互動調整 */
+/* 營火分類頁：標題、主題背景與封面互動調整 */
 .is-camp .category-drawer-header {
-  padding-top:clamp(6px,1.5svh,18px);
+  padding:clamp(6px,1.5svh,18px) 12px 0;
+  text-align:center;
 }
 .is-camp .category-drawer-header h2 {
-  max-width:min(980px,86vw);
-  margin-top:0;
+  width:100%;
+  max-width:none;
+  margin:0 auto;
   color:#fff3d5;
   font-family:Georgia,"Noto Serif TC","Songti TC","PMingLiU",serif;
-  font-size:clamp(27px,3.6vw,48px);
+  font-size:clamp(13px,2.25vw,30px);
   font-weight:600;
-  line-height:1.38;
-  letter-spacing:.025em;
+  line-height:1.25;
+  letter-spacing:0;
+  white-space:nowrap;
+}
+.category-drawer.is-camp.is-horror {
+  --camp-image:url("public/horror-corridor-bg-v1.webp");
+}
+.category-drawer.is-camp.is-emotion {
+  --camp-image:url("public/emotion-fabric-bg-v1.webp");
+}
+.category-drawer.is-camp.is-party {
+  --camp-image:url("public/party-chips-bg-v1.webp");
+}
+.is-camp:not(.is-fantasy) .camp-atmosphere svg,
+.is-camp:not(.is-fantasy) .camp-sparks {
+  display:none!important;
 }
 .is-camp .system-card:hover::before {
-  background:linear-gradient(90deg,rgba(8,17,12,.96) 0%,rgba(10,20,14,.82) 42%,rgba(11,19,13,.32) 64%,rgba(11,19,13,.03) 100%);
-}
-.is-camp .system-card:hover .camp-cover {
-  opacity:1;
-  filter:none;
-  transform:scale(1.018);
+  width:min(76%,330px);
+  background:linear-gradient(90deg,rgba(7,15,10,.94) 0%,rgba(9,18,12,.78) 43%,rgba(10,18,12,.34) 68%,rgba(10,18,12,0) 100%);
 }
 @media(max-width:640px) {
   .is-camp .category-drawer-header h2 {
-    max-width:82vw;
-    font-size:clamp(24px,7.2vw,34px);
-    line-height:1.42;
+    font-size:clamp(13px,3.55vw,20px);
   }
 }
 /* 營火分類頁調整結束 */
@@ -1475,6 +1386,53 @@ addEventListener('scroll',update,{passive:true});addEventListener('resize',updat
 addEventListener('message',e=>{if(e.data?.type!=='open-notebook-request')return;scrollTo({top:intro.offsetTop+intro.offsetHeight-innerHeight+2,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})});
 const stats=document.querySelector('.stats');stats.classList.add('stats-ready');const observer=new IntersectionObserver(([entry])=>{if(entry.isIntersecting){stats.classList.add('is-written');observer.disconnect()}},{threshold:.42});observer.observe(stats);
 
+const categorySystems={
+  "奇幻冒險":[
+    {name:"龍與地下城 3r",en:"Dungeons & Dragons 3r",cover:"public/dnd-35-players-handbook.png"},
+    {name:"龍與地下城 5e",en:"Dungeons & Dragons 5e",cover:"public/dnd-5e-cover.webp"},
+    {name:"蒼穹的紀錄",en:"Archives of the Sky",cover:"public/lady-blackbird-cover.webp"},
+    {name:"龍蛋物語",cover:"public/ryuutama-system-card-v2.webp"},
+    {name:"QUEST",cover:"public/quest-system-card-v2.webp"},
+    {name:"FATE Core／快速版",cover:"public/fate-core-cover.png"},
+    {name:"超載霓虹城",en:"Neon City Overdrive",cover:"public/neon-city-overdrive-cover.webp"},
+    {name:"寰宇RPG",en:"Cosmere RPG",cover:"public/cosmere-rpg-cover.webp"}
+  ],
+  "探索恐怖":[
+    {name:"克蘇魯的呼喚 7e",en:"Call of Cthulhu 7e",cover:"public/coc-7e-cover.webp"},
+    {name:"藍鬍子的新娘",en:"Bluebeard’s Bride",cover:"public/bluebeards-bride-cover.png"},
+    {name:"十燭",en:"Ten Candles",cover:"public/ten-candles-cover.webp"},
+    {name:"德古拉的新娘",en:"Brides of Dracula",cover:"public/brides-of-dracula-cover.webp"},
+    {name:"本週主打怪",en:"Monster of the Week",cover:"public/monster-of-the-week-cover.webp"}
+  ],
+  "情感敘事":[
+    {name:"城市之影2 快速版",en:"Urban Shadows 2e Quickstart",cover:"public/urban-shadows-2e-user-cover.png"},
+    {name:"夕燒小燒",en:"ゆうやけこやけ",cover:"public/yuuyake-koyake-cover.png"},
+    {name:"我是骷髏",en:"The Skeletons",cover:"public/the-skeletons-cover.png"},
+    {name:"怪物心2",en:"Monsterhearts 2",cover:"public/monsterhearts-2-cover.png"},
+    {name:"夜襲魔女",en:"Night Witches",cover:"public/night-witches-cover.png"},
+    {name:"熱情如火",en:"Pasión de las Pasiones",cover:"public/pasion-de-las-pasiones-cover.png"},
+    {name:"吾生為吾主",cover:"public/my-life-with-master-cover.png"},
+    {name:"武林知心",en:"Hearts of Wulin",cover:"public/hearts-of-wulin-cover.png"},
+    {name:"微小酒館",en:"Tiny Taverns",cover:"public/tiny-taverns-cover.png"},
+    {name:"共赴幽冥",en:"Follow Me Down",cover:"public/follow-me-down-cover.png"},
+    {name:"愛麗絲失蹤了",en:"Alice Is Missing",cover:"public/alice-is-missing-cover.png"},
+    {name:"來世：遊蕩的靈魂",en:"Afterlife: Wandering Souls",cover:"public/afterlife-wandering-souls-cover.png"}
+  ],
+  "輕鬆派對":[
+    {name:"女巫已死"},
+    {name:"磁鐵手博士",en:"Doctor Magnethands"},
+    {name:"人人都是約翰",en:"Everyone Is John"},
+    {name:"觀葉植物TRPG"},
+    {name:"哥布林跑跑腿",en:"Goblin Errands"},
+    {name:"我們的多重宇宙",en:"Our Multiverse v1.43"}
+  ]
+};
+const categoryThemeClass={
+  "奇幻冒險":"is-fantasy",
+  "探索恐怖":"is-horror",
+  "情感敘事":"is-emotion",
+  "輕鬆派對":"is-party"
+};
 const systemScripts={
   "龍與地下城 3r":["魔女的詛咒","聖樹夢境"],
   "龍與地下城 5e":["斯特拉德的詛咒","死亡小屋","德魯伊的試煉：大地","德魯伊的試煉：牧人","逐龍的龍裔們","羊羊快跑","邱比特的麻雀","魔女的詛咒","勇敢的色彩","追鵝人","碎鏡之森","初來乍到","失落的凡戴爾礦坑","獸人與餅：慶生版","命運之輪的轉動","冬日焰火"],
@@ -1483,8 +1441,31 @@ const systemScripts={
   "QUEST":["寶藏山","原初之火","濡沫淚礁","前瞻的先知女王","安眠遊樂場","蔽日巨獸在呼嚕","金鉤幫與聖誕老人","台北大縱走","跨年的煙火"],
   "FATE Core／快速版":["H×H：友客鑫拍賣會後","獻祭吧！間諜家庭","貓的秘密：年獸","貓的秘密：清明","Uder Spy"],
   "超載霓虹城":["Cybereat之佛跳牆"],
-  "寰宇RPG":["橋九隊"]
-};
+  "寰宇RPG":["橋九隊"],
+  "克蘇魯的呼喚 7e":["無光燈塔","群星燃焰","寂靜之音","泥偶","普洛威頓斯的陰霾","美麗","瑪莉","魔鬼之子"],
+  "藍鬍子的新娘":["潮濕的惡意","大紅燈籠","愛、尊敬、服從","死胎","精神病院"],
+  "十燭":["黑暗島國","末日台北"],
+  "德古拉的新娘":["無題團一","無題團二"],
+  "本週主打怪":["支配病毒擴散","黑水溝哥吉拉","大稻埕迎接末日"],
+  "城市之影2 快速版":["萬華之影一部曲：古樹","萬華之影二部曲：國宅","寂靜之影","冰島之影"],
+  "夕燒小燒":["夕陽下的相遇","夏日祭典","冬日暖陽","狐狸的約定","回家的路"],
+  "我是骷髏":["墓室甦醒","王國之戰","漫長守望","最後記憶","塵歸塵"],
+  "怪物心2":["鬱林鎮","楓湖鎮","鷹棲町","棉花糖小鎮","冬御日町","聖・歌爾賽特","波上的理想鄉","新印斯茅斯","Ballad of the Ghost","霍華德軍校","佛比倫斯","實驗高中"],
+  "夜襲魔女":["訓練基地"],
+  "熱情如火":["銀河之戀"],
+  "吾生為吾主":["秘辛檔案：破殼而出"],
+  "武林知心":["調虎離山","畫坊狐影","河洛遺毒","如夢幻泡影","鏡花墮天錄","緣劫","紅塵喜事","幽影琉璃","奇石現世","邪道魔劍","正氣飛雪","山海泣魂"],
+  "微小酒館":["拉萊耶（the克咖）","一個半小時","海港夜總會","再來一位"],
+  "共赴幽冥":["偶像與他的貓"],
+  "愛麗絲失蹤了":["固定情境"],
+  "來世：遊蕩的靈魂":["綠洲下的大水港口"],
+  "女巫已死":["無題團"],
+  "磁鐵手博士":["無題團"],
+  "人人都是約翰":["無題團"],
+  "觀葉植物TRPG":["無題團"],
+  "哥布林跑跑腿":["聖誕烤雞HOHOHO"],
+  "我們的多重宇宙":["美食生死鬥","異世界穿越到現實","怪盜任務","霍格華茲入學考","我們的水母宇宙","魔法市集"]
+}
 const categoryDrawer=document.querySelector('.category-drawer'),categoryBackdrop=document.querySelector('.category-backdrop'),categoryTitle=document.querySelector('#category-drawer-title'),categoryClose=document.querySelector('.category-drawer-close'),categoryGrid=document.querySelector('.category-system-grid'),categoryEmpty=document.querySelector('.category-empty');
 const drawer=document.querySelector('.script-drawer'),scriptBackdrop=document.querySelector('.script-backdrop'),drawerTitle=document.querySelector('#drawer-title'),scriptCards=document.querySelector('#script-cards'),closeDrawerButton=document.querySelector('.drawer-close');
 let categoryTrigger=null,drawerTrigger=null,categoryTimer=0,drawerTimer=0;
@@ -1494,15 +1475,60 @@ function clearPortalMotion(){
   portalAnimations=[];
   portalFlight?.remove();portalFlight=null;
 }
+function renderCategorySystems(categoryName){
+  const systems=categorySystems[categoryName]||[];
+  const cards=systems.map(system=>{
+    const card=document.createElement('button');
+    card.className='system-card';
+    card.type='button';
+    card.dataset.system=system.name;
+    card.setAttribute('aria-haspopup','dialog');
+    if(system.cover){
+      card.style.setProperty('--cover',`url('${system.cover}')`);
+      const cover=document.createElement('img');
+      cover.className='camp-cover';
+      cover.src=system.cover;
+      cover.alt='';
+      cover.loading='lazy';
+      card.append(cover);
+    }
+    const count=document.createElement('span');
+    count.className='system-count';
+    const total=(systemScripts[system.name]||[]).length;
+    count.textContent=`${total} 個劇本`;
+    const name=document.createElement('span');
+    name.className='system-name';
+    name.textContent=system.name;
+    card.append(count,name);
+    if(system.en){
+      const en=document.createElement('span');
+      en.className='system-en';
+      en.textContent=system.en;
+      card.append(en);
+    }
+    const link=document.createElement('span');
+    link.className='system-link';
+    link.textContent='查看劇本 ↗';
+    card.append(link);
+    card.addEventListener('click',()=>openDrawer(card));
+    return card;
+  });
+  categoryGrid.replaceChildren(...cards);
+}
 function openCategory(trigger){
   if(categoryDrawer.classList.contains('is-open'))return;
   clearTimeout(categoryTimer);
   clearPortalMotion();
   categoryTrigger=trigger;
   const name=trigger.dataset.category;
-  const hasSystems=name==='奇幻冒險';
-  categoryDrawer.classList.toggle('is-camp',hasSystems);
-  categoryTitle.textContent=hasSystems?'踏上旅途吧，冒險者，或是我該稱你為……英雄？':name;
+  const systems=categorySystems[name]||[];
+  const hasSystems=systems.length>0;
+  categoryDrawer.classList.remove('is-camp','is-fantasy','is-horror','is-emotion','is-party');
+  if(hasSystems){
+    categoryDrawer.classList.add('is-camp',categoryThemeClass[name]);
+    renderCategorySystems(name);
+  }
+  categoryTitle.textContent=name==='奇幻冒險'?'踏上旅途吧，冒險者，或是我該稱你為……英雄？':name;
   categoryGrid.hidden=!hasSystems;
   categoryEmpty.hidden=hasSystems;
   categoryEmpty.style.display=hasSystems?'none':'grid';
