@@ -1311,137 +1311,6 @@ body.drawer-open { overflow:hidden; }
 }
 .category-drawer.is-camp.is-horror {
   --camp-image:url("public/horror-corridor-bg-v1.webp");
-  --horror-bg-scale:1.035;
-  --horror-bg-y:0%;
-  --horror-darkness:.10;
-  isolation:isolate;
-  background-color:#080a0a;
-  background-image:none;
-  overflow-x:hidden;
-}
-.category-drawer.is-camp.is-horror::before {
-  content:"";
-  position:fixed;
-  z-index:-2;
-  inset:-4vh -4vw;
-  background-image:
-    linear-gradient(180deg,rgba(3,5,5,.48),rgba(7,8,8,.26) 42%,rgba(5,6,6,.52)),
-    var(--camp-image);
-  background-size:cover;
-  background-position:center;
-  transform:translateY(var(--horror-bg-y)) scale(var(--horror-bg-scale));
-  transform-origin:center 48%;
-  filter:saturate(.72) contrast(1.08) brightness(.88);
-  transition:transform .16s linear;
-  pointer-events:none;
-}
-.category-drawer.is-camp.is-horror::after {
-  content:"";
-  position:fixed;
-  z-index:0;
-  inset:0;
-  background:
-    radial-gradient(ellipse 54% 68% at 50% 43%,transparent 12%,rgba(0,0,0,.24) 62%,rgba(0,0,0,.72) 100%),
-    linear-gradient(rgba(4,5,5,var(--horror-darkness)),rgba(2,3,3,calc(var(--horror-darkness) + .10)));
-  pointer-events:none;
-}
-.is-horror > .category-drawer-close,
-.is-horror > .category-drawer-header,
-.is-horror > .category-system-grid,
-.is-horror > .category-empty {
-  position:relative;
-  z-index:1;
-}
-.is-camp.is-horror .category-drawer-header h2 {
-  color:#e7dfcf;
-  opacity:0;
-  filter:blur(9px);
-  transform:scale(.82) translateY(12px);
-  transform-origin:center;
-  text-shadow:0 2px 18px #000,0 0 30px rgba(193,172,132,.18);
-  transition:opacity .9s ease,filter 1.05s ease,transform 1.05s cubic-bezier(.2,.72,.25,1);
-}
-.is-camp.is-horror.is-horror-ready .category-drawer-header h2 {
-  opacity:1;
-  filter:blur(0);
-  transform:scale(1) translateY(0);
-}
-.is-camp.is-horror .system-card {
-  border:1px solid rgba(157,146,121,.42);
-  border-inline-width:3px;
-  border-radius:3px;
-  background:linear-gradient(135deg,rgba(10,12,12,.97),rgba(27,27,24,.92));
-  box-shadow:
-    0 14px 34px rgba(0,0,0,.46),
-    inset 0 0 0 1px rgba(222,207,174,.05),
-    inset 10px 0 22px rgba(0,0,0,.20);
-  opacity:0!important;
-  transform:perspective(900px) translateZ(-150px) translateY(24px) scale(.88)!important;
-  transition:
-    opacity .72s ease calc(var(--card-index,0) * 80ms),
-    transform .82s cubic-bezier(.2,.72,.25,1) calc(var(--card-index,0) * 80ms),
-    border-color .2s ease,
-    box-shadow .25s ease,
-    background .2s ease;
-}
-.is-camp.is-horror.is-horror-ready .system-card {
-  opacity:1!important;
-  transform:perspective(900px) translateZ(0) translateY(0) scale(1)!important;
-}
-.is-camp.is-horror .system-card::before {
-  background:linear-gradient(90deg,rgba(4,6,6,.78) 0%,rgba(7,8,8,.58) 28%,rgba(8,9,9,.20) 52%,rgba(8,9,9,.04) 70%,transparent 82%);
-}
-.is-camp.is-horror .system-card::after {
-  display:block;
-  content:"";
-  position:absolute;
-  z-index:2;
-  top:8%;
-  right:9px;
-  bottom:8%;
-  width:1px;
-  border-radius:1px;
-  background:linear-gradient(transparent,rgba(213,191,145,.68) 22%,rgba(239,218,173,.92) 54%,rgba(174,151,108,.54) 82%,transparent);
-  box-shadow:0 0 4px rgba(224,199,148,.26);
-  opacity:.16;
-  transition:opacity .25s ease,box-shadow .25s ease;
-  pointer-events:none;
-}
-.is-camp.is-horror .system-card:hover {
-  border-color:rgba(206,186,143,.72);
-  background:linear-gradient(135deg,rgba(12,14,14,.98),rgba(31,30,26,.94));
-  box-shadow:
-    0 18px 40px rgba(0,0,0,.56),
-    inset 0 0 0 1px rgba(231,214,178,.09),
-    inset 12px 0 24px rgba(0,0,0,.24);
-  transform:perspective(900px) translateY(-3px) rotateY(-1deg)!important;
-}
-.is-camp.is-horror .system-card:hover::after {
-  opacity:.86;
-  box-shadow:0 0 7px rgba(237,214,165,.66),0 0 16px rgba(205,176,119,.34);
-}
-.is-camp.is-horror .system-card .system-count,
-.is-camp.is-horror .system-card .system-link {
-  color:#d1bd91;
-}
-.is-camp.is-horror .system-card .system-name {
-  color:#f0eadf;
-}
-.is-camp.is-horror .system-card .system-en {
-  color:#c6c5bb;
-}
-@media(prefers-reduced-motion:reduce) {
-  .is-camp.is-horror .category-drawer-header h2,
-  .is-camp.is-horror .system-card {
-    opacity:1!important;
-    filter:none;
-    transform:none!important;
-    transition:none;
-  }
-  .category-drawer.is-camp.is-horror::before {
-    transform:none;
-    transition:none;
-  }
 }
 .category-drawer.is-camp.is-emotion {
   --camp-image:none;
@@ -1983,12 +1852,11 @@ function clearPortalMotion(){
 }
 function renderCategorySystems(categoryName){
   const systems=categorySystems[categoryName]||[];
-  const cards=systems.map((system,index)=>{
+  const cards=systems.map(system=>{
     const card=document.createElement('button');
     card.className='system-card';
     card.type='button';
     card.dataset.system=system.name;
-    card.style.setProperty('--card-index',index);
     card.setAttribute('aria-haspopup','dialog');
     if(system.cover){
       card.style.setProperty('--cover',`url('${system.cover}')`);
@@ -2030,7 +1898,7 @@ function openCategory(trigger){
   const name=trigger.dataset.category;
   const systems=categorySystems[name]||[];
   const hasSystems=systems.length>0;
-  categoryDrawer.classList.remove('is-camp','is-fantasy','is-horror','is-emotion','is-party','is-city','is-atmosphere-ready','is-horror-ready');
+  categoryDrawer.classList.remove('is-camp','is-fantasy','is-horror','is-emotion','is-party','is-city','is-atmosphere-ready');
   if(hasSystems){
     categoryDrawer.classList.add('is-camp',categoryThemeClass[name]);
     renderCategorySystems(name);
@@ -2049,7 +1917,6 @@ function openCategory(trigger){
   categoryClose.focus({preventScroll:true});
   if(reducedMotion.matches||!categoryDrawer.animate){
     if(name==='奇幻冒險')categoryDrawer.classList.add('is-atmosphere-ready');
-    if(name==='探索恐怖')categoryDrawer.classList.add('is-horror-ready');
     return;
   }
   const picture=trigger.querySelector('img'),rect=picture.getBoundingClientRect();
@@ -2078,15 +1945,12 @@ function openCategory(trigger){
   emergence.finished.then(()=>{
     clearPortalMotion();
     categoryDrawer.style.transformOrigin='';
-    requestAnimationFrame(()=>{
-      if(name==='奇幻冒險')categoryDrawer.classList.add('is-atmosphere-ready');
-      if(name==='探索恐怖')categoryDrawer.classList.add('is-horror-ready');
-    });
+    if(name==='奇幻冒險')requestAnimationFrame(()=>categoryDrawer.classList.add('is-atmosphere-ready'));
   }).catch(()=>{});
 }
 function closeCategory(){
   clearPortalMotion();
-  categoryDrawer.classList.remove('is-atmosphere-ready','is-horror-ready');
+  categoryDrawer.classList.remove('is-atmosphere-ready');
   categoryDrawer.style.transformOrigin='';
   if(drawer.classList.contains('is-open'))closeDrawer(false);
   categoryBackdrop.classList.remove('is-open');
@@ -2199,17 +2063,6 @@ function updateCampMist(){
   mistFrame=0;
   if(!categoryDrawer.classList.contains('is-camp'))return;
   const height=categoryDrawer.clientHeight;
-  if(categoryDrawer.classList.contains('is-horror')){
-    const range=Math.max(categoryDrawer.scrollHeight-height,1);
-    const depth=Math.max(0,Math.min(1,categoryDrawer.scrollTop/range));
-    categoryDrawer.style.setProperty('--horror-bg-scale',(1.035+depth*.105).toFixed(3));
-    categoryDrawer.style.setProperty('--horror-bg-y',(-depth*1.8).toFixed(2)+'%');
-    categoryDrawer.style.setProperty('--horror-darkness',(.10+depth*.24).toFixed(3));
-  } else {
-    categoryDrawer.style.removeProperty('--horror-bg-scale');
-    categoryDrawer.style.removeProperty('--horror-bg-y');
-    categoryDrawer.style.removeProperty('--horror-darkness');
-  }
   categoryGrid.querySelectorAll('.system-card').forEach(card=>{
     let top=0,node=card;
     while(node&&node!==categoryDrawer){top+=node.offsetTop;node=node.offsetParent;}
