@@ -1303,7 +1303,7 @@ body.drawer-open { overflow:hidden; }
   margin:0 auto;
   color:#fff3d5;
   font-family:Georgia,"Noto Serif TC","Songti TC","PMingLiU",serif;
-  font-size:clamp(13px,2.25vw,30px);
+  font-size:clamp(18px,2.25vw,30px);
   font-weight:600;
   line-height:1.25;
   letter-spacing:0;
@@ -1326,9 +1326,15 @@ body.drawer-open { overflow:hidden; }
   width:min(76%,330px);
   background:linear-gradient(90deg,rgba(7,15,10,.94) 0%,rgba(9,18,12,.78) 43%,rgba(10,18,12,.34) 68%,rgba(10,18,12,0) 100%);
 }
+.is-camp.is-fantasy .category-drawer-header h2 {
+  font-size:clamp(13px,2.25vw,30px);
+}
 @media(max-width:640px) {
   .is-camp .category-drawer-header h2 {
-    font-size:clamp(13px,3.55vw,20px);
+    font-size:20px;
+  }
+  .is-camp.is-fantasy .category-drawer-header h2 {
+    font-size:clamp(10px,3.25vw,16px);
   }
 }
 /* 營火分類頁調整結束 */
