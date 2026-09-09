@@ -1837,6 +1837,57 @@ body.drawer-open { overflow:hidden; }
  .is-camp.is-horror .system-card .door-leaf{transition:none!important}
 }
 
+
+/* Letters waiting to be opened. */
+.category-drawer.is-camp.is-emotion{background:#fbfcfd;background-image:none;color:#344d65}
+.is-camp.is-emotion .category-drawer-header h2{color:#344d65;text-shadow:none;font-family:Georgia,"Noto Serif TC","Songti TC",serif;font-weight:400;letter-spacing:.08em}
+.is-camp.is-emotion .category-drawer-close{color:#344d65;background:#fff;border-color:#b5c2cc;box-shadow:none}
+.is-camp.is-emotion .category-system-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;gap:42px 38px;width:min(1120px,94%);max-width:none;margin:38px auto 0;padding:20px 22px 100px;box-sizing:border-box;overflow:visible}
+.is-camp.is-emotion .system-card.letter-envelope{display:block;position:relative;isolation:isolate;aspect-ratio:1.35;height:auto;min-height:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible;text-align:left}
+.is-camp.is-emotion .letter-envelope:nth-child(3n+2){margin-top:30px}
+.is-camp.is-emotion .letter-envelope::before,.is-camp.is-emotion .letter-envelope::after{display:none;content:none}
+.letter-shell{display:block;position:absolute;inset:0;transform:rotate(var(--letter-tilt));transition:transform .6s ease}
+.letter-paper{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none;user-select:none}
+.letter-back{z-index:0}
+.letter-front{z-index:2;clip-path:polygon(0 42%,10% 42%,29% 59%,71% 59%,90% 42%,100% 42%,100% 100%,0 100%)}
+.is-camp.is-emotion .letter-envelope .camp-cover{position:absolute;z-index:1;inset:auto;left:19%;bottom:27%;width:62%;height:45%;object-fit:cover;object-position:center;border:5px solid #fff;box-sizing:border-box;border-radius:1px;opacity:1;filter:none;transform:translateY(0) rotate(-2deg);box-shadow:0 2px 9px #24384820;transition:transform .65s cubic-bezier(.2,.7,.2,1)}
+.is-camp.is-emotion .letter-envelope .system-name{position:absolute;z-index:3;left:12%;right:12%;top:62%;width:auto;max-width:none;margin:0;color:#304c67;text-shadow:none;font:600 clamp(18px,1.55vw,23px)/1.35 Georgia,"Noto Serif TC","Songti TC",serif;letter-spacing:.025em;white-space:normal}
+.is-camp.is-emotion .letter-envelope .system-count{position:absolute;z-index:3;right:12%;top:79%;max-width:none;margin:0;padding:3px 6px;border:1px dotted #a45e64;color:#9b535c;text-shadow:none;font:14px/1.4 system-ui,sans-serif;letter-spacing:.03em}
+.letter-note{position:absolute;z-index:3;left:12%;right:36%;top:79%;color:#667686;font:14px/1.6 Georgia,"Noto Serif TC","Songti TC",serif}
+.is-camp.is-emotion .letter-envelope:focus-visible{outline:2px dashed #547c9e;outline-offset:9px}
+.letter-envelope:focus-visible .letter-shell,.letter-envelope.is-unsealing .letter-shell{transform:translateY(-5px) rotate(0)}
+.is-camp.is-emotion .letter-envelope:focus-visible .camp-cover,.is-camp.is-emotion .letter-envelope.is-unsealing .camp-cover{transform:translateY(-29%) rotate(0)}
+@media(hover:hover){
+ .letter-envelope:hover .letter-shell{transform:translateY(-5px) rotate(0)}
+ .is-camp.is-emotion .letter-envelope:hover .camp-cover{transform:translateY(-29%) rotate(0);filter:none;opacity:1}
+}
+.is-camp.is-emotion .letter-envelope.is-unsealing .camp-cover{transform:translateY(-65%) rotate(0)}
+.script-drawer.is-letter{background:#fffefa;background-image:none;border:1px solid #d8dfe4;color:#344d65;width:min(760px,94vw);height:calc(100svh - 48px);top:24px;right:3vw;padding:72px 64px 56px;box-sizing:border-box;box-shadow:0 20px 70px #243b5340;transform:translateY(110svh) rotate(2deg);transition:transform .65s cubic-bezier(.22,.75,.25,1)}
+.script-drawer.is-letter.is-open{transform:translateY(0) rotate(0)}
+.script-drawer.is-letter .drawer-close{color:#344d65;border-color:#a6b8c6;background:#fffefa}
+.script-drawer.is-letter .drawer-header{border-bottom:1px solid #c8d3dc;margin-bottom:28px;padding-bottom:24px}
+.script-drawer.is-letter .drawer-header::before{content:"給，願意聽故事的你";display:block;color:#718191;font:14px/1.8 Georgia,"Noto Serif TC","Songti TC",serif;letter-spacing:.1em}
+.script-drawer.is-letter .drawer-header h2{font-family:Georgia,"Noto Serif TC","Songti TC",serif;font-size:clamp(25px,4vw,36px);line-height:1.5;color:#304c67;font-weight:400}
+.script-drawer.is-letter .script-entry{background:transparent;box-shadow:none;border-color:#dce2e6}
+.script-drawer.is-letter .script-row{border-color:#dce2e6}
+.script-drawer.is-letter .script-row h3{color:#344d65}
+.script-drawer.is-letter .script-number{color:#a45e64}
+@media(max-width:900px){
+ .is-camp.is-emotion .category-system-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+ .is-camp.is-emotion .letter-envelope:nth-child(3n+2){margin-top:0}
+ .is-camp.is-emotion .letter-envelope:nth-child(even){margin-top:26px}
+}
+@media(max-width:560px){
+ .is-camp.is-emotion .category-system-grid{grid-template-columns:minmax(0,1fr);width:min(370px,94%);gap:36px;padding:10px 14px 80px;margin-top:24px}
+ .is-camp.is-emotion .letter-envelope:nth-child(even){margin-top:0}
+ .is-camp.is-emotion .letter-envelope .system-name{font-size:22px}
+ .is-camp.is-emotion .category-drawer-header h2{font-size:18px;white-space:normal;line-height:1.8}
+ .script-drawer.is-letter{top:12px;right:3vw;height:calc(100svh - 24px);padding:66px 26px 40px}
+}
+@media(prefers-reduced-motion:reduce){
+ .letter-shell,.is-camp.is-emotion .letter-envelope .camp-cover,.script-drawer.is-letter{transition:none}
+}
+
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
@@ -2011,7 +2062,7 @@ function enterHorrorDoor(card){
 }
 function renderCategorySystems(categoryName){
   const systems=categorySystems[categoryName]||[];
-  const cards=systems.map(system=>{
+  const cards=systems.map((system,index)=>{
     const card=document.createElement('button');
     card.className='system-card';
     card.type='button';
@@ -2053,6 +2104,20 @@ function renderCategorySystems(categoryName){
       if(system.name==='十燭')card.dataset.doorDepth='wide';
       card.setAttribute('aria-label',system.name+'，'+total+' 個劇本，推門查看');
       card.addEventListener('click',()=>enterHorrorDoor(card));
+    }else if(categoryName==='情感敘事'){
+      card.classList.add('letter-envelope');
+      const shell=document.createElement('span');shell.className='letter-shell';
+      const back=document.createElement('img');back.className='letter-paper letter-back';
+      back.src='public/emotion-envelope-v1.webp';back.alt='';back.draggable=false;
+      const front=back.cloneNode();front.className='letter-paper letter-front';
+      const cover=card.querySelector('.camp-cover');
+      shell.append(back);if(cover)shell.append(cover);shell.append(front,count,name);
+      const note=document.createElement('span');note.className='letter-note';
+      note.textContent=['好久不見。','你還記得嗎？','有些話，想告訴你。','寫給心裡的那個人。','這次，換我聽你說。'][index%5];
+      shell.append(note);card.replaceChildren(shell);
+      card.style.setProperty('--letter-tilt',[-2,1.5,-1,2,-1.5][index%5]+'deg');
+      card.setAttribute('aria-label',system.name+'，'+total+' 個劇本，拆閱信件');
+      card.addEventListener('click',()=>enterLetter(card));
     }else{
       card.addEventListener('click',()=>openDrawer(card));
     }
@@ -2122,6 +2187,7 @@ function openCategory(trigger){
   }).catch(()=>{});
 }
 function closeCategory(){
+  cancelLetter();
   resetHorrorScene();
   cancelHorrorDoor();
   clearPortalMotion();
@@ -2188,7 +2254,22 @@ function renderScripts(name){
   drawerTitle.textContent=name;
   scriptCards.replaceChildren(...(systemScripts[name]||[]).map(makeScriptRow));
 }
+let letterTimer=0,letterTrigger=null;
+function cancelLetter(){
+ clearTimeout(letterTimer);letterTimer=0;
+ letterTrigger?.classList.remove('is-unsealing');letterTrigger=null;
+}
+function enterLetter(card){
+ if(letterTimer)return;
+ letterTrigger=card;card.classList.add('is-unsealing');
+ if(reducedMotion.matches){openDrawer(card);return;}
+ letterTimer=setTimeout(()=>{
+  letterTimer=0;
+  if(categoryDrawer.classList.contains('is-open')&&categoryDrawer.classList.contains('is-emotion'))openDrawer(card);
+ },520);
+}
 function openDrawer(trigger){
+  drawer.classList.toggle('is-letter',trigger.classList.contains('letter-envelope'));
   clearTimeout(drawerTimer);
   drawerTrigger=trigger;
   renderScripts(trigger.dataset.system);
@@ -2201,6 +2282,7 @@ function openDrawer(trigger){
   }));
 }
 function closeDrawer(restoreFocus=true){
+  cancelLetter();
   drawerTrigger?.classList.remove('is-door-entering');
   scriptBackdrop.classList.remove('is-open');
   drawer.classList.remove('is-open');
