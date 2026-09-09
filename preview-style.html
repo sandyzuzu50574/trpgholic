@@ -1313,13 +1313,13 @@ body.drawer-open { overflow:hidden; }
   --camp-image:url("public/horror-corridor-bg-v1.webp");
 }
 .category-drawer.is-camp.is-emotion {
-  --camp-image:url("public/emotion-soft-fabric-bg-v2.webp");
+  --camp-image:url("public/emotion-curtain-room-bg-v1.webp");
 }
 .category-drawer.is-camp.is-party {
   --camp-image:url("public/party-chips-reference-composition-v3.webp");
 }
 .category-drawer.is-camp.is-city {
-  --camp-image:url("public/city-rain-window-bg-v1.webp");
+  --camp-image:url("public/city-night-alley-bg-v1.webp");
 }
 .is-camp:not(.is-fantasy) .camp-atmosphere svg,
 .is-camp:not(.is-fantasy) .camp-sparks {
@@ -1492,6 +1492,110 @@ body.drawer-open { overflow:hidden; }
     font-size:clamp(16px,5vw,20px);
   }
 }
+/* 城市夜景與情感敘事新背景配色 */
+.category-drawer.is-camp.is-city {
+  background-color:#080d12;
+  background-image:linear-gradient(180deg,rgba(2,6,9,.18),rgba(3,9,14,.30) 58%,rgba(2,6,9,.58)),var(--camp-image);
+  background-position:center;
+  color:#f4ece3;
+}
+.is-camp.is-city .category-drawer-close {
+  color:#f6e8d8;
+  border-color:rgba(111,201,224,.46);
+  background:rgba(5,13,19,.82);
+  box-shadow:0 8px 26px rgba(0,4,8,.48),inset 0 1px 0 rgba(239,178,119,.14);
+  backdrop-filter:blur(9px);
+}
+.is-camp.is-city .category-drawer-header { text-shadow:0 3px 20px rgba(0,3,6,.95); }
+.is-camp.is-city .category-drawer-header h2 { color:#f1d6b7; }
+.is-camp.is-city .system-card {
+  color:#f4ece3;
+  border:1px solid rgba(99,195,220,.34);
+  background:linear-gradient(135deg,rgba(5,14,21,.95),rgba(13,29,39,.89));
+  box-shadow:0 15px 36px rgba(0,4,8,.48),inset 0 1px 0 rgba(235,174,116,.10);
+  backdrop-filter:blur(9px);
+}
+.is-camp.is-city .system-card::before {
+  background:linear-gradient(90deg,rgba(3,10,16,.94) 0%,rgba(5,18,27,.78) 30%,rgba(8,27,39,.40) 55%,rgba(8,27,39,.10) 73%,rgba(8,27,39,0) 91%);
+}
+.is-camp.is-city .system-card:hover {
+  border-color:rgba(107,220,245,.68);
+  background:linear-gradient(135deg,rgba(6,17,25,.96),rgba(18,37,48,.91));
+  box-shadow:0 19px 44px rgba(0,4,8,.56),0 0 18px rgba(62,189,221,.10),inset 0 1px 0 rgba(246,188,128,.14);
+}
+.is-camp.is-city .system-card:hover::before {
+  background:linear-gradient(90deg,rgba(3,10,15,.84) 0%,rgba(5,17,25,.63) 29%,rgba(8,27,39,.27) 52%,rgba(8,27,39,.06) 69%,rgba(8,27,39,0) 87%);
+}
+.is-camp.is-city .camp-cover {
+  opacity:.62;
+  filter:saturate(.78) contrast(1.04) brightness(.68) hue-rotate(2deg);
+}
+.is-camp.is-city .system-card:hover .camp-cover {
+  opacity:.97;
+  filter:saturate(1.02) contrast(1.03) brightness(.94);
+}
+.is-camp.is-city .system-card .system-count,
+.is-camp.is-city .system-card .system-name,
+.is-camp.is-city .system-card .system-en,
+.is-camp.is-city .system-card .system-link { text-shadow:0 2px 10px rgba(0,3,7,.94); }
+.is-camp.is-city .system-card .system-name { color:#f7eee5; }
+.is-camp.is-city .system-card .system-en { color:#aac5cf; }
+.is-camp.is-city .system-card .system-count { color:#79d4e9; }
+.is-camp.is-city .system-card .system-link { color:#f0ad70; }
+
+.category-drawer.is-camp.is-emotion {
+  background-color:#e8ddd0;
+  background-image:linear-gradient(180deg,rgba(255,252,247,.10),rgba(247,239,229,.20) 58%,rgba(226,211,194,.38)),var(--camp-image);
+  background-position:center;
+  color:#493d34;
+}
+.is-camp.is-emotion .category-drawer-close {
+  color:#57483d;
+  border-color:rgba(113,91,72,.26);
+  background:rgba(255,251,245,.88);
+  box-shadow:0 7px 22px rgba(93,69,49,.16);
+  backdrop-filter:blur(8px);
+}
+.is-camp.is-emotion .category-drawer-header { text-shadow:0 2px 16px rgba(255,251,245,.92); }
+.is-camp.is-emotion .category-drawer-header h2 { color:#735847; }
+.is-camp.is-emotion .system-card {
+  color:#493d34;
+  border:1px solid rgba(136,111,88,.25);
+  background:linear-gradient(135deg,rgba(255,252,247,.95),rgba(239,226,211,.88));
+  box-shadow:0 14px 32px rgba(92,68,48,.18),inset 0 1px 0 rgba(255,255,255,.92);
+  backdrop-filter:blur(8px);
+}
+.is-camp.is-emotion .system-card::before {
+  background:linear-gradient(90deg,rgba(255,252,247,.98) 0%,rgba(249,241,232,.90) 34%,rgba(241,228,214,.54) 59%,rgba(241,228,214,.12) 78%,rgba(241,228,214,0) 100%);
+}
+.is-camp.is-emotion .system-card:hover {
+  border-color:rgba(121,105,82,.42);
+  background:rgba(255,251,245,.96);
+  box-shadow:0 18px 38px rgba(92,68,48,.23),inset 0 1px 0 #fff;
+}
+.is-camp.is-emotion .system-card:hover::before {
+  background:linear-gradient(90deg,rgba(255,252,247,.96) 0%,rgba(249,241,232,.82) 32%,rgba(241,228,214,.38) 55%,rgba(241,228,214,.08) 72%,rgba(241,228,214,0) 92%);
+}
+.is-camp.is-emotion .camp-cover {
+  opacity:.55;
+  filter:saturate(.76) sepia(.08) contrast(.96) brightness(1.08);
+}
+.is-camp.is-emotion .system-card:hover .camp-cover {
+  opacity:.96;
+  filter:saturate(.94) sepia(.03) contrast(1.01) brightness(1.02);
+}
+.is-camp.is-emotion .system-card .system-count,
+.is-camp.is-emotion .system-card .system-name,
+.is-camp.is-emotion .system-card .system-en,
+.is-camp.is-emotion .system-card .system-link {
+  text-shadow:0 1px 2px rgba(255,255,255,.96),0 0 10px rgba(255,255,255,.76);
+}
+.is-camp.is-emotion .system-card .system-name { color:#514137; }
+.is-camp.is-emotion .system-card .system-en { color:#806d60; }
+.is-camp.is-emotion .system-card .system-count { color:#718273; }
+.is-camp.is-emotion .system-card .system-link { color:#a06f48; }
+/* 新背景配色結束 */
+
 /* 營火分類頁調整結束 */
 </style></head>
 <body>
@@ -1594,7 +1698,8 @@ const categorySystems={
 const categoryPageTitles={
   "奇幻冒險":"踏上旅途吧，冒險者，或是我該稱你為……英雄？",
   "探索恐怖":"再深入下去，會很危險哦？",
-  "城市一角":"這個城市，還有許多秘密……",
+  "城市一角":"你也看到了？我就說這城市不對勁。",
+  "情感敘事":"今天的故事是甚麼呢？",
   "輕鬆派對":"零食準備好，可以開始放飛了！"
 };
 const categoryThemeClass={
