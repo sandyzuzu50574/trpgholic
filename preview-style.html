@@ -1733,6 +1733,38 @@ body.drawer-open { overflow:hidden; }
 }
 @media(prefers-reduced-motion:reduce){.is-camp.is-horror .door-leaf{transition:none}}
 
+
+/* Horizontal corridor: one continuous row of doors. */
+.horror-walk-controls{display:none}
+.is-camp.is-horror .horror-walk-controls{display:flex;align-items:center;justify-content:center;gap:18px;margin:24px auto 8px;color:#e8dbc1;font-size:14px}
+.horror-walk-controls button{min-width:44px;min-height:44px;border:1px solid #a29475;background:#171d1e;color:#f6e4be;border-radius:3px;font-size:22px;cursor:pointer}
+.horror-walk-controls button:disabled{opacity:.35;cursor:default}
+.horror-walk-controls button:focus-visible{outline:2px solid #ffe2a3;outline-offset:4px}
+.is-camp.is-horror .category-system-grid{
+ display:flex;flex-direction:row;flex-wrap:nowrap;align-items:flex-end;justify-content:flex-start;
+ width:100%;max-width:none;box-sizing:border-box;gap:clamp(90px,15vw,240px);
+ margin:0 auto;padding:60px max(36px,calc((100vw - 920px)/2)) 86px;
+ overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
+ scroll-snap-type:x proximity;scroll-padding-inline:36px;
+ scrollbar-width:thin;scrollbar-color:#9d8e6c #131918;
+ background:linear-gradient(180deg,rgba(16,20,20,.8) 0%,rgba(34,36,32,.91) calc(100% - 90px),#716553 calc(100% - 89px),#111817 calc(100% - 85px),#33342d calc(100% - 82px),#101614 100%);
+ background-attachment:local;
+ border-top:1px solid #645e4a;border-bottom:1px solid #74684e;
+ box-shadow:inset 0 16px 36px #0007,0 18px 40px #0008;
+}
+.is-camp.is-horror .category-system-grid .system-card{
+ flex:0 0 250px;width:250px;height:390px;min-height:390px;
+ margin:0;scroll-snap-align:center;scroll-margin-inline:24px;
+}
+.is-camp.is-horror .category-system-grid .system-card:nth-child(even){margin:0}
+.is-camp.is-horror .category-drawer-header{padding-inline:24px}
+.is-camp.is-horror .category-drawer-header h2{white-space:normal;text-wrap:balance}
+@media(max-width:640px){
+ .is-camp.is-horror .category-system-grid{gap:76px;padding:44px 40px 66px;scroll-padding-inline:40px}
+ .is-camp.is-horror .category-system-grid .system-card{flex-basis:220px;width:220px;height:340px;min-height:340px}
+ .is-camp.is-horror .horror-walk-controls{gap:14px;margin-top:18px}
+}
+
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
@@ -1978,6 +2010,8 @@ function openCategory(trigger){
   categoryBackdrop.classList.add('is-open');
   categoryDrawer.classList.add('is-open');
   categoryDrawer.scrollTop=0;
+  categoryGrid.scrollLeft=0;
+  requestAnimationFrame(updateHorrorWalk);
   scheduleCampMist();
   categoryClose.focus({preventScroll:true});
   if(reducedMotion.matches||!categoryDrawer.animate){
@@ -2152,4 +2186,54 @@ categoryDrawer.addEventListener('scroll',scheduleCampMist,{passive:true});
 categoryDrawer.addEventListener('focusin',scheduleCampMist);
 addEventListener('resize',scheduleCampMist);
 reducedMotion.addEventListener('change',scheduleCampMist);
-</script></body></html>
+</script>
+<script>
+const horrorWalkControls=document.createElement('nav');
+horrorWalkControls.className='horror-walk-controls';
+horrorWalkControls.setAttribute('aria-label','走廊移動');
+const horrorWalkBack=document.createElement('button');
+horrorWalkBack.type='button';horrorWalkBack.textContent='‹';
+horrorWalkBack.setAttribute('aria-label','往左走');
+const horrorWalkHint=document.createElement('span');
+horrorWalkHint.textContent='左右滑動，選一扇門';
+const horrorWalkNext=document.createElement('button');
+horrorWalkNext.type='button';horrorWalkNext.textContent='›';
+horrorWalkNext.setAttribute('aria-label','往右走');
+horrorWalkControls.append(horrorWalkBack,horrorWalkHint,horrorWalkNext);
+categoryGrid.before(horrorWalkControls);
+function updateHorrorWalk(){
+ if(!categoryDrawer.classList.contains('is-horror'))return;
+ const max=Math.max(0,categoryGrid.scrollWidth-categoryGrid.clientWidth);
+ horrorWalkBack.disabled=categoryGrid.scrollLeft<=2;
+ horrorWalkNext.disabled=categoryGrid.scrollLeft>=max-2;
+}
+function walkHorror(direction){
+ const cards=[...categoryGrid.querySelectorAll('.system-card')];
+ if(!cards.length)return;
+ const step=cards.length>1?cards[1].offsetLeft-cards[0].offsetLeft:cards[0].offsetWidth;
+ categoryGrid.scrollBy({left:direction*step,behavior:reducedMotion.matches?'instant':'smooth'});
+}
+horrorWalkBack.addEventListener('click',()=>walkHorror(-1));
+horrorWalkNext.addEventListener('click',()=>walkHorror(1));
+categoryGrid.addEventListener('scroll',updateHorrorWalk,{passive:true});
+addEventListener('resize',updateHorrorWalk);
+categoryGrid.addEventListener('wheel',event=>{
+ if(!categoryDrawer.classList.contains('is-horror')||event.ctrlKey||event.shiftKey||Math.abs(event.deltaX)>=Math.abs(event.deltaY))return;
+ const max=categoryGrid.scrollWidth-categoryGrid.clientWidth;
+ const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?categoryGrid.clientWidth:1);
+ if(max<=0||(delta<0&&categoryGrid.scrollLeft<=0)||(delta>0&&categoryGrid.scrollLeft>=max-1))return;
+ event.preventDefault();
+ categoryGrid.scrollLeft+=delta;
+},{passive:false});
+categoryGrid.addEventListener('keydown',event=>{
+ if(!categoryDrawer.classList.contains('is-horror')||!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+ const cards=[...categoryGrid.querySelectorAll('.system-card')];
+ const index=cards.indexOf(document.activeElement);
+ if(index<0)return;
+ const next=event.key==='Home'?0:event.key==='End'?cards.length-1:Math.max(0,Math.min(cards.length-1,index+(event.key==='ArrowRight'?1:-1)));
+ event.preventDefault();
+ cards[next].focus({preventScroll:true});
+ cards[next].scrollIntoView({block:'nearest',inline:'center',behavior:reducedMotion.matches?'instant':'smooth'});
+});
+</script>
+</body></html>
