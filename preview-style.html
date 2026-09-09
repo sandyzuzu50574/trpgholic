@@ -1325,6 +1325,23 @@ body.drawer-open { overflow:hidden; }
 .is-camp:not(.is-fantasy) .camp-sparks {
   display:none!important;
 }
+/* 奇幻冒險先完成共用開門轉場，再淡入營火與星火。 */
+.is-camp.is-fantasy .camp-atmosphere svg,
+.is-camp.is-fantasy .camp-sparks {
+  opacity:0;
+  transition:opacity .72s ease;
+}
+.is-camp.is-fantasy.is-atmosphere-ready .camp-atmosphere svg,
+.is-camp.is-fantasy.is-atmosphere-ready .camp-sparks {
+  opacity:1;
+}
+@media(prefers-reduced-motion:reduce) {
+  .is-camp.is-fantasy .camp-atmosphere svg,
+  .is-camp.is-fantasy .camp-sparks {
+    opacity:1;
+    transition:none;
+  }
+}
 .is-camp .system-card:hover::before {
   width:100%;
   background:linear-gradient(90deg,rgba(7,15,10,.58) 0%,rgba(9,18,12,.40) 23%,rgba(10,18,12,.14) 46%,rgba(10,18,12,.04) 58%,rgba(10,18,12,0) 72%);
@@ -1881,7 +1898,7 @@ function openCategory(trigger){
   const name=trigger.dataset.category;
   const systems=categorySystems[name]||[];
   const hasSystems=systems.length>0;
-  categoryDrawer.classList.remove('is-camp','is-fantasy','is-horror','is-emotion','is-party','is-city');
+  categoryDrawer.classList.remove('is-camp','is-fantasy','is-horror','is-emotion','is-party','is-city','is-atmosphere-ready');
   if(hasSystems){
     categoryDrawer.classList.add('is-camp',categoryThemeClass[name]);
     renderCategorySystems(name);
@@ -1898,7 +1915,10 @@ function openCategory(trigger){
   categoryDrawer.scrollTop=0;
   scheduleCampMist();
   categoryClose.focus({preventScroll:true});
-  if(reducedMotion.matches||!categoryDrawer.animate)return;
+  if(reducedMotion.matches||!categoryDrawer.animate){
+    if(name==='奇幻冒險')categoryDrawer.classList.add('is-atmosphere-ready');
+    return;
+  }
   const picture=trigger.querySelector('img'),rect=picture.getBoundingClientRect();
   const x=rect.left+rect.width*.67,y=rect.top+rect.height*.55;
   const panel=categoryDrawer.getBoundingClientRect();
@@ -1922,10 +1942,15 @@ function openCategory(trigger){
     {transform:'scale(1)',opacity:1,borderRadius:'0',offset:1}
   ],{duration:850,delay:180,easing:'cubic-bezier(.22,.75,.25,1)',fill:'both'});
   portalAnimations.push(emergence);
-  emergence.finished.then(()=>{clearPortalMotion();categoryDrawer.style.transformOrigin='';}).catch(()=>{});
+  emergence.finished.then(()=>{
+    clearPortalMotion();
+    categoryDrawer.style.transformOrigin='';
+    if(name==='奇幻冒險')requestAnimationFrame(()=>categoryDrawer.classList.add('is-atmosphere-ready'));
+  }).catch(()=>{});
 }
 function closeCategory(){
   clearPortalMotion();
+  categoryDrawer.classList.remove('is-atmosphere-ready');
   categoryDrawer.style.transformOrigin='';
   if(drawer.classList.contains('is-open'))closeDrawer(false);
   categoryBackdrop.classList.remove('is-open');
