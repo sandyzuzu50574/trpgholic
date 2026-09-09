@@ -1391,6 +1391,36 @@ body.drawer-open { overflow:hidden; }
   .camp-sparks { display:none!important; }
 }
 /* 系統卡片矩形版結束 */
+/* 營火分類頁：標題與封面互動調整 */
+.is-camp .category-drawer-header {
+  padding-top:clamp(6px,1.5svh,18px);
+}
+.is-camp .category-drawer-header h2 {
+  max-width:min(980px,86vw);
+  margin-top:0;
+  color:#fff3d5;
+  font-family:Georgia,"Noto Serif TC","Songti TC","PMingLiU",serif;
+  font-size:clamp(27px,3.6vw,48px);
+  font-weight:600;
+  line-height:1.38;
+  letter-spacing:.025em;
+}
+.is-camp .system-card:hover::before {
+  background:linear-gradient(90deg,rgba(8,17,12,.96) 0%,rgba(10,20,14,.82) 42%,rgba(11,19,13,.32) 64%,rgba(11,19,13,.03) 100%);
+}
+.is-camp .system-card:hover .camp-cover {
+  opacity:1;
+  filter:none;
+  transform:scale(1.018);
+}
+@media(max-width:640px) {
+  .is-camp .category-drawer-header h2 {
+    max-width:82vw;
+    font-size:clamp(24px,7.2vw,34px);
+    line-height:1.42;
+  }
+}
+/* 營火分類頁調整結束 */
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
@@ -1418,7 +1448,7 @@ body.drawer-open { overflow:hidden; }
 <button class="system-card" type="button" data-system="龍與地下城 5e" aria-haspopup="dialog" style="--cover:url('public/dnd-5e-cover.webp')"><img class="camp-cover" src="public/dnd-5e-cover.webp" alt="" loading="lazy"><span class="system-count">16 個劇本</span><span class="system-name">龍與地下城 5e</span><span class="system-en">Dungeons &amp; Dragons 5e</span><span class="system-link">查看劇本 ↗</span></button>
 <button class="system-card" type="button" data-system="蒼穹的紀錄" aria-haspopup="dialog" style="--cover:url('public/lady-blackbird-cover.webp')"><img class="camp-cover" src="public/lady-blackbird-cover.webp" alt="" loading="lazy"><span class="system-count">1 個劇本</span><span class="system-name">蒼穹的紀錄</span><span class="system-en">Archives of the Sky</span><span class="system-link">查看劇本 ↗</span></button>
 <button class="system-card" type="button" data-system="龍蛋物語" aria-haspopup="dialog" style="--cover:url('public/ryuutama-rulebook.jpg')"><img class="camp-cover" src="public/ryuutama-rulebook.jpg" alt="" loading="lazy"><span class="system-count">2 個劇本</span><span class="system-name">龍蛋物語</span><span class="system-link">查看劇本 ↗</span></button>
-<button class="system-card" type="button" data-system="QUEST" aria-haspopup="dialog" style="--cover:url('public/quest-rpg-cover.jpg')"><img class="camp-cover" src="public/quest-rpg-cover.jpg" alt="" loading="lazy"><span class="system-count">9 個劇本</span><span class="system-name">QUEST</span><span class="system-link">查看劇本 ↗</span></button>
+<button class="system-card" type="button" data-system="QUEST" aria-haspopup="dialog" style="--cover:url('public/quest-system-card-v2.webp')"><img class="camp-cover" src="public/quest-system-card-v2.webp" alt="" loading="lazy"><span class="system-count">9 個劇本</span><span class="system-name">QUEST</span><span class="system-link">查看劇本 ↗</span></button>
 <button class="system-card" type="button" data-system="FATE Core／快速版" aria-haspopup="dialog" style="--cover:url('public/fate-core-cover.png')"><img class="camp-cover" src="public/fate-core-cover.png" alt="" loading="lazy"><span class="system-count">5 個劇本</span><span class="system-name">FATE Core／快速版</span><span class="system-link">查看劇本 ↗</span></button>
 <button class="system-card" type="button" data-system="超載霓虹城" aria-haspopup="dialog" style="--cover:url('public/neon-city-overdrive-cover.webp')"><img class="camp-cover" src="public/neon-city-overdrive-cover.webp" alt="" loading="lazy"><span class="system-count">1 個劇本</span><span class="system-name">超載霓虹城</span><span class="system-en">Neon City Overdrive</span><span class="system-link">查看劇本 ↗</span></button>
 <button class="system-card" type="button" data-system="寰宇RPG" aria-haspopup="dialog" style="--cover:url('public/cosmere-rpg-cover.webp')"><img class="camp-cover" src="public/cosmere-rpg-cover.webp" alt="" loading="lazy"><span class="system-count">1 個劇本</span><span class="system-name">寰宇RPG</span><span class="system-en">Cosmere RPG</span><span class="system-link">查看劇本 ↗</span></button>
@@ -1472,7 +1502,7 @@ function openCategory(trigger){
   const name=trigger.dataset.category;
   const hasSystems=name==='奇幻冒險';
   categoryDrawer.classList.toggle('is-camp',hasSystems);
-  categoryTitle.textContent=name;
+  categoryTitle.textContent=hasSystems?'踏上旅途吧，冒險者，或是我該稱你為……英雄？':name;
   categoryGrid.hidden=!hasSystems;
   categoryEmpty.hidden=hasSystems;
   categoryEmpty.style.display=hasSystems?'none':'grid';
