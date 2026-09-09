@@ -1312,10 +1312,10 @@ body.drawer-open { overflow:hidden; }
   --camp-image:url("public/horror-corridor-bg-v1.webp");
 }
 .category-drawer.is-camp.is-emotion {
-  --camp-image:url("public/emotion-fabric-bg-v1.webp");
+  --camp-image:url("public/emotion-soft-fabric-bg-v2.webp");
 }
 .category-drawer.is-camp.is-party {
-  --camp-image:url("public/party-chips-bg-v1.webp");
+  --camp-image:url("public/party-chips-clean-bg-v2.webp");
 }
 .is-camp:not(.is-fantasy) .camp-atmosphere svg,
 .is-camp:not(.is-fantasy) .camp-sparks {
@@ -1336,6 +1336,95 @@ body.drawer-open { overflow:hidden; }
     font-size:clamp(10px,3.25vw,16px);
   }
 }
+/* 情感敘事與輕鬆派對：明亮主題 */
+.category-drawer.is-camp.is-emotion,
+.category-drawer.is-camp.is-party {
+  background-color:#fff8f1;
+  background-image:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,251,246,.38) 58%,rgba(255,248,238,.56)),var(--camp-image);
+  background-position:center;
+  color:#49352f;
+}
+.is-camp.is-emotion .category-drawer-close,
+.is-camp.is-party .category-drawer-close {
+  color:#49352f;
+  border-color:rgba(116,72,57,.24);
+  background:rgba(255,252,248,.88);
+  box-shadow:0 6px 22px rgba(113,72,55,.13);
+}
+.is-camp.is-emotion .category-drawer-header,
+.is-camp.is-party .category-drawer-header {
+  text-shadow:none;
+}
+.is-camp.is-emotion .category-drawer-header h2 {
+  color:#805750;
+}
+.is-camp.is-party .category-drawer-header h2 {
+  color:#9b552f;
+}
+.is-camp.is-emotion .system-card,
+.is-camp.is-party .system-card {
+  color:#3f302c;
+  border:1px solid rgba(125,83,67,.20);
+  background:linear-gradient(135deg,rgba(255,253,250,.96),rgba(255,244,237,.90));
+  box-shadow:0 13px 30px rgba(111,74,59,.16),inset 0 1px 0 rgba(255,255,255,.88);
+}
+.is-camp.is-party .system-card {
+  border-color:rgba(180,112,43,.24);
+  background:linear-gradient(135deg,rgba(255,253,245,.97),rgba(255,237,207,.91));
+  box-shadow:0 13px 30px rgba(145,88,35,.17),inset 0 1px 0 rgba(255,255,255,.88);
+}
+.is-camp.is-emotion .system-card::before {
+  background:linear-gradient(90deg,rgba(255,251,248,.98) 0%,rgba(255,247,243,.90) 34%,rgba(255,244,240,.54) 59%,rgba(255,244,240,.12) 78%,rgba(255,244,240,0) 100%);
+}
+.is-camp.is-party .system-card::before {
+  background:linear-gradient(90deg,rgba(255,253,244,.98) 0%,rgba(255,246,224,.91) 34%,rgba(255,238,200,.54) 59%,rgba(255,238,200,.12) 78%,rgba(255,238,200,0) 100%);
+}
+.is-camp.is-emotion .system-card:hover,
+.is-camp.is-party .system-card:hover {
+  border-color:rgba(139,87,70,.38);
+  background:rgba(255,252,248,.96);
+  box-shadow:0 18px 38px rgba(111,74,59,.21),inset 0 1px 0 #fff;
+}
+.is-camp.is-party .system-card:hover {
+  border-color:rgba(190,112,35,.42);
+  background:rgba(255,250,235,.97);
+  box-shadow:0 18px 38px rgba(145,88,35,.22),inset 0 1px 0 #fff;
+}
+.is-camp.is-emotion .system-card:hover::before {
+  background:linear-gradient(90deg,rgba(255,251,248,.96) 0%,rgba(255,247,243,.82) 32%,rgba(255,244,240,.38) 55%,rgba(255,244,240,.08) 72%,rgba(255,244,240,0) 92%);
+}
+.is-camp.is-party .system-card:hover::before {
+  background:linear-gradient(90deg,rgba(255,253,244,.96) 0%,rgba(255,246,224,.83) 32%,rgba(255,238,200,.38) 55%,rgba(255,238,200,.08) 72%,rgba(255,238,200,0) 92%);
+}
+.is-camp.is-emotion .camp-cover,
+.is-camp.is-party .camp-cover {
+  opacity:.54;
+  filter:saturate(.82) contrast(.96) brightness(1.08);
+}
+.is-camp.is-emotion .system-card:hover .camp-cover,
+.is-camp.is-party .system-card:hover .camp-cover {
+  opacity:.96;
+  filter:saturate(.98) contrast(1.01) brightness(1.02);
+}
+.is-camp.is-emotion .system-card .system-count,
+.is-camp.is-emotion .system-card .system-name,
+.is-camp.is-emotion .system-card .system-en,
+.is-camp.is-emotion .system-card .system-link,
+.is-camp.is-party .system-card .system-count,
+.is-camp.is-party .system-card .system-name,
+.is-camp.is-party .system-card .system-en,
+.is-camp.is-party .system-card .system-link {
+  text-shadow:0 1px 2px rgba(255,255,255,.94),0 0 10px rgba(255,255,255,.72);
+}
+.is-camp.is-emotion .system-card .system-name { color:#593b3f; }
+.is-camp.is-emotion .system-card .system-en { color:#7a5c5e; }
+.is-camp.is-emotion .system-card .system-count,
+.is-camp.is-emotion .system-card .system-link { color:#96675f; }
+.is-camp.is-party .system-card .system-name { color:#633d24; }
+.is-camp.is-party .system-card .system-en { color:#866344; }
+.is-camp.is-party .system-card .system-count,
+.is-camp.is-party .system-card .system-link { color:#aa602d; }
+/* 明亮分類頁主題結束 */
 /* 營火分類頁調整結束 */
 </style></head>
 <body>
