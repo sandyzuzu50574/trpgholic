@@ -1823,28 +1823,18 @@ body.drawer-open { overflow:hidden; }
 @media(max-width:640px){.is-horror .horror-chalk-eye{width:86px;height:60px;margin:12px auto 8px}}
 
 
-/* Each door keeps its own chalk apparition. */
-.is-camp.is-horror .system-card .door-haunt{position:absolute;display:block;pointer-events:none;max-width:none;object-fit:contain;opacity:0;transition:opacity 1.1s ease,transform 1.8s ease;border:0;margin:0;filter:none;user-select:none}
-.is-camp.is-horror .system-card .door-haunt-tentacle{z-index:4;right:-42px;top:30%;width:145px;height:235px;transform-origin:15% 10%;transform:translate(-22px,-16px) scale(.52)}
-.is-camp.is-horror .system-card .door-haunt-hand{z-index:5;left:-46px;top:57%;width:112px;height:140px;transform-origin:right center;transform:translateX(24px) scale(.86)}
-.is-camp.is-horror .system-card .door-haunt-liquid{z-index:4;left:-18%;bottom:-72px;width:136%;height:120px;transform-origin:50% 12%;transform:scale(.25,.05)}
-.is-camp.is-horror .system-card[data-haunt="eyes"] .camp-cover{opacity:0}
-.is-camp.is-horror .system-card[data-haunt="eyes"]{background:#000}
-.is-camp.is-horror .system-card .door-haunt-eyes{z-index:1;inset:7% 5%;width:90%;height:86%;transform:scale(.96);background:#000}
-.is-camp.is-horror .system-card.is-door-ajar .door-haunt,.is-camp.is-horror .system-card.is-door-entering .door-haunt,.is-camp.is-horror .system-card:focus-visible .door-haunt{opacity:.94;transform:translate(0,0) scale(1)}
+/* Preserve the quiet door motion and reveal the original book covers. */
 .is-camp.is-horror .system-card.is-door-ajar .door-leaf{transform:rotateY(-30deg);transition-duration:2.4s}
 .is-camp.is-horror .system-card:nth-child(even).is-door-ajar .door-leaf{transform:rotateY(30deg)}
-.is-camp.is-horror .system-card[data-haunt="eyes"].is-door-ajar .door-leaf,.is-camp.is-horror .system-card[data-haunt="eyes"]:focus-visible .door-leaf{transform:rotateY(-76deg)}
+.is-camp.is-horror .system-card[data-door-depth="wide"].is-door-ajar .door-leaf,.is-camp.is-horror .system-card[data-door-depth="wide"]:focus-visible .door-leaf{transform:rotateY(-76deg)}
 @media(hover:hover){
- .is-camp.is-horror .system-card:hover .door-haunt{opacity:.94;transform:translate(0,0) scale(1)}
- .is-camp.is-horror .system-card[data-haunt="eyes"]:hover .door-leaf{transform:rotateY(-76deg)}
+ .is-camp.is-horror .system-card[data-door-depth="wide"]:hover .door-leaf{transform:rotateY(-76deg)}
 }
 .is-camp.is-horror .system-card.is-door-entering .door-leaf{transform:rotateY(-108deg);transition-duration:.6s}
 .is-camp.is-horror .system-card:nth-child(even).is-door-entering .door-leaf{transform:rotateY(108deg);transition-duration:.6s}
-.is-camp.is-horror .system-card[data-haunt="eyes"].is-door-entering .door-leaf{transform:rotateY(-120deg)}
-.is-camp.is-horror .system-card.is-door-entering .door-haunt{transition-duration:.45s}
+.is-camp.is-horror .system-card[data-door-depth="wide"].is-door-entering .door-leaf{transform:rotateY(-120deg)}
 @media(prefers-reduced-motion:reduce){
- .is-camp.is-horror .system-card .door-haunt,.is-camp.is-horror .system-card .door-leaf{transition:none!important}
+ .is-camp.is-horror .system-card .door-leaf{transition:none!important}
 }
 
 </style></head>
@@ -2060,15 +2050,7 @@ function renderCategorySystems(categoryName){
       [...card.children].filter(child=>!child.classList.contains('camp-cover')).forEach(child=>leaf.append(child));
       link.remove();
       card.append(leaf);
-      const haunt={'克蘇魯的呼喚 7e':'tentacle','藍鬍子的新娘':'hand','德古拉的新娘':'liquid','十燭':'eyes'}[system.name];
-      if(haunt){
-        card.dataset.haunt=haunt;
-        const effect=document.createElement('img');
-        effect.className='door-haunt door-haunt-'+haunt;
-        effect.src='public/horror-chalk-'+haunt+'-v1.webp';
-        effect.alt='';effect.setAttribute('aria-hidden','true');effect.draggable=false;
-        if(haunt==='hand')leaf.append(effect);else card.append(effect);
-      }
+      if(system.name==='十燭')card.dataset.doorDepth='wide';
       card.setAttribute('aria-label',system.name+'，'+total+' 個劇本，推門查看');
       card.addEventListener('click',()=>enterHorrorDoor(card));
     }else{
