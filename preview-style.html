@@ -1813,6 +1813,15 @@ body.drawer-open { overflow:hidden; }
  .is-camp.is-horror .system-card.is-door-ajar .door-leaf{transform:none;transition:none}
 }
 
+
+/* Chalk version of the portal's eye icon; only the pupil tracks the pointer. */
+.horror-chalk-eye{display:none}
+.is-horror .horror-chalk-eye{
+ display:block;width:100px;height:68px;margin:16px auto 12px;
+ overflow:visible;color:#d6d5c5;opacity:.78;pointer-events:none;
+}
+@media(max-width:640px){.is-horror .horror-chalk-eye{width:86px;height:60px;margin:12px auto 8px}}
+
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
@@ -2024,7 +2033,7 @@ function renderCategorySystems(categoryName){
       const leaf=document.createElement('span');
       leaf.className='door-leaf';
       [...card.children].filter(child=>!child.classList.contains('camp-cover')).forEach(child=>leaf.append(child));
-      link.textContent='推門查看';
+      link.remove();
       card.append(leaf);
       card.setAttribute('aria-label',system.name+'，'+total+' 個劇本，推門查看');
       card.addEventListener('click',()=>enterHorrorDoor(card));
@@ -2060,7 +2069,7 @@ function openCategory(trigger){
   categoryDrawer.scrollTop=0;
   categoryGrid.scrollLeft=0;
   resetHorrorScene();
-  requestAnimationFrame(updateHorrorWalk);
+
   scheduleCampMist();
   categoryClose.focus({preventScroll:true});
   if(reducedMotion.matches||!categoryDrawer.animate){
@@ -2238,35 +2247,6 @@ addEventListener('resize',scheduleCampMist);
 reducedMotion.addEventListener('change',scheduleCampMist);
 </script>
 <script>
-const horrorWalkControls=document.createElement('nav');
-horrorWalkControls.className='horror-walk-controls';
-horrorWalkControls.setAttribute('aria-label','走廊移動');
-const horrorWalkBack=document.createElement('button');
-horrorWalkBack.type='button';horrorWalkBack.textContent='‹';
-horrorWalkBack.setAttribute('aria-label','往左走');
-const horrorWalkHint=document.createElement('span');
-horrorWalkHint.textContent='左右滑動，選一扇門';
-const horrorWalkNext=document.createElement('button');
-horrorWalkNext.type='button';horrorWalkNext.textContent='›';
-horrorWalkNext.setAttribute('aria-label','往右走');
-horrorWalkControls.append(horrorWalkBack,horrorWalkHint,horrorWalkNext);
-categoryGrid.before(horrorWalkControls);
-function updateHorrorWalk(){
- if(!categoryDrawer.classList.contains('is-horror'))return;
- const max=Math.max(0,categoryGrid.scrollWidth-categoryGrid.clientWidth);
- horrorWalkBack.disabled=categoryGrid.scrollLeft<=2;
- horrorWalkNext.disabled=categoryGrid.scrollLeft>=max-2;
-}
-function walkHorror(direction){
- const cards=[...categoryGrid.querySelectorAll('.system-card')];
- if(!cards.length)return;
- const step=cards.length>1?cards[1].offsetLeft-cards[0].offsetLeft:cards[0].offsetWidth;
- categoryGrid.scrollBy({left:direction*step,behavior:reducedMotion.matches?'instant':'smooth'});
-}
-horrorWalkBack.addEventListener('click',()=>walkHorror(-1));
-horrorWalkNext.addEventListener('click',()=>walkHorror(1));
-categoryGrid.addEventListener('scroll',updateHorrorWalk,{passive:true});
-addEventListener('resize',updateHorrorWalk);
 categoryGrid.addEventListener('wheel',event=>{
  if(!categoryDrawer.classList.contains('is-horror')||event.ctrlKey||event.shiftKey||Math.abs(event.deltaX)>=Math.abs(event.deltaY))return;
  const max=categoryGrid.scrollWidth-categoryGrid.clientWidth;
@@ -2298,6 +2278,7 @@ horrorFlashlight.setAttribute('aria-hidden','true');
 horrorScene.append(horrorFlashlight);
 let horrorLightFrame=0,horrorLightPoint=null,horrorResponded=false;
 function resetHorrorScene(){
+ resetHorrorEye();
  cancelAnimationFrame(horrorLightFrame);horrorLightFrame=0;horrorLightPoint=null;horrorResponded=false;
  horrorScene.style.removeProperty('--beam-x');horrorScene.style.removeProperty('--beam-y');
  categoryGrid.querySelectorAll('.is-door-ajar').forEach(card=>card.classList.remove('is-door-ajar'));
@@ -2349,5 +2330,38 @@ categoryGrid.addEventListener('scroll',()=>{
  followHorrorFocus();
 },{passive:true});
 reducedMotion.addEventListener('change',resetHorrorScene);
+</script>
+
+<script>
+const horrorEyeHost=document.createElement('div');
+horrorEyeHost.innerHTML='<svg class="horror-chalk-eye" viewBox="0 0 120 80" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><filter id="horror-chalk-grain" x="-20%" y="-30%" width="140%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" seed="11" result="grain"/><feDisplacementMap in="SourceGraphic" in2="grain" scale="1.5" xChannelSelector="R" yChannelSelector="G" result="rough"/><feColorMatrix in="grain" type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 2 -.45" result="dust"/><feComposite in="rough" in2="dust" operator="in"/></filter></defs><g filter="url(#horror-chalk-grain)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 48 Q59 17 103 47 Q62 73 17 48Z" stroke-width="4"/><path d="M18 47 Q59 20 102 47" stroke-width="1.2" opacity=".5"/><path d="M36 24 L31 17 M60 18 L60 8 M83 23 L89 16" stroke-width="3.4"/><g class="horror-eye-pupil"><circle cx="60" cy="47" r="10" stroke-width="3"/><circle cx="60" cy="47" r="5" fill="currentColor" stroke="none"/></g></g></svg>';
+const horrorEye=horrorEyeHost.firstElementChild;
+categoryDrawer.querySelector('.category-drawer-header').append(horrorEye);
+const horrorPupil=horrorEye.querySelector('.horror-eye-pupil');
+let horrorEyeFrame=0,horrorEyePoint=null;
+function horrorGazeOffset(dx,dy){
+ const x=dx/150,y=dy/180,length=Math.max(1,Math.hypot(x,y));
+ return {x:10*x/length,y:4*y/length};
+}
+function resetHorrorEye(){
+ cancelAnimationFrame(horrorEyeFrame);horrorEyeFrame=0;horrorEyePoint=null;
+ horrorPupil.setAttribute('transform','translate(0 0)');
+}
+function trackHorrorEye(event){
+ if(!categoryDrawer.classList.contains('is-horror')||!categoryDrawer.classList.contains('is-open')||drawer.classList.contains('is-open')||reducedMotion.matches)return;
+ horrorEyePoint={x:event.clientX,y:event.clientY};
+ if(horrorEyeFrame)return;
+ horrorEyeFrame=requestAnimationFrame(()=>{
+  horrorEyeFrame=0;
+  if(!horrorEyePoint)return;
+  const rect=horrorEye.getBoundingClientRect();
+  const gaze=horrorGazeOffset(horrorEyePoint.x-rect.left-rect.width/2,horrorEyePoint.y-rect.top-rect.height*47/80);
+  horrorPupil.setAttribute('transform','translate('+gaze.x.toFixed(2)+' '+gaze.y.toFixed(2)+')');
+ });
+}
+categoryDrawer.addEventListener('pointermove',trackHorrorEye,{passive:true});
+categoryDrawer.addEventListener('pointerdown',trackHorrorEye,{passive:true});
+categoryDrawer.addEventListener('pointerleave',resetHorrorEye);
+reducedMotion.addEventListener('change',resetHorrorEye);
 </script>
 </body></html>
