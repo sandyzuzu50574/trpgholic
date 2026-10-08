@@ -1887,6 +1887,41 @@ body.drawer-open { overflow:hidden; }
  .is-camp.is-emotion .system-card.postcard-card > .postcard-shell,.script-drawer.is-letter{transition:none}
 }
 
+
+/* Emotion pages sit above the notebook like loose printed inserts. */
+.category-drawer.is-camp.is-emotion{
+ --insert-width:min(1180px,calc(100vw - 96px));
+ top:5svh;right:calc((100vw - var(--insert-width))/2);
+ width:var(--insert-width);height:90svh;box-sizing:border-box;
+ border:1px solid #d6d2ca;border-radius:2px;
+ background-color:#fffefa;
+ background-image:linear-gradient(90deg,rgba(131,115,89,.035),transparent 3%,transparent 97%,rgba(131,115,89,.05)),repeating-linear-gradient(0deg,transparent 0 3px,rgba(108,96,73,.018) 3px 4px);
+ background-size:auto;background-position:0 0;background-repeat:repeat;
+ box-shadow:0 30px 80px rgba(21,31,37,.28),0 8px 18px rgba(21,31,37,.14),inset 0 0 0 6px rgba(255,255,255,.7);
+ scrollbar-width:thin;scrollbar-color:#c5c5bd transparent;
+}
+.category-drawer.is-camp.is-emotion .category-drawer-header{padding-top:76px}
+.category-drawer.is-camp.is-emotion .category-drawer-close{top:18px;right:20px}
+.script-drawer.is-letter{
+ --insert-width:min(720px,calc(100vw - 96px));
+ width:var(--insert-width);height:84svh;top:8svh;right:calc((100vw - var(--insert-width))/2);
+ border:1px solid #d6d2ca;border-radius:2px;
+ background-color:#fffefa;
+ background-image:linear-gradient(90deg,rgba(131,115,89,.035),transparent 4%,transparent 96%,rgba(131,115,89,.04)),repeating-linear-gradient(0deg,transparent 0 3px,rgba(108,96,73,.018) 3px 4px);
+ background-size:auto;background-position:0 0;background-repeat:repeat;
+ box-shadow:0 24px 70px rgba(21,31,37,.3),0 4px 12px rgba(21,31,37,.14),inset 0 0 0 6px rgba(255,255,255,.7);
+ scrollbar-width:thin;scrollbar-color:#c5c5bd transparent;
+}
+@media(max-width:760px){
+ .category-drawer.is-camp.is-emotion{--insert-width:calc(100vw - 32px);top:3svh;height:94svh}
+ .script-drawer.is-letter{--insert-width:calc(100vw - 48px);top:5svh;height:90svh;padding:66px 26px 40px}
+ .category-drawer.is-camp.is-emotion .category-drawer-header{padding:70px 22px 18px}
+}
+@media(max-width:400px){
+ .category-drawer.is-camp.is-emotion{--insert-width:calc(100vw - 24px)}
+ .script-drawer.is-letter{--insert-width:calc(100vw - 32px);padding-inline:20px}
+}
+
 </style></head>
 <body>
 <div class="intro-scroll" id="intro"><iframe class="tabletop-frame" src="public/tabletop.html" title="ZUZU｜跑團筆記互動入口"></iframe></div>
@@ -2157,8 +2192,8 @@ function openCategory(trigger){
   const picture=trigger.querySelector('img'),rect=picture.getBoundingClientRect();
   const x=rect.left+rect.width*.67,y=rect.top+rect.height*.55;
   const panel=categoryDrawer.getBoundingClientRect();
-  const panelLeft=innerWidth-panel.width;
-  const originX=x-panelLeft,originY=y;
+  const panelLeft=panel.left;
+  const originX=x-panelLeft,originY=y-panel.top;
   categoryDrawer.style.transformOrigin=originX+'px '+originY+'px';
   portalFlight=picture.cloneNode();
   portalFlight.className='portal-flight';portalFlight.alt='';
